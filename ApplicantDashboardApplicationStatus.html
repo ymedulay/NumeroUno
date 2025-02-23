@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" id="application-status-page">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Status - NumeroUno</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+        </div>
+        <div class="nav-left">
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="FindJobPage.html">Find Job</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
+                    <ul class="dropdown-menu" id="userDropdown">
+                        <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
+                        <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
+                    <ul class="dropdown-menu" id="settingsDropdown">
+                        <li><a href="AboutUs.html">About Us</a></li>
+                        <li><a href="ContactUs.html">Contact Us</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <p class="admin-dashb">Applicant Dashboard</p>
+        <ul>
+            <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
+            <li><a href="ApplicantDashboardManageProfile.html">Manage My Profile</a></li>
+            <li><a href="ApplicantDashboardApplicationStatus.html">Application Status</a></li>
+            <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content Styled Like Provided Image -->
+    <div class="main-content-wrapper">
+	<h2> Applied Jobs </h2>
+
+        <div class="application-card">
+            <div class="job-image-placeholder"></div>
+            <div class="job-info">
+                <p class="job-title">Job Post</p>
+                <div class="application-status">
+                    <p>Application Status</p>
+                    <span class="status-indicator pending">● PENDING</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="application-card">
+            <div class="job-image-placeholder"></div>
+            <div class="job-info">
+                <p class="job-title">Job Post</p>
+                <div class="application-status">
+                    <p>Application Status</p>
+                    <span class="status-indicator pending">● PENDING</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(id) {
+            let dropdown = document.getElementById(id);
+            let allDropdowns = document.querySelectorAll('.dropdown-menu');
+            allDropdowns.forEach(menu => {
+                if (menu !== dropdown) menu.classList.remove("show");
+            });
+            dropdown.classList.toggle("show");
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.ph')) {
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>
