@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-        // Entering user details
         $stmt = $pdo->prepare("SELECT id, password, roleId FROM User WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -35,4 +34,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: " . $e->getMessage());
     }
 }
-?>
