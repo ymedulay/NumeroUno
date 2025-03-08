@@ -4,7 +4,7 @@
 /* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'Password1$');
+define('DB_PASSWORD', 'Luciomia1#');
 define('DB_NAME', 'nuno_db');
 
 /* Attempt to connect to MySQL database */
@@ -15,5 +15,3 @@ try {
 } catch (PDOException $e) {
     die("ERROR: Could not connect. " . $e->getMessage());
 }
-?>
-
