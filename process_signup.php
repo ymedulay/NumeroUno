@@ -1,13 +1,9 @@
 <?php
 session_start();
-require 'config.php'; // Ensure this file is included
+require 'config.php'; // Includes the connection file
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Use the constants defined in config.php
-        $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME . ";charset=utf8", DB_USERNAME, DB_PASSWORD, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
 
         $email = trim($_POST['email'] ?? '');
         $password = trim($_POST['password'] ?? '');
@@ -78,3 +74,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Error: " . $e->getMessage());
     }
 }
+

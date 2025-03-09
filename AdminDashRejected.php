@@ -1,3 +1,22 @@
+<?php
+// Start the session
+session_start();
+
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: login.php"); // Redirect to login page if not logged in
+    exit(); // Stop further execution
+}
+
+// Include the database connection file
+require 'config.php'; // Or 'db_config.php' depending on your setup
+
+// Fetch rejected job postings (status = 'Rejected')
+$sql = "SELECT * FROM JobPosting WHERE status = 'Rejected'";
+$result = mysqli_query($conn, $sql);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

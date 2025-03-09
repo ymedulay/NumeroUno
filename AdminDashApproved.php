@@ -1,3 +1,22 @@
+<?php
+// Start the session
+session_start();
+
+// Check if the admin is logged in
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: login.php"); // Redirect to login page if not logged in
+    exit(); // Stop further execution
+}
+
+// Include the database connection file
+require 'config.php'; 
+
+// Fetch approved job postings (status = 'Open')
+$sql = "SELECT * FROM JobPosting WHERE status = 'Open'";
+$result = mysqli_query($conn, $sql);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
