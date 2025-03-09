@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Job Postings - NumeroUno</title>
+    <title>Manage My Profile - NumeroUno</title>
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
-<body id="business-dash-job-post">  
+<body id="business-dash-manage-prof">  
 
     <!-- Navbar -->
     <nav>
@@ -49,67 +49,69 @@
     <div class="admin-sidebar">
         <p class="admin-dashb">Business Dashboard</p>
         <ul>
-            <li><a href="BusinessDashboard.html">My Dashboard</a></li>
-            <li><a href="BusinessDashManageProfile.html">Manage Business Profile</a></li>
-            <li><a href="BusinessDashJobPost.html">Post Job Posting</a></li>
-            <li><a href="BusinessDashPostManage.html">Post Management</a></li>
+            <li><a href="BusinessDashboard.php">My Dashboard</a></li>
+            <li><a href="BusinessDashManageProfile.php">Manage Business Profile</a></li>
+            <li><a href="BusinessDashJobPost.php">Post Job Posting</a></li>
+            <li><a href="BusinessDashPostManager.php">Post Management</a></li> <!-- Fixed filename -->
         </ul>
     </div>
     
     <!-- Main Content -->
     <div class="main-content-wrapper">
         <div class="page-content">
-            <h1>Post Job Postings</h1>
+            <h1>Business Manage Profile</h1>
+            <img id="profile-pic" src="BusinessLogo.jpg" alt="Business Logo">
+            <h2 id="display-name">User Name</h2>
+            <input type="file" id="upload-profile-pic" style="display: none;">
+            <button class="change-profile-pic" onclick="document.getElementById('upload-profile-pic').click();">
+                Change Profile Picture
+            </button>
         </div>
 
         <form class="profile-form">
             <div class="form-section-container">
-                <h2>Job Information</h2>
+                <h2>Business Information</h2>
                 <div class="form-grid two-columns">
                     <div>
-                        <label for="jobTitle">Job Title</label>
-                        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" required>
+                        <label for="business-name">Business Name:</label>
+                        <input type="text" id="business-name" name="business-name" placeholder="Business Name" required>
                     </div>
                     <div>
-                        <label for="businessName">Business Name</label>
-                        <input type="text" id="businessName" name="businessName" placeholder="Business Name" required>
+                        <label for="business-type">Business Type:</label>
+                        <select id="business-type" name="business-type" required>
+                            <option value="">Select</option>
+                            <option value="Sole Proprietorship">Sole Proprietorship</option>
+                            <option value="Partnership">Partnership</option>
+                            <option value="LLC">Limited Liability Company (LLC)</option>
+                            <option value="Corporation">Corporation</option>
+                        </select>
                     </div>
                     <div>
-                        <label for="description">Job Description:</label>
-                        <textarea id="description" name="description" placeholder="Type your Job description here..." rows="4" required></textarea>
-                        <label for="cvRequired">Check if CV is required</label>
-                        <input type="checkbox" id="cvRequired" name="cvRequired">
+                        <label for="description">Business Description:</label>
+                        <textarea id="description" name="description" placeholder="Type your business description here..." rows="4" required></textarea>
                     </div>
                 </div>
             </div>
         
             <div class="form-section-container">
+                <h2>Contact Information</h2>
                 <div class="form-grid two-columns">
                     <div>
-                        <label for="jobLocation">Job Location</label>
-                        <input type="text" id="jobLocation" name="jobLocation" placeholder="e.g Barangay Concepcion Uno, Marikina City " required>
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address" required>
                     </div>
                     <div>
-                        <label for="salaryRange">Salary Range</label>
-                        <input type="text" id="salaryRange" name="salaryRange" placeholder="₱10,000 - ₱15,000" required>
+                        <label for="contact">Contact No.:</label>
+                        <input type="text" id="contact" name="contact" placeholder="e.g., 09123456789" required>
                     </div>
                     <div>
-                        <label for="qualifications">Qualifications</label>
-                        <textarea id="qualifications" name="qualifications" placeholder="Type your Job qualifications here..." rows="3" required></textarea>
-                    </div>
-                    <div>
-                        <label for="employmentType">Employment Type</label>
-                        <select id="employmentType" name="employmentType" required>
-                            <option value="">Select</option>
-                            <option value="full-time">Full-Time</option>
-                            <option value="part-time">Part-Time</option>
-                            <option value="contract">Contract</option>
-                        </select>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" placeholder="e.g., example@email.com" required>
                     </div>
                 </div>
             </div>
         </form>
-        <button type="submit" class="submit-btn">Post</button>
+        <button type="submit" class="save-button">Save Profile</button>
         </div>
     </div>
     <script>
@@ -137,6 +139,6 @@
         };
     </script>
     
-    </body>
+</body>
     
-    </html>
+</html>
