@@ -1,7 +1,13 @@
 <!-- Kyle -->
-
+<?php
+    session_start();
+    include 'config.php';
+    
+    $pageTitle = "Business Sign-Up";
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,29 +15,32 @@
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href="login-signin.css">
 </head>
+
 <body id="login-signin-page">
     <div class="container">
         <div class="signup-card">
             <div class="top-section">
                 <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
             </div>
-            
-            <form>
+
+            <form action="process_signup.php" method="POST">
                 <h2 class="form-title">Create Business Account</h2>
 
                 <div class="input-group">
                     <label for="business-name">BUSINESS NAME</label>
-                    <input type="text" id="business-name" placeholder="Enter your business name" required>
+                    <input type="text" id="business-name" name="business_name" placeholder="Enter your business name"
+                        required>
                 </div>
 
                 <div class="input-group">
                     <label for="business-email">BUSINESS EMAIL ADDRESS</label>
-                    <input type="email" id="business-email" placeholder="Enter your business email" required>
+                    <input type="email" id="business-email" name="email" placeholder="Enter your business email"
+                        required>
                 </div>
-                
+
                 <div class="input-group">
                     <label for="password">PASSWORD</label>
-                    <input type="password" id="password" placeholder="Create a password" required>
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
                 </div>
 
                 <button type="submit" class="submit-btn">CREATE ACCOUNT</button>
@@ -40,7 +49,7 @@
                     <hr>
                     <span>or</span>
                     <hr>
-                </div>  
+                </div>
 
                 <div class="social-signin-container">
                     <button class="social-signin google">
@@ -51,11 +60,12 @@
                     </button>
                 </div>
 
-                <p class="login-link">Already have a business account? <a href="LoginPage.html">LOG IN</a></p>
+                <p class="login-link">Already have a business account? <a href="LoginPage.php">LOG IN</a></p>
             </form>
         </div>
     </div>
 </body>
+
 </html>
 
 <!-- Kyle -->
