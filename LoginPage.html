@@ -1,4 +1,5 @@
-<!-- Kyle -->
+<!-- only one login page for all roles -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,16 +9,6 @@
     <title>Login Page</title>
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href="login-signin.css">
-    <script>
-    function switchLogin(type) {
-    document.getElementById("login-title").textContent = type === 'applicant' ? "Applicant Login" : "Business Login";
-    document.getElementById("forgot-password").href = type === 'applicant' ? "ApplicantForgotPassword.html" : "BusinessForgotPassword.html";
-    
-    document.querySelectorAll(".toggle-btn").forEach(btn => btn.classList.remove("active"));
-    document.querySelector(`.toggle-btn[data-type='${type}']`).classList.add("active");
-    }
-
-    </script>
 </head>
 <body id="login-signin-page">
     <div class="container">
@@ -25,26 +16,23 @@
             <div class="top-section">
                 <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
             </div>
-            <div class="toggle-buttons">
-                <button onclick="switchLogin('applicant')" class="toggle-btn">Applicant Login</button>
-                <button onclick="switchLogin('business')" class="toggle-btn">Business Login</button>
-            </div>
-            <form>
+
+            <form action="process_login.php" method="POST">
                 <div class="input-group">
-                    <h2 id="login-title">Welcome Back!</h2>
+                    <h2 id="login-title">Account Login</h2>
                     <label for="email">EMAIL</label>
-                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
                 
                 <div class="input-group">
                     <label for="password">PASSWORD</label>
-                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
-
+            
                 <div class="forgot-password">
-                    <a href="#">Forgot Password?</a>
+                    <a href="ForgotPassword.html" id="forgot-password">Forgot Password?</a>
                 </div>
-
+            
                 <button type="submit" class="submit-btn">LOG IN</button>
 
                 <div class="separator">
@@ -54,19 +42,23 @@
                 </div>  
 
                 <div class="social-signin-container">
-                    <button class="social-signin google">
+                    <button type="button" class="social-signin google">
                         <img src="GoogleLogo.png" alt="Google logo"> Continue with Google
                     </button>
-                    <button class="social-signin facebook">
+                    <button type="button" class="social-signin facebook">
                         <img src="FacebookLogo.png" alt="Facebook logo"> Continue with Facebook
                     </button>
                 </div>
 
-                <p class="signup-link">Don't have an account? <a href="AccountSelection.html">SIGN UP</a></p>
+                <p class="signup-link">Don't have an account? <a href="./AccountSelection.html">SIGN UP</a></p>
             </form>
         </div>
     </div>
+
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            console.log("Form submitted");
+        });
+    </script>
 </body>
 </html>
-
-<!-- Kyle -->

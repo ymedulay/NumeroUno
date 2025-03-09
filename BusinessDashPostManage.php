@@ -49,10 +49,10 @@
     <div class="admin-sidebar">
         <p class="admin-dashb">Business Dashboard</p>
         <ul>
-            <li><a href="BusinessDashboard.html">My Dashboard</a></li>
-            <li><a href="BusinessDashManageProfile.html">Manage Business Profile</a></li>
-            <li><a href="BusinessDashJobPost.html">Post Job Posting</a></li>
-            <li><a href="BusinessDashPostManage.html">Post Management</a></li>
+            <li><a href="BusinessDashboard.php">My Dashboard</a></li>
+            <li><a href="BusinessDashManageProfile.php">Manage Business Profile</a></li>
+            <li><a href="BusinessDashJobPost.php">Post Job Posting</a></li>
+            <li><a href="BusinessDashPostManager.php">Post Management</a></li> <!-- Fixed filename -->
         </ul>
     </div>
     
