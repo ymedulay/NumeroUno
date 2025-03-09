@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,8 +21,8 @@
         </div>
         <div class="nav-left">
             <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
+                <li><a href="HomePage.php">Home</a></li>
+                <li><a href="FindJobPage.php">Find Job</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -26,17 +30,17 @@
                 <li class="dropdown">
                     <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboard.html">My Account</a></li>
+                        <li><a href="LoginPage.php">Log-In</a></li>
+                        <li><a href="AccountSelection.php">Sign-Up</a></li>
+                        <li><a href="ApplicantDashboard.php">My Account</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
                     <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="AboutUs.php">About Us</a></li>
+                        <li><a href="ContactUs.php">Contact Us</a></li>
+                        <li><a href="FAQs.php">FAQs</a></li>
                     </ul>
                 </li>
             </ul>
@@ -49,21 +53,21 @@
             <h2>Send a Message</h2>
             <p>Got a question or want to leave a review? 
 			Leave us a message below.</p>
-            <form>
+            <form action="process_contact.php" method="POST">
                 <label for="name">Name</label>
-                <input type="text" id="name" placeholder="e.g., John Dela Cruz" required>
+                <input type="text" id="name" name="name" placeholder="e.g., John Dela Cruz" required>
 
                 <label for="contact">Contact No.</label>
-                <input type="text" id="contact" placeholder="e.g., 09123456789" required>
+                <input type="text" id="contact" name="contact" placeholder="e.g., 09123456789" required>
 
                 <label for="email">Email Address</label>
-                <input type="email" id="email" placeholder="e.g., example@email.com" required>
+                <input type="email" id="email" name="email" placeholder="e.g., example@email.com" required>
 
                 <label for="message">Message</label>
-                <textarea id="message" rows="4" placeholder="Type your message here..." required></textarea>
+                <textarea id="message" name="message" rows="4" placeholder="Type your message here..." required></textarea>
 
                 <div class="checkbox-container">
-                    <input type="checkbox" id="reviewCheck">
+                    <input type="checkbox" id="reviewCheck" name="reviewCheck">
                     <label for="reviewCheck">Check this box if you're leaving a review.</label>
                 </div>
 
@@ -90,16 +94,30 @@
 
     <script>
         function toggleDropdown(id) {
-            const dropdown = document.getElementById(id);
+            let dropdown = document.getElementById(id);
+            let allDropdowns = document.querySelectorAll('.dropdown-menu');
+
+            allDropdowns.forEach((menu) => {
+                if (menu !== dropdown) menu.classList.remove("show");
+            });
+
             dropdown.classList.toggle("show");
         }
 
-        document.addEventListener("click", function (e) {
-            if (!e.target.matches('.ph')) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+        // Close dropdowns when clicking outside
+        window.onclick = function (event) {
+            if (!event.target.matches('.ph')) {
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
             }
-        });
+        };
     </script>
+
 </body>
 
 </html>
