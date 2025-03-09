@@ -1,3 +1,33 @@
+<?php
+session_start();
+require 'config.php'; // Database connection
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: LoginPage.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Handle job post deletion
+if (isset($_GET['delete_job_id'])) {
+    $job_id = $_GET['delete_job_id'];
+    $stmt = $pdo->prepare("DELETE FROM JobPostings WHERE job_id = ?");
+    $stmt->execute([$job_id]);
+    header("Location: BusinessDashPostManage.php"); 
+    exit();
+}
+
+// Handle viewing applicants
+if (isset($_GET['view_applicants_id'])) {
+    $job_id = $_GET['view_applicants_id'];
+    // Fetch applicants for the specific job post
+    $stmt = $pdo->prepare("SELECT * FROM Applicants WHERE job_id = ?");
+    $stmt->execute([$job_id]);
+    $applicants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +45,7 @@
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+            <img src="numerouno.png" alt="Numero Uno Logo">
         </div>
         <div class="nav-left">
             <ul class="nav-links">
