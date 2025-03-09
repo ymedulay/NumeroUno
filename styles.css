@@ -2391,19 +2391,28 @@ color: white;
 }
 
 /* Form Styling */
+
+#manage-profile-page .container {
+    background-color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    max-width: 800px; 
+    margin: 20px auto; 
+}
+
 #manage-profile-page .form-section-container {
-    background-color: #E0E0E0;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 90;
-    max-width: 1000px;
-    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(194, 9, 9, 0.1);
+    margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 #manage-profile-page .form-section-container h3 {
     font-size: 22px;
-    color: #333;
+    color: #317539; 
     margin-bottom: 22px;
 }
 
@@ -2432,18 +2441,66 @@ color: white;
 #manage-profile-page input[type="text"],
 #manage-profile-page input[type="email"],
 #manage-profile-page select {
-    width: 100%; 
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc; 
     padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     font-size: 16px;
-    box-sizing: border-box; 
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-bottom 0.4s ease-in-out;
+    cursor: pointer;
+}
+
+/* Style select dropdowns */
+#manage-profile-page select {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc; 
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-bottom 0.4s ease-in-out;
+    cursor: pointer;
+    
+    /* Add arrow using background image */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23317539"><path d="M7 10l5 5 5-5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px; 
+}
+
+/* Change underline color to green on focus */
+#manage-profile-page select:focus {
+    border-bottom: 2px solid #317539;
+}
+
+
+/* Change underline color to green on focus */
+#manage-profile-page input:focus,
+#manage-profile-page select:focus {
+    border-bottom: 2px solid #317539;
+}
+
+
+#manage-profile-page input:focus,
+#manage-profile-page select:focus {
+    border-bottom: 1px solid #317539; 
 }
 
 #manage-profile-page #address-1 {
     margin-bottom: 15px; 
 }
-
 
 #manage-profile-page .full-width {
     grid-column: span 2;
@@ -2456,7 +2513,7 @@ color: white;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 15px;
     cursor: pointer;
     margin: 20px auto 0;
     transition: background-color 0.3s;
