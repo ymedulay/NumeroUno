@@ -1,5 +1,14 @@
+<?php
+// Start the session
+session_start();
+
+// Check if the user is logged in
+$loggedIn = isset($_SESSION['user_id']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +22,12 @@
     <!-- Navigation Bar -->
     <nav>
         <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+            <img src="numerouno.png" alt="Numero Uno Logo">
         </div>
         <div class="nav-left">
             <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
+                <li><a href="HomePage.php">Home</a></li>
+                <li><a href="FindJobPage.php">Find Job</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -26,44 +35,49 @@
                 <li class="dropdown">
                     <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboard.html">My Account</a></li>
+                        <?php if ($loggedIn): ?>
+                            <li><a href="ApplicantDashboard.php">My Account</a></li>
+                            <li><a href="logout.php">Log Out</a></li>
+                        <?php else: ?>
+                            <li><a href="LoginPage.php">Log-In</a></li>
+                            <li><a href="AccountSelection.php">Sign-Up</a></li>
+                        <?php endif; ?>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
                     <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-						<li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="AboutUs.php">About Us</a></li>
+                        <li><a href="ContactUs.php">Contact Us</a></li>
+                        <li><a href="FAQs.php">FAQs</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
 
-        <section class="about-content">
-            <div class="what-is">
-                <img src="About us page-amico.png" alt="Illustration of people discussing" class="about-img">
-                <div class="text-1">
-                    <h2>What is NumeroUno?</h2>
-                    <p>Description</p>
-                </div>
+    <section class="about-content">
+        <div class="what-is">
+            <img src="About_us_page-amico.png" alt="Illustration of people discussing" class="about-img">
+            <div class="text-1">
+                <h2>What is NumeroUno?</h2>
+                <p>Description</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="creator-info">
-            <div class="who-created">
-                <div class="text-2">
-                    <h2>Who created NumeroUno?</h2>
-                    <p>NumeroUno was created by students from Mapua University blahblah</p>
-                </div>
-                <div class="creator-img">
-                    <img src="image-here.png" alt="Who created NumeroUno">
-                </div>
+    <section class="creator-info">
+        <div class="who-created">
+            <div class="text-2">
+                <h2>Who created NumeroUno?</h2>
+                <p>NumeroUno was created by students from Mapua University blahblah</p>
             </div>
-        </section>        
+            <div class="creator-img">
+                <img src="image-here.png" alt="Who created NumeroUno">
+            </div>
+        </div>
+    </section>
+    
     <script>
         function toggleDropdown(id) {
             document.querySelectorAll(".dropdown-menu").forEach(menu => {
@@ -85,4 +99,5 @@
         };
     </script>
 </body>
+
 </html>
