@@ -1,3 +1,43 @@
+<?php
+// Include database connection
+include 'config.php'; 
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $firstName = $_POST['first-name'];
+    $lastName = $_POST['last-name'];
+    $birthdate = $_POST['birthdate'];
+    $gender = $_POST['gender'];
+    $contact = $_POST['contact-number'];
+    $email = $_POST['email'];
+    $homeAddress = $_POST['home-address'];
+    $jobType = $_POST['job-type'];
+    $startDate = $_POST['start-date'];
+
+    // Handle CV upload
+    $cvName = $_FILES['cv-upload']['name'];
+    $cvTmpName = $_FILES['cv-upload']['tmp_name'];
+    $cvDestination = 'uploads/' . $cvName;
+    move_uploaded_file($cvTmpName, $cvDestination);
+
+    // Insert into database
+    $sql = "INSERT INTO job_applications (first_name, last_name, birthdate, gender, contact, email, address, job_type, start_date, cv)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssss", $firstName, $lastName, $birthdate, $gender, $contact, $email, $homeAddress, $jobType, $startDate, $cvName);
+    
+    if ($stmt->execute()) {
+        echo "<script>alert('Application submitted successfully!'); window.location.href='FindJobPage.php';</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
