@@ -333,7 +333,7 @@ nav {
     margin-bottom: 80px;
 }
 
-/* 📌 "How It Works" Section - Fixed Height & Side by Side */
+/* How It Works Section */
 .how-it-works {
     background-color: #ffffff;
     width: 100vw;
@@ -355,7 +355,7 @@ nav {
     font-size: 32px;
     /* Slightly smaller */
     color: #255b2f;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -410,126 +410,121 @@ nav {
 
 /* Recent Job Postings Section */
 #homePage .homepage-job-postings {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Aligns content to the left */
     width: 100%;
-    margin-top: 2.5rem;
-    padding: 30px;
-    animation: fadeIn 1.2s ease-out;
+    max-width: 1000px;
+    /* Ensures it aligns with job grid */
+    margin: 0 auto;
+    /* Centers the section itself */
+    padding-left: 1rem;
+    /* Adjust this if necessary */
+    text-align: center;
 }
 
-/* Fade-In Animation for the whole section */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-#homePage .homepage-job-postings h2 {
-    font-size: 28px;
-    color: #317539;
-    /* Green text */
-    font-weight: 700;
-    padding-left: 28rem;
-    margin-bottom: 3rem;
-}
-
-
-/* Grid Layout for Job Postings (Vertical > Grid Layout) */
-/* Sam Added */
+/* Grid Layout for Job Postings */
 #homePage .job-postings-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    /* Adjusts dynamically */
     gap: 3rem;
     width: 100%;
     max-width: 1000px;
     margin-top: 1rem;
-    margin-left: 28rem;
+    justify-content: center;
+    /* Ensures the grid is centered */
 }
 
-/* RJP Containers Style */
-/* Sam Edited */
+/* Job Card Styling */
 #homePage .job-card {
     background-color: #FFFCFC;
     padding: 15px;
     border-radius: 10px;
     text-align: left;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     height: 20vh;
+    cursor: pointer;
+
+
+    /* Center content vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-#homePage .job-card h3 {
-    margin: 0;
-    font-size: 30px;
-    color: #317539;
-    padding-top: 3rem;
-    padding-left: 4rem;
-}
-
-#homePage .job-card p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #333;
-    text-align: left;
-    padding-left: 4rem;
-}
-
-/* Hover Effect */
-/* Sam Added */
+/* Hover Effect on Job Cards */
 #homePage .job-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Center Job Card Text */
+#homePage .job-card h3,
+#homePage .job-card p {
+    margin: 0;
+    text-align: center;
+    /* Centers text inside job cards */
+}
+
+
+#homePage .homepage-job-postings h2 {
+    color: #317539;
+    /* Green */
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 3rem;
+
+    /* Align with first job card */
+    margin-left: 0;
+    /* Remove auto-centering */
+    padding-left: calc((100% - 1000px) / 2);
+    /* Matches grid alignment */
 }
 
 /* View More Button */
 #homePage .view-more {
-    width: 100px;
-    padding: 10px;
+    width: 150px;
+    padding: 12px;
     background-color: #CFB108;
     border: none;
     border-radius: 5px;
     color: white;
     cursor: pointer;
     margin-top: 5rem;
-    /* Consistent margin */
-    display: block;
+    display: inline-block;
+    /* Ensures button stays inline */
     font-family: 'Inter', sans-serif;
     transition: background-color 0.3s ease;
     text-align: center;
     text-decoration: none;
-    margin-left: 56.5rem;
 }
 
+/* Hover Effect on View More Button */
 #homePage .view-more:hover {
     background-color: #317539;
 }
-
-/* If you need to adjust for anchor tags specifically */
-#homePage a {
-    text-decoration: none;
-    /* Removes underline from the <a> */
-}
-
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
     #homePage .job-postings-grid {
         grid-template-columns: repeat(2, 1fr);
-        /* Show 2 per row on medium screens */
     }
 }
 
 @media (max-width: 768px) {
     #homePage .job-postings-grid {
         grid-template-columns: 1fr;
-        /* Stack in a single column on smaller screens */
     }
 }
+
+
+#homePage a {
+    text-decoration: none;
+    /* Removes underline from the <a> */
+}
+
 
 /* FOOTER */
 
