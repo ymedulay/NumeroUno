@@ -2134,6 +2134,7 @@ color: white;
     }
 }
 
+
 /* APPLICANT DASHBOARD */
 
 /* Profile Section */
@@ -2162,27 +2163,29 @@ color: white;
 #applicant-dash-main .info-section {
     display: flex; 
     flex-direction: column;
-    gap: 40px; 
-    width: 200%; 
+    gap: 20px; 
+    width: 100%; 
+    max-width: 1000px; 
     margin: 0 auto;
-    padding: 0 40px; 
+    padding: 0 20px; 
     justify-content: center;
     align-items: center;
-    position: relative; 
-    left: 50%;
-    transform: translateX(-50%); 
-    margin-bottom: 60px;
+    position: relative;
+    transform: none; 
+    margin-bottom: 40px;
 }
 
+/* Ensure info-boxes don't get too large */
 #applicant-dash-main .info-box {
     background-color: #FFFFFF;
     border-radius: 10px;
     padding: 30px;
-    width: 90%; 
-    max-width: 1000px; 
+    width: 90%;
+    max-width: 800px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Center the headers */
 #applicant-dash-main .info-box h2 {
     font-size: 20px;
     margin-bottom: 15px;
@@ -2190,11 +2193,39 @@ color: white;
     text-align: center;
 }
 
-#applicant-dash-main .info-box p {
-    font-size: 16px;
-    margin: 5px 0;
-    margin-bottom: 30px;
+/* User information into two columns */
+#applicant-dash-main .user-info-container {
+    display: flex;
+    justify-content: space-around; 
+    flex-wrap: wrap; 
+    gap: 20px; 
 }
+
+
+#applicant-dash-main .user-info-left,
+#applicant-dash-main .user-info-right {
+    flex: 1;
+    min-width: 200px; 
+}
+
+
+#applicant-dash-main .user-info-left p,
+#applicant-dash-main .user-info-right p {
+    margin: 10px 0; 
+}
+
+
+#applicant-dash-main .user-info-left p:first-child,
+#applicant-dash-main .user-info-right p:first-child {
+    margin-bottom: 20px; 
+}
+
+
+#applicant-dash-main .user-info-left p,
+#applicant-dash-main .user-info-right p {
+    margin: 10px 0; 
+}
+
 
 /* Media Query */
 @media (min-width: 1024px) {
