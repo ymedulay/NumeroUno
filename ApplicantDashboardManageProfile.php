@@ -1,3 +1,54 @@
+<?php
+session_start();
+require 'config.php'; // Database connection
+
+// Redirect if user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: LoginPage.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Fetch user profile details
+$stmt = $pdo->prepare("SELECT * FROM User WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Handle form submission for updating profile
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $first_name = $_POST['first-name'];
+    $last_name = $_POST['last-name'];
+    $middle_initial = $_POST['middle-initial'] ?? null;
+    $gender = $_POST['gender'];
+    $contact_no = $_POST['contact-no'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $education = $_POST['education'];
+    $achievements = $_POST['achievements'];
+    $graduation_year = $_POST['graduation-year'];
+    $specialization = $_POST['specialization'];
+    $skills = $_POST['skills'];
+
+    $stmt = $pdo->prepare("
+        UPDATE User SET 
+            first_name = ?, last_name = ?, middle_initial = ?, gender = ?, 
+            contact_no = ?, email = ?, address = ?, 
+            education = ?, achievements = ?, graduation_year = ?, 
+            specialization = ?, skills = ? 
+        WHERE id = ?
+    ");
+    $stmt->execute([
+        $first_name, $last_name, $middle_initial, $gender, 
+        $contact_no, $email, $address, 
+        $education, $achievements, $graduation_year, 
+        $specialization, $skills, $user_id
+    ]);
+
+    echo "<script>alert('Profile updated successfully!'); window.location.href='ApplicantDashboardManageProfile.php';</script>";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" id="manage-profile-page">
 
@@ -18,8 +69,8 @@
         </div>
         <div class="nav-left">
             <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
+                <li><a href="HomePage.php">Home</a></li>
+                <li><a href="FindJobPage.php">Find Job</a></li>
             </ul>
         </div>
         <div class="nav-right">
@@ -27,17 +78,17 @@
                 <li class="dropdown">
                     <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
-                        <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
+                        <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
+                        <li><a href="Logout.php">Logout</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
                     <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="AboutUs.php">About Us</a></li>
+                        <li><a href="ContactUs.php">Contact Us</a></li>
+                        <li><a href="FAQs.php">FAQs</a></li>
                     </ul>
                 </li>
             </ul>
@@ -49,10 +100,10 @@
     <div class="admin-sidebar">
         <p class="admin-dashb">Applicant Dashboard</p>
         <ul>
-            <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
-            <li><a href="ApplicantDashboardManageProfile.html">Manage My Profile</a></li>
-            <li><a href="ApplicantDashboardApplicationStatus.html">Application Status</a></li>
-            <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
+            <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
+            <li><a href="ApplicantDashboardManageProfile.php">Manage My Profile</a></li>
+            <li><a href="ApplicantDashboardApplicationStatus.php">Application Status</a></li>
+            <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
         </ul>
     </div>
 
@@ -60,35 +111,31 @@
     <div class="main-content-wrapper">
         <div class="page-content">
             <img id="profile-pic" src="profile-placeholder.png" alt="User Profile Picture">
-            <h2 id="display-name">User Name</h2>
-            <input type="file" id="upload-profile-pic" style="display: none;">
-            <button class="change-profile-pic" onclick="document.getElementById('upload-profile-pic').click();">
-                Change Profile Picture
-            </button>
+            <h2 id="display-name"><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></h2>
         </div>
 
-        <form id="profile-form">
+        <form method="POST" id="profile-form">
             <div class="form-section-container">
                 <h3>Personal Information</h3>
                 <div class="form-grid two-columns">
                     <div>
                         <label for="first-name">First Name <span></span></label>
-                        <input type="text" id="first-name" placeholder="e.g., John" required>
+                        <input type="text" id="first-name" name="first-name" value="<?= htmlspecialchars($user['first_name']) ?>" required>
                     </div>
                     <div>
                         <label for="last-name">Last Name <span>*</span></label>
-                        <input type="text" id="last-name" placeholder="e.g., Dela Cruz" required>
+                        <input type="text" id="last-name" name="last-name" value="<?= htmlspecialchars($user['last_name']) ?>" required>
                     </div>
                     <div>
                         <label for="middle-initial">Middle Initial</label>
-                        <input type="text" id="middle-initial">
+                        <input type="text" id="middle-initial" name="middle-initial" value="<?= htmlspecialchars($user['middle_initial'] ?? '') ?>">
                     </div>
                     <div>
                         <label for="gender">Gender</label>
-                        <select id="gender">
+                        <select id="gender" name="gender">
                             <option value="">Select</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
+                            <option value="Male" <?= $user['gender'] === 'Male' ? 'selected' : '' ?>>Male</option>
+                            <option value="Female" <?= $user['gender'] === 'Female' ? 'selected' : '' ?>>Female</option>
                         </select>
                     </div>
                 </div>
@@ -99,54 +146,15 @@
                 <div class="form-grid two-columns">
                     <div>
                         <label for="contact-no">Contact No. <span>*</span></label>
-                        <input type="text" id="contact-no" placeholder="e.g.,  09123456789" required>
+                        <input type="text" id="contact-no" name="contact-no" value="<?= htmlspecialchars($user['contact_no']) ?>" required>
                     </div>
                     <div>
                         <label for="email">Email Address <span>*</span></label>
-                        <input type="email" id="email" placeholder="e.g.,  example@email.com" required>
+                        <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
                     </div>
                     <div class="full-width">
                         <label for="address">Address</label>
-                        <input type="text" id="address">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-section-container">
-                <h3>Educational Background</h3>
-                <div class="form-grid two-columns">
-                    <div>
-                        <label for="education">Highest Level of Education</label>
-                        <select id="education">
-                            <option value="">Select</option>
-                            <option value="High School">High School</option>
-                            <option value="Associate Degree">Associate Degree</option>
-                            <option value="Bachelor's Degree">Bachelor's Degree</option>
-                            <option value="Master's Degree">Master's Degree</option>
-                            <option value="Doctorate">Doctorate</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="achievements">Achievements</label>
-                        <input type="text" id="achievements" placeholder="Add more...">
-                    </div>
-                    <div>
-                        <label for="graduation-year">Year Graduated</label>
-                        <select id="graduation-year">
-                            <option value="">Select</option>
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                            <option value="2021">2021</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="specialization">Area of Specialization</label>
-                        <input type="text" id="specialization">
-                    </div>
-					<div>
-                        <label for="Skills">Skills</label>
-                        <input type="text" id="Skills">
+                        <input type="text" id="address" name="address" value="<?= htmlspecialchars($user['address']) ?>">
                     </div>
                 </div>
             </div>
@@ -181,5 +189,4 @@
 </script>
 
 </body>
-
 </html>
