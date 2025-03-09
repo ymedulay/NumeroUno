@@ -1,22 +1,16 @@
 <?php
-/* Using PDO */
-
-/* Database credentials */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'Password1$');
-define('DB_NAME', 'nuno_db');
+define('DB_NAME', 'uno_db');
 
-/* Attempt to connect to MySQL database */
-try {
-    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
-    // Set the PDO error mode to exception
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Connection successful message
-    echo "Connection successful!";
-} catch (PDOException $e) {
-    die("ERROR: Could not connect. " . $e->getMessage());
-}
+    try {
+        $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME . ";charset=utf8", DB_USERNAME, DB_PASSWORD);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
+    }
 ?>
+
+
 

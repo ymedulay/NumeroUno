@@ -1,36 +1,43 @@
 <?php
 session_start();
-require 'config.php'; // Database connection
+require 'config.php'; // Ensure this file establishes a database connection
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $password = $_POST['password'];
 
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    // Fetch user from database using PDO
+    $stmt = $pdo->prepare("SELECT id, password, roleId FROM User WHERE email = ?");
+    $stmt->execute([$email]);
 
-        $stmt = $pdo->prepare("SELECT id, password, roleId FROM User WHERE email = ?");
-        $stmt->execute([$email]);
+    if ($stmt->rowCount() > 0) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $id = $user['id'];
+        $hashed_password = $user['password'];
+        $roleId = $user['roleId'];
 
-        if (!$user || !password_verify($password, $user['password'])) {
-            die("Invalid email or password");
-        }
+        // Verify password
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $id;
+            $_SESSION['role_id'] = $roleId;
 
-        // Set session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['role_id'] = $user['roleId'];
-
-        // Redirect based on role
-        if ($user['roleId'] == 2) {
-            header("Location: business_dashboard.php");
-        } elseif ($user['roleId'] == 3) {
-            header("Location: applicant_dashboard.php");
+            // Redirect based on role
+            if ($roleId == 1) {
+                header("Location: AdminDashboardMain.php");
+            } elseif ($roleId == 2) {
+                header("Location: BusinessDashboard.php");
+            } elseif ($roleId == 3) {
+                header("Location: ApplicantDashboard.php");
+            } else {
+                echo "Invalid role.";
+                exit();
+            }
+            exit();
         } else {
-            header("Location: admin_dashboard.php");
+            echo "Invalid email or password.";
         }
-        exit();
-    } catch (Exception $e) {
-        die("Error: " . $e->getMessage());
+    } else {
+        echo "User not found.";
     }
 }
+?>

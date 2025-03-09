@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
+    die("Access Denied. Please log in.");
+}
+
+// Restrict access based on role
+$roleId = $_SESSION['role_id'];
+$pageRole = 1; // Change this based on the dashboard (1 = Admin, 2 = Applicant, 3 = Business)
+
+if ($roleId != $pageRole) {
+    echo "Access denied.";
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +38,7 @@
         <div class="nav-left">
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
-                <li><a href="AdminDashboardMain.html">Applications</a></li>
+                <li><a href="AdminDashboardMain.php">Applications</a></li>
 				<li><a href="AdminDashRepAndQue.html">Reports and Queries</a></li>
             </ul>
         </div>
@@ -86,9 +102,9 @@
 	<div class="admin-sidebar">
 		<p class="admin-dashb">Admin Dashboard</p> 
 		<ul>
-			<li><a href="AdminDashboardMain.html">Pending Approval</a></li>
-			<li><a href="AdminDashApproved.html">Approved</a></li>
-			<li><a href="AdminDashRejected.html">Rejected</a></li>
+			<li><a href="AdminDashboardMain.php">Pending Approval</a></li>
+			<li><a href="AdminDashApproved.php">Approved</a></li>
+			<li><a href="AdminDashRejected.php">Rejected</a></li>
 		</ul>
 	</div>
 

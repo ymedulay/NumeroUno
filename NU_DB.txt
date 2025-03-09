@@ -1,0 +1,60 @@
+USE nuno_db;
+
+CREATE TABLE Role (
+    id INT PRIMARY KEY AUTO_INCREMENT,       -- Role ID (auto-incremented)
+    roleName VARCHAR(255) NOT NULL UNIQUE    -- Role name (must be unique)
+);
+
+-- Insert default roles if they don’t exist
+INSERT INTO Role (roleName) VALUES 
+    ('Business'),
+    ('Applicant')
+ON DUPLICATE KEY UPDATE roleName = VALUES(roleName);
+
+CREATE TABLE User (
+    id INT PRIMARY KEY AUTO_INCREMENT,   -- User ID
+    firstName VARCHAR(255) NOT NULL,     -- First name of the user
+    lastName VARCHAR(255) NOT NULL,      -- Last name of the user
+    email VARCHAR(255) NOT NULL UNIQUE,  -- Email (unique)
+    password VARCHAR(255) NOT NULL,      -- Password (hashed)
+    roleId INT NOT NULL,                 -- Role ID (foreign key from the Role table)
+    FOREIGN KEY (roleId) REFERENCES Role(id)  -- Foreign key constraint
+);
+
+CREATE TABLE Business (
+    id INT PRIMARY KEY AUTO_INCREMENT,       -- Business ID
+    userId INT NOT NULL,                     -- User ID (foreign key from the User table)
+    businessName VARCHAR(255) NOT NULL UNIQUE, -- Business Name (unique)
+    contactEmail VARCHAR(255) NOT NULL,        -- Contact email
+    phoneNumber VARCHAR(15),                  -- Phone number (optional)
+    FOREIGN KEY (userId) REFERENCES User(id)  -- Foreign key from User table
+);
+
+CREATE TABLE JobPosting (
+    id INT PRIMARY KEY AUTO_INCREMENT,        -- Job Posting ID
+    businessId INT NOT NULL,                  -- Business ID (foreign key from the Business table)
+    jobTitle VARCHAR(255) NOT NULL,            -- Job title
+    jobDescription TEXT NOT NULL,             -- Job description
+    requirements TEXT,                        -- Job requirements (optional)
+    status ENUM('Open', 'Closed', 'Pending Approval') NOT NULL, -- Status of the job
+    requireResume BOOLEAN NOT NULL,           -- Whether a resume is required
+    datePosted TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date the job was posted
+    FOREIGN KEY (businessId) REFERENCES Business(id) -- Foreign key from Business table
+);
+
+CREATE TABLE Applicant (
+    id INT PRIMARY KEY AUTO_INCREMENT,       -- Applicant ID
+    userId INT NOT NULL,                     -- User ID (foreign key from the User table)
+    resume VARCHAR(255),                     -- Path to the applicant's resume (optional)
+    FOREIGN KEY (userId) REFERENCES User(id) -- Foreign key from User table
+);
+
+CREATE TABLE JobApplication (
+    id INT PRIMARY KEY AUTO_INCREMENT,       -- Job Application ID
+    applicantId INT NOT NULL,                -- Applicant ID (foreign key from the Applicant table)
+    jobPostingId INT NOT NULL,               -- Job Posting ID (foreign key from the JobPosting table)
+    status ENUM('Pending', 'Accepted', 'Rejected', 'Withdrawn') NOT NULL, -- Status of the application
+    dateApplied TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date the application was made
+    FOREIGN KEY (applicantId) REFERENCES Applicant(id),  -- Foreign key from Applicant table
+    FOREIGN KEY (jobPostingId) REFERENCES JobPosting(id) -- Foreign key from JobPosting table
+);
