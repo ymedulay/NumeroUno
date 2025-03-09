@@ -1827,6 +1827,17 @@ color: white;
     align-items: center;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+    margin-left: 90px;
+}
+
+.logo img {
+    height: 4.5vh;
+    width: auto;
+}
+
 /* Navigation Bar */
 #faqs-page nav {
     background-color: #A6D4A8;
@@ -1841,12 +1852,6 @@ color: white;
     top: 0;
     left: 0;
     z-index: 1000;
-}
-
-#faqs-page .logo img {
-    height: 100px;
-    width: auto;
-    object-fit: contain;
 }
 
 #faqs-page .nav-links {
@@ -1896,40 +1901,6 @@ color: white;
     width: auto;
 }
 
-#faqs-page .faq-search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-#faqs-page .faq-search {
-    width: 500%;
-    max-width: 600px;
-    padding: 12px;
-    border-radius: 5px;
-    border: 2px solid #A6D4A8;
-    font-size: 16px;
-    text-align: center;
-}
-
-#faqs-page .search-button {
-    padding: 12px 20px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: darkgreen;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#faqs-page .search-button:hover {
-    background-color: #8BBF8D;
-}
-
 /* FAQ Section */
 #faqs-page .faq-container {
     max-width: 900px;
@@ -1940,6 +1911,14 @@ color: white;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
 }
+
+#faqs-page .faq-container h2 {
+    color: #317539; 
+    font-size: 28px; 
+    font-weight: bold; 
+    text-align: center; 
+}
+
 
 #faqs-page .faq-item {
     border: 2px solid #A6D4A8;
@@ -2009,7 +1988,6 @@ color: white;
         height: 80px;
     }
 }
-
 
 /* CONTACT US */
 #contact-us-page {
