@@ -13,7 +13,7 @@
 <body id="applicant-dash-main">
     <nav>
         <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+            <img src="numerouno.png" alt="Numero Uno Logo">
         </div>
         <div class="nav-left">
             <ul class="nav-links">
@@ -52,6 +52,7 @@
         </ul>
     </div>
     <div class="page-content">
+        <h1>Applicant Dashboard</h1>
         <div class="profile-section">
             <img src="ProfilePic.jpg" alt="User Profile Picture">
             <h2>User Name</h2>
@@ -59,22 +60,35 @@
         <div class="info-section">
             <div class="info-box">
                 <h2>User Information</h2>
-                <p><strong>First Name:</strong> [User First Name]</p>
-                <p><strong>Middle Initial:</strong> [User Middle Initial]</p>
-                <p><strong>Last Name:</strong> [User Last Name]</p>
-                <p><strong>Email:</strong> [User Email]</p>
+                <div class="user-info-container">
+                    <div class="user-info-left">
+                        <p><strong>First Name:</strong> [User First Name]</p>
+                        <p><strong>Middle Initial:</strong> [User Middle Initial]</p>
+                    </div>
+                    <div class="user-info-right">
+                        <p><strong>Last Name:</strong> [User Last Name]</p>
+                        <p><strong>Email:</strong> [User Email]</p>
+                    </div>
+                </div>
             </div>
+            
+            
             <div class="info-box">
                 <h2>Educational Background</h2>
                 <p><strong>Highest Degree:</strong> [User Degree]</p>
             </div>
             <div class="info-box">
                 <h2>Job Experience</h2>
-                <p><strong>Company:</strong> [Company Name]</p>
-                <p><strong>Job Title:</strong> [Job Title]</p>
+                <div class="user-info-container">
+                    <div class="user-info-left">
+                        <p><strong>Company:</strong> [Company Name]</p>
+                    </div>
+                    <div class="user-info-right">
+                        <p><strong>Job Title:</strong> [Job Title]</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+            
     <script>
         function toggleDropdown(id) {
             let dropdown = document.getElementById(id);
