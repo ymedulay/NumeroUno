@@ -14,7 +14,7 @@
     <!-- Navbar -->
     <nav>
         <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+            <img src="img/numerouno.png" alt="Numero Uno Logo">
         </div>
         <div class="nav-left">
             <ul class="nav-links">
@@ -59,7 +59,7 @@
     <!-- Main Content -->
     <div class="main-content-wrapper">
         <div class="page-content">
-            <img id="profile-pic" src="profile-placeholder.png" alt="User Profile Picture">
+            <img id="profile-pic" src="img/profile.png" alt="User Profile Picture">
             <h2 id="display-name">User Name</h2>
             <input type="file" id="upload-profile-pic" style="display: none;">
             <button class="change-profile-pic" onclick="document.getElementById('upload-profile-pic').click();">
@@ -144,7 +144,7 @@
                         <label for="specialization">Area of Specialization</label>
                         <input type="text" id="specialization">
                     </div>
-					<div>
+                    <div>
                         <label for="Skills">Skills</label>
                         <input type="text" id="Skills">
                     </div>
@@ -155,30 +155,30 @@
         </form>
     </div>
 
-<script>
-    function toggleDropdown(id) {
-        let dropdown = document.getElementById(id);
-        let allDropdowns = document.querySelectorAll('.dropdown-menu');
+    <script>
+        function toggleDropdown(id) {
+            let dropdown = document.getElementById(id);
+            let allDropdowns = document.querySelectorAll('.dropdown-menu');
 
-        allDropdowns.forEach((menu) => {
-            if (menu !== dropdown) menu.classList.remove("show");
-        });
+            allDropdowns.forEach((menu) => {
+                if (menu !== dropdown) menu.classList.remove("show");
+            });
 
-        dropdown.classList.toggle("show");
-    }
+            dropdown.classList.toggle("show");
+        }
 
-    window.onclick = function (event) {
-        if (!event.target.matches('.ph')) {
-            let dropdowns = document.getElementsByClassName("dropdown-menu");
-            for (let i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
+        window.onclick = function (event) {
+            if (!event.target.matches('.ph')) {
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
                 }
             }
-        }
-    };
-</script>
+        };
+    </script>
 
 </body>
 
