@@ -71,16 +71,16 @@ nav {
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
-
+    transition: 0.3s;
     margin-right: 20px;
     /* Moves it left */
+    cursor: pointer;
 }
 
 .find-jobs-btn:hover {
     background-color: #255b2f;
+    box-shadow: 0 0 0 5px #5c8b65;
     color: white;
-    /* Darker green on hover */
 }
 
 /* Menu Icon */
@@ -296,7 +296,6 @@ nav {
 #homePage .search-box {
     width: 100%;
     padding: 12px 12px 12px 45px;
-    /* Adjusted padding for icon */
     border: none;
     border-radius: 35px;
     font-size: 14px;
@@ -308,6 +307,14 @@ nav {
 /* Placeholder Styling */
 #homePage .search-box::placeholder {
     color: gray;
+    transition: opacity 0.2s ease-in-out;
+    /* Smooth transition for disappearing */
+}
+
+/* Hide Placeholder on Focus */
+#homePage .search-box:focus::placeholder {
+    opacity: 0;
+    /* Makes the placeholder disappear */
 }
 
 /* Focus Effect */
@@ -341,33 +348,32 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-/* Container */
-.how-it-works-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* Title */
-.how-it-works h2 {
-    font-size: 32px;
-    /* Slightly smaller */
-    color: #255b2f;
-    margin-bottom: 50px;
-    font-weight: 600;
-    text-transform: uppercase;
+    opacity: 0;
+    /* Start hidden */
+    animation: fadeInUpwards 0.8s ease-out forwards;
+    /* Apply animation */
+    animation-delay: 0.5s;
+    /* Delay to sync with other animations */
 }
 
 /* Steps - Fixed Grid (Side by Side) */
 .steps-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* Always side by side */
     gap: 30px;
     justify-content: center;
     align-items: start;
+}
+
+/* Title - Center Align */
+.how-it-works h2 {
+    font-size: 32px;
+    color: #255b2f;
+    margin-bottom: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    /* Center align the text */
 }
 
 /* Step Box */
@@ -376,13 +382,11 @@ nav {
     padding: 30px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.step:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    /* Start hidden */
+    animation: fadeInUpwards 0.8s ease-out forwards;
+    animation-delay: 0.7s;
+    /* Delayed effect for each step */
 }
 
 /* Icons */
@@ -408,121 +412,119 @@ nav {
 }
 
 
+/* Keyframes for Fade-In-Upwards Animation */
+@keyframes fadeInUpwards {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hide elements initially */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Apply animation when visible */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInUpwards 0.8s ease-out forwards;
+}
+
+
 /* Recent Job Postings Section */
-#homePage .homepage-job-postings {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Aligns content to the left */
-    width: 100%;
-    max-width: 1000px;
-    /* Ensures it aligns with job grid */
-    margin: 0 auto;
-    /* Centers the section itself */
-    padding-left: 1rem;
-    /* Adjust this if necessary */
-    text-align: center;
-}
-
-/* Grid Layout for Job Postings */
-#homePage .job-postings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 3rem;
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 1rem;
-    justify-content: center;
-    /* Ensures the grid is centered */
-}
-
-/* Job Card Styling */
-#homePage .job-card {
-    background-color: #FFFCFC;
-    padding: 15px;
+.homepage-job-postings {
+    background-color: #C9DACB;
+    padding: 30px 5%;
     border-radius: 10px;
+    text-align: center;
+    margin-bottom: 40px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: none;
+    /* Removed shadow */
+    border: none;
+    /* Ensure no border is adding an effect */
+}
+
+.homepage-job-postings h2 {
     text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    height: 20vh;
-    cursor: pointer;
+    color: #255b2f;
+    font-size: 22px;
+    margin-bottom: 40px;
+    margin-left: 22.5%;
+}
 
+.job-postings-grid {
+    display: flex;
+    gap: 40px;
+    /* Increased gap between job cards */
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
 
-    /* Center content vertically */
+.job-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    height: 180px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover Effect on Job Cards */
-#homePage .job-card:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.job-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
-/* Center Job Card Text */
-#homePage .job-card h3,
-#homePage .job-card p {
-    margin: 0;
-    text-align: center;
-    /* Centers text inside job cards */
-}
-
-
-#homePage .homepage-job-postings h2 {
+.job-card h3 {
+    font-size: 18px;
     color: #317539;
-    /* Green */
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 3rem;
-
-    /* Align with first job card */
-    margin-left: 0;
-    /* Remove auto-centering */
-    padding-left: calc((100% - 1000px) / 2);
-    /* Matches grid alignment */
+    margin-bottom: 5px;
 }
 
-/* View More Button */
-#homePage .view-more {
-    width: 150px;
-    padding: 12px;
-    background-color: #CFB108;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 5rem;
-    display: inline-block;
-    /* Ensures button stays inline */
-    font-family: 'Inter', sans-serif;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    text-decoration: none;
+.job-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
 }
 
-/* Hover Effect on View More Button */
-#homePage .view-more:hover {
+.view-more {
     background-color: #317539;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+    /* Increased margin-top for better spacing */
+    margin-left: 50%;
+    /* Align to the left with padding from the side */
+    text-align: left;
+    /* Align text inside button to the left */
 }
 
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-    #homePage .job-postings-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    #homePage .job-postings-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-#homePage a {
-    text-decoration: none;
-    /* Removes underline from the <a> */
+.view-more:hover {
+    background-color: #CFB108;
+    box-shadow: 0 0 0 5px #daca70;
+    color: white;
 }
 
 
