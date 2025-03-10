@@ -75,7 +75,7 @@ $description = $business['description'] ?? "No description available";
             <li><a href="BusinessDashboard.php">My Dashboard</a></li>
             <li><a href="BusinessDashManageProfile.php">Manage Business Profile</a></li>
             <li><a href="BusinessDashJobPost.php">Post Job Posting</a></li>
-            <li><a href="BusinessDashPostManager.php">Post Management</a></li>
+            <li><a href="BusinessDashPostManage.php">Post Management</a></li>
         </ul>
     </div>
 
