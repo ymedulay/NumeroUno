@@ -14,35 +14,33 @@
     <!-- Navigation Bar -->
     <nav>
         <div class="logo">
-            <img src="numerouno.png" alt="Numero Uno Logo">
+            <a href="HomePage.html"><img src="numerouno.png" alt="Numero Uno Logo"></a>
         </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
-            </ul>
-        </div>
+
         <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboard.html">My Account</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <!-- Correct Find Jobs Button -->
+            <a href="#homepage-job-postings" class="find-jobs-btn">Find Jobs</a>
+
+            <!-- Menu Icon -->
+            <div class="menu-icon">
+                <i class="ph ph-list"></i>
+            </div>
         </div>
     </nav>
+
+
+    <!-- Sidebar (Initially Hidden) -->
+    <div id="sideMenu" class="sidebar">
+        <ul>
+            <li><a href="LoginPage.html">Login / Sign Up</a></li>
+            <li><a href="AboutUs.html">About Us</a></li>
+            <li><a href="ContactUs.html">Contact Us</a></li>
+            <li><a href="#">FAQS</a></li>
+        </ul>
+    </div>
+    </nav>
+
+    <!-- End of Navigation Bar -->
 
     <section class="about-content">
         <div class="what-is">
@@ -65,26 +63,9 @@
             </div>
         </div>
     </section>
-    <script>
-        function toggleDropdown(id) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => {
-                if (menu.id !== id) menu.classList.remove("show");
-            });
-            document.getElementById(id).classList.toggle("show");
-        }
+    
+    <script src="sidebar.js"></script>
 
-        window.onclick = function (event) {
-            if (!event.target.matches('.ph')) {
-                let dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        };
-    </script>
 </body>
 
 </html>

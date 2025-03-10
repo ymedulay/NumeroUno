@@ -1275,7 +1275,7 @@ nav {
 
 /* Admin Sidebar (Side Push-Off Canvas) */
 .admin-sidebar {
-    background-color: #D9D9D9;
+    background: rgba(49, 117, 57, 0.7);
     width: 250px;
     /* Increased width */
     height: 100%;
@@ -1295,6 +1295,7 @@ nav {
 .sidebar-hover-area:hover+.admin-sidebar,
 .admin-sidebar:hover {
     left: 0;
+    color: darkgreen;
     /* Keep sidebar open */
 }
 
@@ -1304,8 +1305,8 @@ nav {
     font-weight: bold;
     text-align: left;
     padding-left: 12px;
-    margin-bottom: 10px;
-    color: black;
+    margin-top: 30px;
+    color: white;
 }
 
 /* Admin Sidebar Navigation */
@@ -1315,12 +1316,12 @@ nav {
 }
 
 .admin-sidebar li {
-    margin: 15px 0;
+    margin: 30px 0;
 }
 
 .admin-sidebar a {
     text-decoration: none;
-    color: black;
+    color: white;
     font-size: 16px;
     padding: 8px 12px;
     transition: background-color 0.3s, color 0.3s;
@@ -1329,7 +1330,7 @@ nav {
 
 .admin-sidebar a:hover {
     background-color: #8BBF8D;
-    color: white;
+    color: darkgreen;
 }
 
 /* When Sidebar is Active */
@@ -2179,39 +2180,21 @@ nav {
 
 
 /* CONTACT US */
-#contact-us-page {
-    font-family: 'Inter', sans-serif;
-    background-color: #C9DACB;
-    margin: 0;
-    padding-top: 100px;
-}
-
-#contact-us-page nav {
-    background-color: #A6D4A8;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    height: 80px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
-
-#contact-us-page .logo img {
-    height: 100px;
-    width: auto;
-    object-fit: contain;
-}
-
-#contact-us-page .nav-links a:hover {
-    background-color: #8BBF8D;
-    color: white;
-}
 
 /* Contact Section Styling */
+/* Fade-in animation on page load */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 #contact-us-page .contact-map-wrapper {
     display: flex;
     flex-direction: row;
@@ -2220,6 +2203,16 @@ nav {
     max-width: 1200px;
     margin: 0 auto;
     gap: 30px;
+
+    animation: fadeIn 0.8s ease-out;
+}
+
+#contact-us-page h1 {
+    color: #1A4208;
+    text-align: center;
+
+    /* Fade-in effect */
+    animation: fadeIn 1s ease-in-out;
 }
 
 #contact-us-page .contact-container,
@@ -2229,6 +2222,7 @@ nav {
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 #contact-us-page .contact-container h2,
@@ -2238,21 +2232,64 @@ nav {
     color: #317539;
 }
 
+/* Custom Checkbox Styling */
 #contact-us-page .contact-container form .checkbox-container {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
+
 
 #contact-us-page .contact-container form .checkbox-container input[type="checkbox"] {
-    width: 18px;
+    appearance: none;
+    /* Remove default checkbox */
+    width: 20px;
     height: 20px;
+    border: 2px solid #317539;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, border-color 0.3s;
+    cursor: pointer;
+    position: relative;
 }
 
+/* Checkmark */
+#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]::after {
+    content: "✔";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* When checked */
+#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked {
+    background-color: #317539;
+    border-color: #24512f;
+}
+
+#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked::after {
+    display: block;
+}
+
+/* Label Styling */
 #contact-us-page .contact-container form .checkbox-container label {
     font-size: 16px;
     cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked+label {
+    color: #317539;
 }
 
 #contact-us-page .contact-container form input,
@@ -2264,6 +2301,14 @@ nav {
     border: 1px solid #ccc;
 }
 
+/* Animating input fields when focused */
+#contact-us-page .contact-container form input:focus,
+#contact-us-page .contact-container form textarea:focus {
+    border-color: #317539;
+    box-shadow: 0 0 8px rgba(49, 117, 57, 0.3);
+    transition: 0.3s;
+}
+
 #contact-us-page .contact-container form .btn {
     width: 100%;
     background-color: #317539;
@@ -2273,11 +2318,13 @@ nav {
     margin-top: 20px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 #contact-us-page .contact-container form .btn:hover {
     background-color: #24512f;
+    transform: scale(1.05);
 }
 
 #contact-us-page .barangay-container iframe.embed-map {
@@ -2286,6 +2333,9 @@ nav {
     border-radius: 10px;
     border: none;
     margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-in-out forwards 0.5s;
 }
 
 /* Responsive Design */
@@ -3246,15 +3296,35 @@ label[for="cvRequired"] {
     background: #1E6E26;
 }
 
-/* ABOUT US */
+/* ABOUT US PAGE */
 
+/* Header Section */
+#About-us-page .about-header {
+    background-color: #C9DACB;
+    text-align: center;
+    padding: 40px 0;
+}
+
+#About-us-page .about-header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #000;
+}
+
+#About-us-page .about-header p {
+    font-size: 14px;
+    color: #444;
+}
+
+/* What is NumeroUno Section */
 #About-us-page .about-content {
     width: 100%;
-    background-color: #C9DACB;
+    background-color: #A6D4A8;
     padding: 40px 0;
     display: flex;
     justify-content: center;
-    margin-top: 30px;
+    border-radius: 0 0 200px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #About-us-page .what-is {
@@ -3262,10 +3332,6 @@ label[for="cvRequired"] {
     align-items: center;
     justify-content: space-between;
     width: 80%;
-    background-color: #A6D4A8;
-    padding: 20px;
-    border-radius: 0 0 200px 0;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #About-us-page .about-img {
@@ -3279,18 +3345,19 @@ label[for="cvRequired"] {
 }
 
 #About-us-page .text-1 h2,
-.text-2 h2 {
-    font-size: 30px;
+#About-us-page .text-2 h2 {
+    font-size: 26px;
     font-weight: bold;
     color: #333;
 }
 
 #About-us-page .text-1 p,
-.text-2 p {
+#About-us-page .text-2 p {
     font-size: 16px;
     color: #555;
 }
 
+/* Who Created NumeroUno Section */
 #About-us-page .creator-info {
     display: flex;
     align-items: center;
@@ -3303,14 +3370,14 @@ label[for="cvRequired"] {
 }
 
 #About-us-page .creator-img img {
-    width: 200px;
+    width: 250px;
     height: auto;
     display: block;
 }
 
 #About-us-page .text-2 {
     flex-grow: 1;
-    text-align: right;
+    text-align: left;
 }
 
 #About-us-page .who-created {
