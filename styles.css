@@ -545,43 +545,6 @@ nav {
 
 /* FIND JOB PAGE */
 
-/* Navi Bar User Menu */
-.user-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.user-dropdown .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 10px 0;
-    border-radius: 5px;
-    min-width: 120px;
-    right: 0;
-}
-
-.user-dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-menu li {
-    padding: 8px 15px;
-}
-
-.dropdown-menu li a {
-    text-decoration: none;
-    color: black;
-    display: block;
-    transition: background 0.3s ease;
-}
-
-.dropdown-menu li a:hover {
-    background-color: #A6D4A8;
-}
-
 /* Search Box Container */
 #findJobPage .search-container {
     display: flex;
@@ -607,7 +570,7 @@ nav {
 /* Style for both search boxes */
 #findJobPage .search-box {
     width: 100%;
-    padding: 12px 12px 12px 30px;
+    padding: 12px 12px 12px 50px;
     /* space for the icon */
     border: 1px solid #ccc;
     border-radius: 15px;
@@ -615,7 +578,7 @@ nav {
     background-color: #D9D9D9;
     color: black;
     box-sizing: border-box;
-    text-align: center;
+    text-align: left;
 }
 
 /* Style for the magnifying glass icon */
@@ -624,7 +587,7 @@ nav {
     color: #317539;
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 20px;
     transform: translateY(-50%);
 }
 
@@ -635,7 +598,7 @@ nav {
     position: absolute;
     top: 50%;
     /* center the icon vertically */
-    left: 10px;
+    left: 20px;
     /* icon inside the search box */
     transform: translateY(-50%);
 }
@@ -643,14 +606,19 @@ nav {
 /* "Search Job" placeholder */
 #findJobPage .search-box:first-child::placeholder {
     text-align: left;
-    padding-left: 30px;
+    padding-left: 10px;
 }
 
 /* "Location" placeholder */
 #findJobPage .search-box:last-child::placeholder {
     text-align: left;
-    padding-left: 30px;
+    padding-left: 10px;
     /* space for the GPS icon */
+}
+
+/* Hide placeholder when the input is focused */
+#findJobPage .search-box:focus::placeholder {
+    color: transparent;
 }
 
 /* New container for left panel and job postings */
@@ -3351,4 +3319,74 @@ label[for="cvRequired"] {
     justify-content: space-between;
     width: 80%;
     margin: 40px auto;
+}
+
+/* Account Selection Page Styles */
+#account-selection-page {
+    background: linear-gradient(135deg, #e3f2fd, #d6c773);
+    /* Keeping your gradient */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+
+/* Title Styling */
+#account-selection-page h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #013607;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.2s ease-in-out forwards;
+}
+
+/* Main selection container */
+#account-selection-page .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Option Box Styling - Transparent Enclosure */
+#account-selection-page .option-box {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    /* Light transparent effect */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+#account-selection-page .option-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Label Styling */
+#account-selection-page .option-box .label {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #013607;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #account-selection-page .container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    #account-selection-page h1 {
+        font-size: 24px;
+    }
 }
