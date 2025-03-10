@@ -730,38 +730,39 @@ nav {
 /* Search Box Container */
 #findJobPage .search-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    width: 1000px;
-    margin: 20px auto;
+    width: 1000px; 
+    margin: 20px auto; 
 }
 
 /* Container for search box and icon */
 #findJobPage .search-box-container {
     position: relative;
-    width: 29%;
+    width: 50%; 
 }
 
 /* Location search box (Adjust width here) */
 #findJobPage .search-container .search-box-container:last-child {
-    width: 35%;
-    margin-left: 20px;
-    /* for adjusting to the right */
+    width: 50%; 
+    margin-left: 12px; /* Reduced from 20px to 10px */
 }
+
 
 /* Style for both search boxes */
 #findJobPage .search-box {
     width: 100%;
-    padding: 12px 12px 12px 50px;
-    /* space for the icon */
+    padding: 12px 12px 12px 40px; /* Increased left padding from 30px to 40px */
     border: 1px solid #ccc;
     border-radius: 15px;
     font-size: 14px;
-    background-color: #D9D9D9;
+    background-color: rgba(255, 255, 255, 0.4); /* 80% opacity */
+    transition: background-color 0.3s ease-in-out;
     color: black;
-    box-sizing: border-box;
-    text-align: left;
+    box-sizing: border-box; 
+    text-align: left; 
 }
+
 
 /* Style for the magnifying glass icon */
 #findJobPage .ph-magnifying-glass {
@@ -769,33 +770,30 @@ nav {
     color: #317539;
     position: absolute;
     top: 50%;
-    left: 20px;
+    left: 10px;
     transform: translateY(-50%);
 }
 
 /* Style for the GPS icon inside Location search box */
 #findJobPage .ph-gps-fix {
-    font-size: 20px;
-    color: #317539;
+    font-size: 20px; 
+    color: #317539; 
     position: absolute;
-    top: 50%;
-    /* center the icon vertically */
-    left: 20px;
-    /* icon inside the search box */
+    top: 50%; /* center the icon vertically */
+    left: 10px; /* icon inside the search box */
     transform: translateY(-50%);
 }
 
 /* "Search Job" placeholder */
 #findJobPage .search-box:first-child::placeholder {
     text-align: left;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 /* "Location" placeholder */
 #findJobPage .search-box:last-child::placeholder {
     text-align: left;
-    padding-left: 10px;
-    /* space for the GPS icon */
+    padding-left: 20px; /* space for the GPS icon */
 }
 
 /* Hide placeholder when the input is focused */
