@@ -14,6 +14,8 @@
     // Initialize variables
     $jobTitle = $businessName = $description = $jobLocation = $salaryRange = $qualifications = $employmentType = "";
     $requireResume = false;
+    $categories = isset($categories) ? $categories : ""; 
+    $categoryOther = isset($categoryOther) ? $categoryOther : "";
     $success_message = $error_message = "";
 
     // Get user ID from session
@@ -55,40 +57,24 @@
         $qualifications = sanitize_input($_POST["qualifications"]);
         $employmentType = sanitize_input($_POST["employmentType"]);
         $requireResume = isset($_POST["cvRequired"]) ? 1 : 0;
-
+    
+        // Process job categories (checkboxes)
+        $categories = isset($_POST['jobCategories']) ? implode(",", $_POST['jobCategories']) : "";
+    
+        // Handle "Other" category
+        $categoryOther = isset($_POST["categoryOther"]) ? sanitize_input($_POST["categoryOther"]) : "";
+    
         // Validate required fields
         if (empty($jobTitle) || empty($description) || empty($qualifications)) {
-            $error_message = "Job title, description, and qualifications are required";
+            $error_message = "Job title, description, and qualifications are required.";
         } else {
             try {
-                // First, check if we need to alter the table to add missing columns
-                try {
-                    // Check if columns exist before adding them
-                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'jobLocation'");
-                    if ($stmt->rowCount() == 0) {
-                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN jobLocation VARCHAR(255)");
-                    }
-                    
-                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'salaryRange'");
-                    if ($stmt->rowCount() == 0) {
-                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN salaryRange VARCHAR(255)");
-                    }
-                    
-                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'employmentType'");
-                    if ($stmt->rowCount() == 0) {
-                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN employmentType VARCHAR(50)");
-                    }
-                } catch (PDOException $e) {
-                    // If we can't alter the table, we'll insert without these columns
-                    $error_message = "Warning: Could not add new columns. Some job details may not be saved.";
-                }
-                
-                // Now insert the job posting
+                // Insert job posting into database
                 $stmt = $pdo->prepare("
                     INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
-                                           jobLocation, salaryRange, employmentType) 
+                                           jobLocation, salaryRange, employmentType, category, categoryOther) 
                     VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Open',
-                           :jobLocation, :salaryRange, :employmentType)
+                           :jobLocation, :salaryRange, :employmentType, :category, :categoryOther)
                 ");
                 $stmt->bindParam(":businessId", $businessId, PDO::PARAM_INT);
                 $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
@@ -98,8 +84,10 @@
                 $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
                 $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
                 $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
+                $stmt->bindParam(":category", $categories, PDO::PARAM_STR);
+                $stmt->bindParam(":categoryOther", $categoryOther, PDO::PARAM_STR);
                 $stmt->execute();
-
+    
                 $success_message = "Job posting created successfully!";
             } catch (PDOException $e) {
                 $error_message = "Error posting job: " . $e->getMessage();
@@ -207,6 +195,26 @@
                         <label for="cvRequired">Check if CV is required</label>
                         <input type="checkbox" id="cvRequired" name="cvRequired" <?php echo $requireResume ? 'checked' : ''; ?>>
                     </div>
+                    <div> <!-- pls edit styling-->
+                        <label for="jobCategories">Category</label><br>
+                        
+                        <input type="checkbox" id="Service" name="jobCategories[]" value="Service" 
+                            <?php echo (strpos($categories, 'Service') !== false) ? 'checked' : ''; ?>>
+                        <label for="service">Service</label><br>
+
+                        <input type="checkbox" id="Housework" name="jobCategories[]" value="Housework" 
+                            <?php echo (strpos($categories, 'Housework') !== false) ? 'checked' : ''; ?>>
+                        <label for="housework">Housework</label><br>
+
+
+                        <input type="checkbox" id="Others" name="jobCategories[]" value="Others"
+                            <?php echo (strpos($categories, 'Others') !== false) ? 'checked' : ''; ?>>
+                        <label for="others">Others</label><br>
+
+                        <input type="text" id="categoryOther" name="categoryOther" placeholder="Specify other category"
+                            value="<?php echo htmlspecialchars($categoryOther); ?>">
+                    </div>
+
                 </div>
             </div>
         
