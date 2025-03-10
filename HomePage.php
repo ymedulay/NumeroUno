@@ -24,12 +24,12 @@ try {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>NumeroUno</title>
+	<link rel="icon" href="img/numerouno.png" type="image/x-icon">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 	<link href="./styles.css" rel="stylesheet">
 </head>
 
 <body id="homePage" class="home-page">
-
 	<!-- Navigation Bar -->
 	<nav>
 		<div class="logo">
