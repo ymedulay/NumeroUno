@@ -1,3 +1,4 @@
+
 // Scroll animation for elements
 document.addEventListener('DOMContentLoaded', function() {
   // Create an intersection observer
