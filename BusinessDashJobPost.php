@@ -1,3 +1,118 @@
+<?php
+    // Start session to access user data
+    session_start();
+
+    // Include database configuration
+    require_once "config.php"; // Ensure this file correctly sets up $pdo
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    // Initialize variables
+    $jobTitle = $businessName = $description = $jobLocation = $salaryRange = $qualifications = $employmentType = "";
+    $requireResume = false;
+    $success_message = $error_message = "";
+
+    // Get user ID from session
+    $userId = intval($_SESSION['user_id']); 
+    $businessId = null;
+
+    // Debug: Check session ID
+    if ($userId == 0) {
+        die("Error: Invalid session ID.");
+    }
+
+    try {
+        // First, get the business ID associated with this user
+        $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :userId");
+        $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $businessId = $row['id']; // Get the actual business ID
+            $businessName = $row['businessName'];
+        } else {
+            $businessName = "No Business Profile Found";
+            $error_message = "You need to create a business profile before posting jobs.";
+            echo "Debug: No business found for user ID: " . $userId;
+        }
+    } catch (PDOException $e) {
+        $businessName = "Error retrieving business information";
+        echo "Database Error: " . $e->getMessage();
+    }
+
+    // Process form when submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
+        // Sanitize inputs
+        $jobTitle = sanitize_input($_POST["jobTitle"]);
+        $description = sanitize_input($_POST["description"]);
+        $jobLocation = sanitize_input($_POST["jobLocation"]);
+        $salaryRange = sanitize_input($_POST["salaryRange"]);
+        $qualifications = sanitize_input($_POST["qualifications"]);
+        $employmentType = sanitize_input($_POST["employmentType"]);
+        $requireResume = isset($_POST["cvRequired"]) ? 1 : 0;
+
+        // Validate required fields
+        if (empty($jobTitle) || empty($description) || empty($qualifications)) {
+            $error_message = "Job title, description, and qualifications are required";
+        } else {
+            try {
+                // First, check if we need to alter the table to add missing columns
+                try {
+                    // Check if columns exist before adding them
+                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'jobLocation'");
+                    if ($stmt->rowCount() == 0) {
+                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN jobLocation VARCHAR(255)");
+                    }
+                    
+                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'salaryRange'");
+                    if ($stmt->rowCount() == 0) {
+                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN salaryRange VARCHAR(255)");
+                    }
+                    
+                    $stmt = $pdo->query("SHOW COLUMNS FROM JobPosting LIKE 'employmentType'");
+                    if ($stmt->rowCount() == 0) {
+                        $pdo->exec("ALTER TABLE JobPosting ADD COLUMN employmentType VARCHAR(50)");
+                    }
+                } catch (PDOException $e) {
+                    // If we can't alter the table, we'll insert without these columns
+                    $error_message = "Warning: Could not add new columns. Some job details may not be saved.";
+                }
+                
+                // Now insert the job posting
+                $stmt = $pdo->prepare("
+                    INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
+                                           jobLocation, salaryRange, employmentType) 
+                    VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Open',
+                           :jobLocation, :salaryRange, :employmentType)
+                ");
+                $stmt->bindParam(":businessId", $businessId, PDO::PARAM_INT);
+                $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
+                $stmt->bindParam(":description", $description, PDO::PARAM_STR);
+                $stmt->bindParam(":qualifications", $qualifications, PDO::PARAM_STR);
+                $stmt->bindParam(":requireResume", $requireResume, PDO::PARAM_BOOL);
+                $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
+                $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
+                $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
+                $stmt->execute();
+
+                $success_message = "Job posting created successfully!";
+            } catch (PDOException $e) {
+                $error_message = "Error posting job: " . $e->getMessage();
+            }
+        }
+    }
+
+    // Function to sanitize form inputs
+    function sanitize_input($data) {
+        return htmlspecialchars(stripslashes(trim($data)));
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,9 +143,9 @@
                 <li class="dropdown">
                     <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.html">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.html">Manage Profile</a></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
+                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
+                        <li><a href="logout.php">Logout</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -52,7 +167,7 @@
             <li><a href="BusinessDashboard.php">My Dashboard</a></li>
             <li><a href="BusinessDashManageProfile.php">Manage Business Profile</a></li>
             <li><a href="BusinessDashJobPost.php">Post Job Posting</a></li>
-            <li><a href="BusinessDashPostManager.php">Post Management</a></li> <!-- Fixed filename -->
+            <li><a href="BusinessDashPostManage.php">Post Management</a></li>
         </ul>
     </div>
     
@@ -60,25 +175,37 @@
     <div class="main-content-wrapper">
         <div class="page-content">
             <h1>Post Job Postings</h1>
+            
+            <?php if(!empty($success_message)): ?>
+            <div class="alert success">
+                <?php echo $success_message; ?>
+            </div>
+            <?php endif; ?>
+            
+            <?php if(!empty($error_message)): ?>
+            <div class="alert error">
+                <?php echo $error_message; ?>
+            </div>
+            <?php endif; ?>
         </div>
 
-        <form class="profile-form">
+        <form class="profile-form" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="form-section-container">
                 <h2>Job Information</h2>
                 <div class="form-grid two-columns">
                     <div>
                         <label for="jobTitle">Job Title</label>
-                        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" required>
+                        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" value="<?php echo $jobTitle; ?>" required>
                     </div>
                     <div>
                         <label for="businessName">Business Name</label>
-                        <input type="text" id="businessName" name="businessName" placeholder="Business Name" required>
+                        <input type="text" id="businessName" name="businessName" placeholder="Business Name" value="<?php echo $businessName; ?>" required readonly>
                     </div>
                     <div>
                         <label for="description">Job Description:</label>
-                        <textarea id="description" name="description" placeholder="Type your Job description here..." rows="4" required></textarea>
+                        <textarea id="description" name="description" placeholder="Type your Job description here..." rows="4" required><?php echo $description; ?></textarea>
                         <label for="cvRequired">Check if CV is required</label>
-                        <input type="checkbox" id="cvRequired" name="cvRequired">
+                        <input type="checkbox" id="cvRequired" name="cvRequired" <?php echo $requireResume ? 'checked' : ''; ?>>
                     </div>
                 </div>
             </div>
@@ -87,31 +214,31 @@
                 <div class="form-grid two-columns">
                     <div>
                         <label for="jobLocation">Job Location</label>
-                        <input type="text" id="jobLocation" name="jobLocation" placeholder="e.g Barangay Concepcion Uno, Marikina City " required>
+                        <input type="text" id="jobLocation" name="jobLocation" placeholder="e.g Barangay Concepcion Uno, Marikina City" value="<?php echo $jobLocation; ?>" required>
                     </div>
                     <div>
                         <label for="salaryRange">Salary Range</label>
-                        <input type="text" id="salaryRange" name="salaryRange" placeholder="₱10,000 - ₱15,000" required>
+                        <input type="text" id="salaryRange" name="salaryRange" placeholder="₱10,000 - ₱15,000" value="<?php echo $salaryRange; ?>" required>
                     </div>
                     <div>
                         <label for="qualifications">Qualifications</label>
-                        <textarea id="qualifications" name="qualifications" placeholder="Type your Job qualifications here..." rows="3" required></textarea>
+                        <textarea id="qualifications" name="qualifications" placeholder="Type your Job qualifications here..." rows="3" required><?php echo $qualifications; ?></textarea>
                     </div>
                     <div>
                         <label for="employmentType">Employment Type</label>
                         <select id="employmentType" name="employmentType" required>
-                            <option value="">Select</option>
-                            <option value="full-time">Full-Time</option>
-                            <option value="part-time">Part-Time</option>
-                            <option value="contract">Contract</option>
+                            <option value="" <?php echo empty($employmentType) ? 'selected' : ''; ?>>Select</option>
+                            <option value="Full-Time" <?php echo $employmentType == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
+                            <option value="Part-Time" <?php echo $employmentType == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
+                            <option value="Contract" <?php echo $employmentType == 'Contract' ? 'selected' : ''; ?>>Contract</option>
                         </select>
                     </div>
                 </div>
             </div>
+            <button type="submit" class="submit-btn">Post</button>
         </form>
-        <button type="submit" class="submit-btn">Post</button>
-        </div>
     </div>
+    
     <script>
         function toggleDropdown(id) {
             let dropdown = document.getElementById(id);
@@ -137,6 +264,5 @@
         };
     </script>
     
-    </body>
-    
-    </html>
+</body>
+</html>
