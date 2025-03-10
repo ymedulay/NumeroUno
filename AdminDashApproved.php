@@ -1,22 +1,25 @@
 <?php
-// Start the session
-session_start();
+    // Start the session
+    session_start();
 
-// Check if the admin is logged in
-if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) { 
-    // Redirect to login or another page if the user is not an admin (role_id = 1)
-    header("Location: LoginPage.php");
-    exit();
+    // Check if the admin is logged in
+    if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) { 
+        // Redirect to login or another page if the user is not an admin (role_id = 1)
+        header("Location: LoginPage.html");
+        exit();
 }
 
 // Include the database connection file
 require 'config.php'; 
 
-// Fetch approved job postings (status = 'Open')
-$sql = "SELECT * FROM JobPosting WHERE status = 'Open'";
+$sql = "SELECT jp.*, b.businessName 
+        FROM JobPosting jp
+        INNER JOIN Business b ON jp.businessId = b.id
+        WHERE jp.status = 'Open'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -124,16 +127,15 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (count($result) > 0) {
                 // Loop through each job posting and display them
                 foreach ($result as $row) {
-                    $businessName = $row['business_name'];  // Assuming there's a business_name column
-                    $companyDesc = $row['company_desc'];    // Assuming there's a company_desc column
-                    $jobPosition = $row['job_position'];    // Assuming there's a job_position column
+                    $businessName = $row['businessName'];  
+                    $companyDesc = $row['jobDescription'];    
             ?>
                 <div class="job-container">
                     <i class="ph ph-user-circle"></i>
                     <div class="job-details">
                         <p class="company-name"><strong><?php echo htmlspecialchars($businessName); ?></strong></p>
                         <p class="company-desc"><?php echo htmlspecialchars($companyDesc); ?></p>
-                        <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($jobPosition); ?></p>
+                        <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobPosition'] ?? 'N/A'); ?></p>
                     </div>
                     <div class="job-actions">
                         <button class="accepted-btn">ACCEPTED</button>
