@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Dashboard - NumeroUno</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body id="applicant-dash-main">
+    <nav>
+        <div class="logo">
+            <img src="numerouno.png" alt="Numero Uno Logo">
+        </div>
+        <div class="nav-left">
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="FindJobPage.html">Find Job</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
+                    <ul class="dropdown-menu" id="userDropdown">
+                        <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
+                        <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
+                    <ul class="dropdown-menu" id="settingsDropdown">
+                        <li><a href="AboutUs.html">About Us</a></li>
+                        <li><a href="ContactUs.html">Contact Us</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="admin-sidebar">
+        <p class="admin-dashb">Applicant Dashboard</p>
+        <ul>
+            <li><a href="ApplicantDashboard.html">My Dashboard</a></li>
+            <li><a href="ApplicantDashboardManageProfile.html">Manage My Profile</a></li>
+            <li><a href="ApplicantDashboardApplicationStatus.html">Application Status</a></li>
+            <li><a href="ApplicantDashboardAccountManagement.html">Account Management</a></li>
+        </ul>
+    </div>
+    <div class="page-content">
+        <h1>Applicant Dashboard</h1>
+        <div class="profile-section">
+            <img src="ProfilePic.jpg" alt="User Profile Picture">
+            <h2>User Name</h2>
+        </div>
+        <div class="info-section">
+            <div class="info-box">
+                <h2>User Information</h2>
+                <div class="user-info-container">
+                    <div class="user-info-left">
+                        <p><strong>First Name:</strong> [User First Name]</p>
+                        <p><strong>Middle Initial:</strong> [User Middle Initial]</p>
+                    </div>
+                    <div class="user-info-right">
+                        <p><strong>Last Name:</strong> [User Last Name]</p>
+                        <p><strong>Email:</strong> [User Email]</p>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="info-box">
+                <h2>Educational Background</h2>
+                <p><strong>Highest Degree:</strong> [User Degree]</p>
+            </div>
+            <div class="info-box">
+                <h2>Job Experience</h2>
+                <div class="user-info-container">
+                    <div class="user-info-left">
+                        <p><strong>Company:</strong> [Company Name]</p>
+                    </div>
+                    <div class="user-info-right">
+                        <p><strong>Job Title:</strong> [Job Title]</p>
+                    </div>
+                </div>
+            </div>
+            
+    <script>
+        function toggleDropdown(id) {
+            let dropdown = document.getElementById(id);
+            let allDropdowns = document.querySelectorAll('.dropdown-menu');
+            allDropdowns.forEach(menu => {
+                if (menu !== dropdown) menu.classList.remove("show");
+            });
+            dropdown.classList.toggle("show");
+        }
+        window.onclick = function (event) {
+            if (!event.target.matches('.ph')) {
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+
+</html>
