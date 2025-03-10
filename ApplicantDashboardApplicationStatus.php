@@ -1,26 +1,37 @@
 <?php
 session_start();
-require 'config.php'; // Database connection
+require_once "config.php";
 
-// Redirect if user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    header(header: "Location: LoginPage.php");
+// Check if user is logged in
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
+    die("Access Denied. Please log in.");
+}
+
+// Restrict access based on role
+$roleId = $_SESSION['role_id'];
+$pageRole = 3; // Role ID for applicants
+
+if ($roleId != $pageRole) {
+    echo "Access denied.";
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+// Fetch user data from the database
+$userId = $_SESSION['user_id'];
 
 // Fetch applied jobs for the logged-in user
-$stmt = $pdo->prepare(query: "
-    SELECT a.id, j.job_title, j.business_name, a.status
-    FROM applications a
-    JOIN jobs j ON a.job_id = j.id
-    WHERE a.user_id = ?
-    ORDER BY a.created_at DESC
+$stmt = $pdo->prepare("
+    SELECT ja.id, jp.jobTitle, b.businessName, ja.status
+    FROM jobapplication ja
+    JOIN jobposting jp ON ja.jobPostingId = jp.id
+    JOIN business b ON jp.businessId = b.id
+    WHERE ja.applicantId = ?
+    ORDER BY ja.dateApplied DESC
 ");
-$stmt->execute(params: [$user_id]);
+$stmt->execute([$userId]);
 $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" id="application-status-page">
