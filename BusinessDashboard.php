@@ -1,37 +1,37 @@
 <?php
-session_start();
-require_once "config.php"; // Ensure database connection is included
+    session_start();
+    require_once "config.php"; // Ensure database connection is included
 
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
-    die("Access Denied. Please log in.");
-}
+    if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
+        die("Access Denied. Please log in.");
+    }
 
-// Restrict access based on role
-$roleId = $_SESSION['role_id'];
-$pageRole = 2; 
+    // Restrict access based on role
+    $roleId = $_SESSION['role_id'];
+    $pageRole = 2; 
 
-if ($roleId != $pageRole) {
-    echo "Access denied.";
-    exit();
-}
+    if ($roleId != $pageRole) {
+        echo "Access denied.";
+        exit();
+    }
 
-// Fetch business details
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT businessName, contactEmail, phoneNumber  
-        FROM Business 
-        WHERE userId = :user_id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-$stmt->execute();
-$business = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Fetch business details
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT businessName, contactEmail, phoneNumber  
+            FROM Business 
+            WHERE userId = :user_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $business = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Assign fetched values to variables
-$businessName = $business['businessName'] ?? "Unknown";
-$address = $business['address'] ?? "Not provided";
-$contact = $business['phoneNumber'] ?? "Not provided";
-$email = $business['contactEmail'] ?? "Not provided";
-$businessType = $business['business_type'] ?? "N/A";
-$description = $business['description'] ?? "No description available";
+    // Assign fetched values to variables
+    $businessName = $business['businessName'] ?? "Unknown";
+    $address = $business['address'] ?? "Not provided";
+    $contact = $business['phoneNumber'] ?? "Not provided";
+    $email = $business['contactEmail'] ?? "Not provided";
+    $businessType = $business['business_type'] ?? "N/A";
+    $description = $business['description'] ?? "No description available";
 ?>
 
 <!DOCTYPE html>

@@ -28,8 +28,8 @@
                 <li class="dropdown">
                     <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.html">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.html">Manage Profile</a></li>
+                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
+                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
                         <li><a href="#">Logout</a></li>
                     </ul>
                 </li>
