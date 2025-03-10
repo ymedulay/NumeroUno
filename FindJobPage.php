@@ -143,12 +143,6 @@ try {
                         style="display: <?php echo ($category === 'Others') ? 'block' : 'none'; ?>;"
                         value="<?php echo htmlspecialchars($otherCategory); ?>">
                 </label>
-                <p>Experience Level</p>
-                <div class="experience-level">
-                    <?php for ($i = 1; $i <= 5; $i++) { ?>
-                        <label><input type="radio" name="experience" value="<?php echo $i; ?>" <?php echo ($experience == $i) ? 'checked' : ''; ?>> <?php echo $i; ?></label>
-                    <?php } ?>
-                </div>
                 <button type="button" class="clear-all-btn" onclick="clearSelections()">Clear All</button>
             </div>
             <div class="job-postings">
