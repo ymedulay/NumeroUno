@@ -4,14 +4,14 @@ require 'config.php'; // Database connection
 
 // Redirect if user is not logged in
 if (!isset($_SESSION['user_id'])) {
-    header(header: "Location: LoginPage.php");
+    header("Location: LoginPage.php");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
 // Fetch user details
-$stmt = $pdo->prepare("SELECT email, recovery_email, recovery_contact FROM User WHERE id = ?");
+$stmt = $pdo->prepare("SELECT email, password, recovery_email, recovery_contact FROM user WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -19,17 +19,24 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['save_changes'])) {
         $email = $_POST['email'];
-        $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['password'];
-        $recovery_email = $_POST['recovery_email'] ?? null;
-        $recovery_contact = $_POST['recovery_contact'] ?? null;
+        $new_password = $_POST['password'];
+        $recovery_email = isset($_POST['recovery_email']) ? $_POST['recovery_email'] : null;
+        $recovery_contact = isset($_POST['recovery_contact']) ? $_POST['recovery_contact'] : null;
 
-        $stmt = $pdo->prepare("UPDATE User SET email = ?, password = ?, recovery_email = ?, recovery_contact = ? WHERE id = ?");
+        // If a new password is provided, hash it. Otherwise, keep the old password.
+        $password = !empty($new_password) ? password_hash($new_password, PASSWORD_DEFAULT) : $user['password'];
+
+        // Update the user record
+        $stmt = $pdo->prepare("UPDATE user SET email = ?, password = ?, recovery_email = ?, recovery_contact = ? WHERE id = ?");
         $stmt->execute([$email, $password, $recovery_email, $recovery_contact, $user_id]);
 
         echo "<script>alert('Changes saved successfully!'); window.location.href='ApplicantDashboardAccountManagement.php';</script>";
     } elseif (isset($_POST['delete_account'])) {
-        $stmt = $pdo->prepare("DELETE FROM User WHERE id = ?");
+        // Delete the user account
+        $stmt = $pdo->prepare("DELETE FROM user WHERE id = ?");
         $stmt->execute([$user_id]);
+
+        // Destroy session and redirect
         session_destroy();
         echo "<script>alert('Your account has been deleted.'); window.location.href='HomePage.php';</script>";
         exit();
@@ -39,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en" id="account-management-page">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
-
 <body>
     <nav>
         <div class="logo">
@@ -92,11 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
     </div>
 
-    <!-- Main Content with Containers -->
+    <!-- Main Content -->
     <div class="main-content">
         <h1>Account Management</h1>
 
-        <!-- Account Security Container with Save Button -->
+        <!-- Account Security -->
         <form method="POST">
             <div class="account-container">
                 <h3>Account Security</h3>
@@ -110,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="recovery-options">
                     <div class="checkbox-group">
                         <label>
-                            <input type="checkbox" name="recovery_email" <?= $user['recovery_email'] ? 'checked' : '' ?>>
+                            <input type="checkbox" name="recovery_email" value="<?= htmlspecialchars($user['recovery_email'] ?? '') ?>" <?= !empty($user['recovery_email']) ? 'checked' : '' ?>>
                             Recovery Email Address
                         </label>
                         <input type="email" name="recovery_email" value="<?= htmlspecialchars($user['recovery_email'] ?? '') ?>">
@@ -118,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="checkbox-group">
                         <label>
-                            <input type="checkbox" name="recovery_contact" <?= $user['recovery_contact'] ? 'checked' : '' ?>>
+                            <input type="checkbox" name="recovery_contact" value="<?= htmlspecialchars($user['recovery_contact'] ?? '') ?>" <?= !empty($user['recovery_contact']) ? 'checked' : '' ?>>
                             Recovery Contact No.
                         </label>
                         <input type="text" name="recovery_contact" value="<?= htmlspecialchars($user['recovery_contact'] ?? '') ?>">
@@ -129,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
-        <!-- Account Deletion Container -->
+        <!-- Account Deletion -->
         <form method="POST">
             <div class="account-container delete-container">
                 <div class="delete-content">
@@ -167,5 +172,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
     </script>
 </body>
-
 </html>
