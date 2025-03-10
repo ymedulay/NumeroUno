@@ -71,16 +71,16 @@ nav {
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
-    transition: background-color 0.3s;
-
+    transition: 0.3s;
     margin-right: 20px;
     /* Moves it left */
+    cursor: pointer;
 }
 
 .find-jobs-btn:hover {
     background-color: #255b2f;
+    box-shadow: 0 0 0 5px #5c8b65;
     color: white;
-    /* Darker green on hover */
 }
 
 /* Menu Icon */
@@ -296,7 +296,6 @@ nav {
 #homePage .search-box {
     width: 100%;
     padding: 12px 12px 12px 45px;
-    /* Adjusted padding for icon */
     border: none;
     border-radius: 35px;
     font-size: 14px;
@@ -308,6 +307,14 @@ nav {
 /* Placeholder Styling */
 #homePage .search-box::placeholder {
     color: gray;
+    transition: opacity 0.2s ease-in-out;
+    /* Smooth transition for disappearing */
+}
+
+/* Hide Placeholder on Focus */
+#homePage .search-box:focus::placeholder {
+    opacity: 0;
+    /* Makes the placeholder disappear */
 }
 
 /* Focus Effect */
@@ -333,7 +340,7 @@ nav {
     margin-bottom: 80px;
 }
 
-/* 📌 "How It Works" Section - Fixed Height & Side by Side */
+/* How It Works Section */
 .how-it-works {
     background-color: #ffffff;
     width: 100vw;
@@ -341,33 +348,32 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-/* Container */
-.how-it-works-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-/* Title */
-.how-it-works h2 {
-    font-size: 32px;
-    /* Slightly smaller */
-    color: #255b2f;
-    margin-bottom: 40px;
-    font-weight: 600;
-    text-transform: uppercase;
+    opacity: 0;
+    /* Start hidden */
+    animation: fadeInUpwards 0.8s ease-out forwards;
+    /* Apply animation */
+    animation-delay: 0.5s;
+    /* Delay to sync with other animations */
 }
 
 /* Steps - Fixed Grid (Side by Side) */
 .steps-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* Always side by side */
     gap: 30px;
     justify-content: center;
     align-items: start;
+}
+
+/* Title - Center Align */
+.how-it-works h2 {
+    font-size: 32px;
+    color: #255b2f;
+    margin-bottom: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    /* Center align the text */
 }
 
 /* Step Box */
@@ -376,13 +382,11 @@ nav {
     padding: 30px;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.step:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    /* Start hidden */
+    animation: fadeInUpwards 0.8s ease-out forwards;
+    animation-delay: 0.7s;
+    /* Delayed effect for each step */
 }
 
 /* Icons */
@@ -408,128 +412,121 @@ nav {
 }
 
 
-/* Recent Job Postings Section */
-#homePage .homepage-job-postings {
-    width: 100%;
-    margin-top: 2.5rem;
-    padding: 30px;
-    animation: fadeIn 1.2s ease-out;
-}
-
-/* Fade-In Animation for the whole section */
-@keyframes fadeIn {
-    0% {
+/* Keyframes for Fade-In-Upwards Animation */
+@keyframes fadeInUpwards {
+    from {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(30px);
     }
 
-    100% {
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-#homePage .homepage-job-postings h2 {
-    font-size: 28px;
-    color: #317539;
-    /* Green text */
-    font-weight: 700;
-    padding-left: 28rem;
-    margin-bottom: 3rem;
+/* Hide elements initially */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Apply animation when visible */
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInUpwards 0.8s ease-out forwards;
 }
 
 
-/* Grid Layout for Job Postings (Vertical > Grid Layout) */
-/* Sam Added */
-#homePage .job-postings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    /* Adjusts dynamically */
-    gap: 3rem;
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 1rem;
-    margin-left: 28rem;
-}
-
-/* RJP Containers Style */
-/* Sam Edited */
-#homePage .job-card {
-    background-color: #FFFCFC;
-    padding: 15px;
+/* Recent Job Postings Section */
+.homepage-job-postings {
+    background-color: #C9DACB;
+    padding: 30px 5%;
     border-radius: 10px;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-    height: 20vh;
-}
-
-#homePage .job-card h3 {
-    margin: 0;
-    font-size: 30px;
-    color: #317539;
-    padding-top: 3rem;
-    padding-left: 4rem;
-}
-
-#homePage .job-card p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #333;
-    text-align: left;
-    padding-left: 4rem;
-}
-
-/* Hover Effect */
-/* Sam Added */
-#homePage .job-card:hover {
-    transform: translateY(-5px);
-}
-
-/* View More Button */
-#homePage .view-more {
-    width: 100px;
-    padding: 10px;
-    background-color: #CFB108;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    margin-top: 5rem;
-    /* Consistent margin */
-    display: block;
-    font-family: 'Inter', sans-serif;
-    transition: background-color 0.3s ease;
     text-align: center;
-    text-decoration: none;
-    margin-left: 56.5rem;
+    margin-bottom: 40px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: none;
+    /* Removed shadow */
+    border: none;
+    /* Ensure no border is adding an effect */
 }
 
-#homePage .view-more:hover {
+.homepage-job-postings h2 {
+    text-align: left;
+    color: #255b2f;
+    font-size: 22px;
+    margin-bottom: 40px;
+    margin-left: 22.5%;
+}
+
+.job-postings-grid {
+    display: flex;
+    gap: 40px;
+    /* Increased gap between job cards */
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.job-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.job-card h3 {
+    font-size: 18px;
+    color: #317539;
+    margin-bottom: 5px;
+}
+
+.job-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.view-more {
     background-color: #317539;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+    /* Increased margin-top for better spacing */
+    margin-left: 50%;
+    /* Align to the left with padding from the side */
+    text-align: left;
+    /* Align text inside button to the left */
 }
 
-/* If you need to adjust for anchor tags specifically */
-#homePage a {
-    text-decoration: none;
-    /* Removes underline from the <a> */
+.view-more:hover {
+    background-color: #CFB108;
+    box-shadow: 0 0 0 5px #daca70;
+    color: white;
 }
 
-
-/* Responsive Adjustments */
-@media (max-width: 1024px) {
-    #homePage .job-postings-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* Show 2 per row on medium screens */
-    }
-}
-
-@media (max-width: 768px) {
-    #homePage .job-postings-grid {
-        grid-template-columns: 1fr;
-        /* Stack in a single column on smaller screens */
-    }
-}
 
 /* FOOTER */
 
