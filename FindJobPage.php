@@ -1,43 +1,93 @@
 <?php
 session_start();
+require_once "config.php";
+
+// Initialize filter variables
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$location = isset($_GET['location']) ? $_GET['location'] : '';
+$category = isset($_GET['category']) ? $_GET['category'] : '';
+$experience = isset($_GET['experience']) ? $_GET['experience'] : '';
+$otherCategory = isset($_GET['other_category']) ? $_GET['other_category'] : '';
+
+// Build the SQL query with dynamic filtering
+$sql = "SELECT jp.id, jp.jobTitle, b.businessName, jp.jobDescription, jp.salaryRange, jp.jobLocation, jp.employmentType, jp.requirements 
+        FROM jobposting jp 
+        JOIN business b ON jp.businessId = b.id
+        WHERE 1=1";
+$params = [];
+
+// Add search conditions
+if (!empty($search)) {
+    $sql .= " AND (jp.jobTitle LIKE ? OR jp.jobDescription LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+if (!empty($location)) {
+    $sql .= " AND jp.jobLocation LIKE ?";
+    $params[] = "%$location%";
+}
+
+// Handle category filtering through requirements or employmentType field
+if (!empty($category)) {
+    if ($category === "Service") {
+        $sql .= " AND (jp.employmentType = 'Service' OR jp.requirements LIKE ?)";
+        $params[] = "%Service%";
+    } else if ($category === "House work") {
+        $sql .= " AND (jp.employmentType = 'House work' OR jp.requirements LIKE ?)";
+        $params[] = "%House work%";
+    } else if ($category === "Others" && !empty($otherCategory)) {
+        $sql .= " AND (jp.employmentType LIKE ? OR jp.requirements LIKE ?)";
+        $params[] = "%$otherCategory%";
+        $params[] = "%$otherCategory%";
+    }
+}
+
+// Handle experience level filtering through requirements field
+if (!empty($experience)) {
+    $sql .= " AND jp.requirements LIKE ?";
+    $params[] = "%Experience Level: $experience%";
+}
+
+// Fetch job postings from the database
+try {
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching jobs: " . $e->getMessage());
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumeroUno</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
 
 <body id="findJobPage">
-
-     <!-- Navigation Bar -->
     <nav>
-        <!-- Logo -->
         <div class="logo">
             <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
         </div>
-
-        <!-- Left Navi Links (Home & Find Job) -->
         <div class="nav-left">
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
+                <li><a href="FindJobPage.php">Find Job</a></li>
             </ul>
         </div>
-
-		<!-- Right Navi Icons -->
         <div class="nav-right">
             <ul class="nav-links">
                 <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i> 
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-						<li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboardManageProfile.html">My Account</a></li>
+                        <li><a href="LoginPage.php">Log-In</a></li>
+                        <li><a href="AccountSelection.php">Sign-Up</a></li>
+                        <li><a href="ApplicantDashboardManageProfile.php">My Account</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -45,182 +95,139 @@ session_start();
                     <ul class="dropdown-menu" id="settingsDropdown">
                         <li><a href="AboutUs.html">About Us</a></li>
                         <li><a href="ContactUs.html">Contact Us</a></li>
-						<li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
     </nav>
-    <!-- End of Navi Bar -->
-
-    <!-- Phosphor Icons CDN -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- Dropdown Toggle Script -->
     <script>
         function toggleDropdown(id) {
-		document.querySelectorAll(".dropdown-menu").forEach(menu => {
-			if (menu.id !== id) menu.classList.remove("show");
-		});
-		document.getElementById(id).classList.toggle("show");
-	}
-
-
-       // Close dropdown if user clicks outside
-		window.onclick = function(event) {
-			if (!event.target.matches('.ph, .ph *')) {  // Adjust to allow clicking on the icon itself
-				let dropdowns = document.getElementsByClassName("dropdown-menu");
-				for (let i = 0; i < dropdowns.length; i++) {
-					let openDropdown = dropdowns[i];
-					if (openDropdown.classList.contains('show')) {
-						openDropdown.classList.remove('show');
-					}
-				}
-			}
-		}
+            document.querySelectorAll(".dropdown-menu").forEach(menu => {
+                if (menu.id !== id) menu.classList.remove("show");
+            });
+            document.getElementById(id).classList.toggle("show");
+        }
+        window.onclick = function(event) {
+            if (!event.target.matches('.ph, .ph *')) {
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
-
-	<!-- Search Boxes Below Navigation -->
-	<div class="search-container">
-		<div class="search-box-container">
-			<i class="ph ph-magnifying-glass"></i>
-			<input type="text" class="search-box" placeholder="Search Job">
-		</div>
-		<div class="search-box-container">
-			<input type="text" class="search-box" placeholder="Location">
-			<i class="ph ph-gps-fix"></i> <!-- Add the GPS icon here -->
-		</div>
-	</div>
-
-
-
-
-	<!-- LEFT & RIGHT PANELS -->
-	<div class="find-job-container">
-    <!-- Left Panel -->
-    <div class="vertical-panel">
-        <p>Categories</p>
-
-        <label>
-            <input type="radio" name="category" value="Service"> Service
-        </label>
-        <br>
-        <label>
-            <input type="radio" name="category" value="House work"> House work
-        </label>
-        <br>
-        <label>
-            <input type="radio" name="category" value="Others"> Others
-            <input type="text" placeholder="Please specify" id="other-category" style="display: none;">
-        </label>
-
-        <p>Experience Level</p>
-        <div class="experience-level">
-		<label>
-			<input type="radio" id="level1" name="experience" value="1">
-			1
-		</label>
-		<label>
-			<input type="radio" id="level2" name="experience" value="2">
-			2
-		</label>
-		<label>
-			<input type="radio" id="level3" name="experience" value="3">
-			3
-		</label>
-		<label>
-			<input type="radio" id="level4" name="experience" value="4">
-			4
-		</label>
-		<label>
-			<input type="radio" id="level5" name="experience" value="5">
-			5
-		</label>
-	</div>
-
-        <button class="clear-all-btn" onclick="clearSelections()">Clear All</button>
-    </div>
-
-    <!-- Right Panel (Job Postings) -->
-   <div class="job-postings">
-		<div class="job-posting">
-			<h3>Shoemaker</h3>
-			<p class="business-name">Marikina Handcrafted Shoes</p>
-			<p class="job-description">Help create high-quality handcrafted shoes, a local Marikina tradition.</p>
-			<p class="salary">₱₱₱ / month</p>
-			<a href="FindJobDetails.html" class="view-btn">View Here</a>
-		</div>
-
-		<div class="job-posting">
-			<h3>Barangay Health Worker</h3>
-			<p class="business-name">Barangay Health Center</p>
-			<p class="job-description">Assist in community health programs and provide medical aid to residents.</p>
-			<p class="salary">₱₱₱ / month</p>
-			<a href="FindJobDetails.html" class="view-btn">View Here</a>
-		</div>
-		
-		<div class="job-posting">
-				<h3>Food Vendor</h3>
-				<p class="business-name">Mang Juan's Street Eats</p>
-				<p class="job-description">Prepare and sell street food such as kwek-kwek, fish balls, and banana cue.</p>
-				<p class="salary">₱₱₱ / month</p>
-				<a href="FindJobDetails.html" class="view-btn">View Here</a>
-			</div>
-
-		<div class="job-posting household-helper">
-			<h3>Household Helper</h3>
-			<p class="business-name">Private Household</p>
-			<p class="job-description">Assist in household chores such as cleaning and cooking.</p>
-			<p class="salary">₱₱₱ / month</p>
-			<a href="FindJobDetails.html" class="view-btn">View Here</a>
-		</div>
-
-		<div class="job-posting">
-			<h3>Tricycle Driver</h3>
-			<p class="business-name">Local Transport Service</p>
-			<p class="job-description">Drive passengers safely around the community.</p>
-			<p class="salary">₱₱₱ / month</p>
-			<a href="FindJobDetails.html" class="view-btn">View Here</a>
-		</div>
-	</div>
-
-	</div>
-
-	<!-- SCRIPTS -->
-	<script>
-		// Show input field when "Others" is selected
-		const othersRadio = document.querySelector('input[value="Others"]');
-		const otherInput = document.getElementById('other-category');
-
-		othersRadio.addEventListener('change', function() {
-			if (this.checked) {
-				otherInput.style.display = 'block'; // Show the input box
-			}
-		});
-
-		// Hide the input field when another option is selected
-		document.querySelectorAll('input[name="category"]').forEach(radio => {
-			radio.addEventListener('change', function() {
-				if (this.value !== "Others") {
-					otherInput.style.display = 'none'; // Hide input box
-				}
-			});
-		});
-	</script>
-	<!-- for Clear All button -->
-	<script>
-    function clearSelections() {
-        // Get all radio buttons inside the horizontal panel
-        const radios = document.querySelectorAll('.vertical-panel input[type="radio"]');
+    
+    <form id="searchForm" action="FindJobPage.php" method="GET">
+        <div class="search-container">
+            <div class="search-box-container">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" class="search-box" name="search" placeholder="Search Job" value="<?php echo htmlspecialchars($search); ?>">
+            </div>
+            <div class="search-box-container">
+                <input type="text" class="search-box" name="location" placeholder="Location" value="<?php echo htmlspecialchars($location); ?>">
+                <i class="ph ph-gps-fix"></i>
+            </div>
+        </div>
+        <div class="find-job-container">
+            <div class="vertical-panel">
+                <p>Categories</p>
+                <label><input type="radio" name="category" value="Service" <?php echo ($category === 'Service') ? 'checked' : ''; ?>> Service</label><br>
+                <label><input type="radio" name="category" value="House work" <?php echo ($category === 'House work') ? 'checked' : ''; ?>> House work</label><br>
+                <label><input type="radio" name="category" value="Others" <?php echo ($category === 'Others') ? 'checked' : ''; ?>> Others
+                    <input type="text" name="other_category" placeholder="Please specify" id="other-category" 
+                        style="display: <?php echo ($category === 'Others') ? 'block' : 'none'; ?>;"
+                        value="<?php echo htmlspecialchars($otherCategory); ?>">
+                </label>
+                <button type="button" class="clear-all-btn" onclick="clearSelections()">Clear All</button>
+            </div>
+            <div class="job-postings">
+                <?php if (count($jobs) > 0) { ?>
+                    <?php foreach ($jobs as $job) { ?>
+                        <div class="job-posting">
+                            <h3><?php echo htmlspecialchars($job['jobTitle']); ?></h3>
+                            <p class="business-name"><?php echo htmlspecialchars($job['businessName']); ?></p>
+                            <p class="job-description"><?php echo htmlspecialchars($job['jobDescription']); ?></p>
+                            <p class="salary">₱<?php echo htmlspecialchars($job['salaryRange']); ?> / month</p>
+                            <a href="FindJobDetails.php?id=<?php echo $job['id']; ?>" class="view-btn">View Here</a>
+                        </div>
+                    <?php } ?>
+                <?php } else { ?>
+                    <div class="no-results">
+                        <p>No job postings found matching your criteria.</p>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </form>
+    
+    <script>
+        // Handle the "Others" category input display
+        const othersRadio = document.querySelector('input[value="Others"]');
+        const otherInput = document.getElementById('other-category');
         
-        // Deselect each radio button
-        radios.forEach(radio => {
-            radio.checked = false;
+        othersRadio.addEventListener('change', function() {
+            if (this.checked) {
+                otherInput.style.display = 'block';
+            }
         });
-    }
-</script>
-
-
-
+        
+        document.querySelectorAll('input[name="category"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value !== "Others") {
+                    otherInput.style.display = 'none';
+                }
+                submitSearch(); // Auto-submit when category changes
+            });
+        });
+        
+        // Auto-submit form when experience level changes
+        document.querySelectorAll('input[name="experience"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                submitSearch();
+            });
+        });
+        
+        // Function to clear all selections and refresh results
+        function clearSelections() {
+            document.querySelectorAll('.vertical-panel input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.getElementById('other-category').style.display = 'none';
+            document.getElementById('other-category').value = '';
+            document.querySelector('input[name="search"]').value = '';
+            document.querySelector('input[name="location"]').value = '';
+            
+            // Submit the form to refresh the results
+            document.getElementById('searchForm').submit();
+        }
+        
+        // Function to submit the search form
+        function submitSearch() {
+            document.getElementById('searchForm').submit();
+        }
+        
+        // Handle enter key press in search inputs
+        document.querySelectorAll('.search-box').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitSearch();
+                }
+            });
+        });
+        
+        // Handle enter key press in other-category input
+        document.getElementById('other-category').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitSearch();
+            }
+        });
+    </script>
 </body>
 </html>
