@@ -69,7 +69,7 @@ body {
     overflow: hidden;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    padding: 20px;
+    padding: 40px;
     border-radius: 50px;
 }
 
@@ -78,9 +78,30 @@ body {
 }
 
 #login-signin-page .top-section img {
-    width: 70%;
-    height: 180px;
-    object-fit: cover;
+    width: 40%;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+
+    animation: fadeInBounce 1.5s ease-in-out;
+}
+
+/* Keyframes for Logo Animation */
+@keyframes fadeInBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #login-signin-page .input-group {
@@ -229,3 +250,5 @@ body {
     font-size: 19pt;
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
+/*sam edited*/

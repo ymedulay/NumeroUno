@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,12 @@
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link rel="stylesheet" href="login-signin.css">
 </head>
+
 <body id="login-signin-page">
     <div class="container">
         <div class="login-card">
             <div class="top-section">
-                <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+                <img src="numerouno.png" alt="Numero Uno Logo">
             </div>
 
             <form action="process_login.php" method="POST">
@@ -23,23 +25,23 @@
                     <label for="email">EMAIL</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
-                
+
                 <div class="input-group">
                     <label for="password">PASSWORD</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
-            
+
                 <div class="forgot-password">
                     <a href="ForgotPassword.html" id="forgot-password">Forgot Password?</a>
                 </div>
-            
+
                 <button type="submit" class="submit-btn">LOG IN</button>
 
                 <div class="separator">
                     <hr>
                     <span>or</span>
                     <hr>
-                </div>  
+                </div>
 
                 <div class="social-signin-container">
                     <button type="button" class="social-signin google">
@@ -56,9 +58,15 @@
     </div>
 
     <script>
-        document.querySelector("form").addEventListener("submit", function(event) {
+        document.querySelector("form").addEventListener("submit", function (event) {
             console.log("Form submitted");
         });
     </script>
+
+    <script src="placeholder.js"></script>
+
 </body>
+
 </html>
+
+<!--Sam edited-->
