@@ -1,0 +1,213 @@
+<?php
+// Include database connection
+include 'config.php'; 
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $firstName = $_POST['first-name'];
+    $lastName = $_POST['last-name'];
+    $birthdate = $_POST['birthdate'];
+    $gender = $_POST['gender'];
+    $contact = $_POST['contact-number'];
+    $email = $_POST['email'];
+    $homeAddress = $_POST['home-address'];
+    $jobType = $_POST['job-type'];
+    $startDate = $_POST['start-date'];
+
+    // Handle CV upload
+    $cvName = $_FILES['cv-upload']['name'];
+    $cvTmpName = $_FILES['cv-upload']['tmp_name'];
+    $cvDestination = 'uploads/' . $cvName;
+    move_uploaded_file($cvTmpName, $cvDestination);
+
+    // Insert into database
+    $sql = "INSERT INTO job_applications (first_name, last_name, birthdate, gender, contact, email, address, job_type, start_date, cv)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssss", $firstName, $lastName, $birthdate, $gender, $contact, $email, $homeAddress, $jobType, $startDate, $cvName);
+    
+    if ($stmt->execute()) {
+        echo "<script>alert('Application submitted successfully!'); window.location.href='FindJobPage.php';</script>";
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumeroUno</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="./styles.css" rel="stylesheet">
+</head>
+	
+<body id="find-job-appli">
+
+	 <!-- Navigation Bar -->
+    <nav>
+        <!-- Logo -->
+        <div class="logo">
+            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+        </div>
+
+        <!-- Left Navi Links (Home & Find Job) -->
+        <div class="nav-left">
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="FindJobPage.html">Find Job</a></li>
+            </ul>
+        </div>
+
+		<!-- Right Navi Icons -->
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li class="dropdown">
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i> 
+                    <ul class="dropdown-menu" id="userDropdown">
+                        <li><a href="HomePage.html">Log-In</a></li>
+						<li><a href="AccountSelection.html">Sign-Up</a></li>
+                        <li><a href="ApplicantDashboardManageProfile.html">My Account</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
+                    <ul class="dropdown-menu" id="settingsDropdown">
+                        <li><a href="AboutUs.html">About Us</a></li>
+                        <li><a href="ContactUs.html">Contact Us</a></li>
+						<li><a href="FAQs.html">FAQs</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Navi Bar -->
+
+    <!-- Phosphor Icons CDN -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        function toggleDropdown(id) {
+		document.querySelectorAll(".dropdown-menu").forEach(menu => {
+			if (menu.id !== id) menu.classList.remove("show");
+		});
+		document.getElementById(id).classList.toggle("show");
+	}
+
+
+       // Close dropdown if user clicks outside
+		window.onclick = function(event) {
+			if (!event.target.matches('.ph, .ph *')) {  // Adjust to allow clicking on the icon itself
+				let dropdowns = document.getElementsByClassName("dropdown-menu");
+				for (let i = 0; i < dropdowns.length; i++) {
+					let openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
+			}
+		}
+    </script>
+
+	<!-- Horizontal Container with Text -->
+	<div class="horizontal-container">
+		<p>You are applying for <strong>*Job Position*</strong> at <strong>*Company Name*</strong>.</p>
+	</div>
+
+	<!-- Application Form Container -->
+	<div class="application-form">
+	    <h2 class="form-title">Job Application Form</h2>
+
+	<!-- Start of Form -->
+    <form action="submit_form.php" method="POST">
+	
+	    <!-- Name Fields -->
+	    <div class="name-container">
+	        <div class="input-group-name">
+	            <label for="first-name">First Name:</label>
+	            <input type="text" id="first-name" name="first-name" placeholder="ex. John" required>
+	        </div>
+	        <div class="input-group-name">
+	            <label for="last-name">Last Name:</label>
+	            <input type="text" id="last-name" name="last-name" placeholder="ex. Dela Cruz" required>
+	        </div>
+	    </div>
+		
+		<!-- Birthdate & Gender Fields -->
+        <div class="birth-gender-container">
+            <div class="input-group-birthgender">
+                <label for="birthdate">Birthdate:</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            <div class="input-group-birthgender">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="prefer-not">Prefer not to state</option>
+                </select>
+            </div>
+		</div>
+		
+		<!-- Contact & Email Fields -->
+		<div class="contact-email-container">
+			<div class="input-group-contactemail">
+				<label for="contact-number">Contact Number:</label>
+				<input type="tel" id="contact-number" name="contact-number" pattern="[0-9]{11}" placeholder="e.g., 09123456789" required>
+			</div>
+			<div class="input-group-contactemail">
+				<label for="email">Email Address:</label>
+				<input type="email" id="email" name="email" placeholder="e.g., example@email.com" required>
+			</div>
+		</div>
+		
+		<!-- Home Address Field -->
+		<div class="home-address-container">
+			<div class="input-group-homeaddress">
+				<label for="home-address">Home Address:</label>
+				<input type="text" id="home-address" name="home-address" placeholder="Enter your full address" required>
+			</div>
+		</div>
+		
+		<!-- Job Type & Available Start Date Fields -->
+		<div class="jobtype-startdate-container">
+			<div class="input-group-jobtype">
+				<label for="job-type">Job Type:</label>
+				<select id="job-type" name="job-type" required>
+					<option value="" disabled selected>Select job type</option>
+					<option value="part-time">Part-time</option>
+					<option value="full-time">Full-time</option>
+				</select>
+			</div>
+			<div class="input-group-jobtype">
+				<label for="start-date">Available Start Date:</label>
+				<input type="date" id="start-date" name="start-date" required>
+			</div>
+		</div>
+		
+		<!-- CV Upload Container -->
+		<div class="cv-upload-container">
+			<label for="cv-upload">Upload CV:</label>
+			<input type="file" id="cv-upload" name="cv-upload" accept=".pdf,.doc,.docx" required>
+		</div>
+
+		</form>
+
+			<!-- Submit Button (Bottom Left) -->
+			<div class="submit-container">
+				<button class="submit-btn" type="submit" form="job-application-form">Submit</button>
+			</div>
+		
+	</div> <!-- for applic form div -->
+	
+</body>
+</html>
