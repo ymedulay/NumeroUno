@@ -40,6 +40,7 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Status - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>

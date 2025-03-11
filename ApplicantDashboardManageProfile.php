@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage My Profile - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
@@ -73,14 +74,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         </div>
         <div class="admin-sidebar">
-        <p class="admin-dashb">Applicant Dashboard</p>
-        <ul>
-            <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
-            <li><a href="ApplicantDashboardManageProfile.php">Manage My Profile</a></li>
-            <li><a href="ApplicantDashboardApplicationStatus.php">Application Status</a></li>
-            <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
-        </ul>
-    </div>
+            <p class="admin-dashb">Applicant Dashboard</p>
+            <ul>
+                <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
+                <li><a href="ApplicantDashboardManageProfile.php">Manage My Profile</a></li>
+                <li><a href="ApplicantDashboardApplicationStatus.php">Application Status</a></li>
+                <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
+            </ul>
+        </div>
         <div class="nav-right">
             <ul class="nav-links">
                 <li class="dropdown">
@@ -150,24 +151,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-<script>
-    function toggleDropdown(id) {
-        let dropdown = document.getElementById(id);
-        let allDropdowns = document.querySelectorAll('.dropdown-menu');
+    <script>
+        function toggleDropdown(id) {
+            let dropdown = document.getElementById(id);
+            let allDropdowns = document.querySelectorAll('.dropdown-menu');
 
-        allDropdowns.forEach((menu) => {
-            if (menu !== dropdown) menu.classList.remove("show");
-        });
+            allDropdowns.forEach((menu) => {
+                if (menu !== dropdown) menu.classList.remove("show");
+            });
 
-        dropdown.classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.ph')) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.remove('show'));
+            dropdown.classList.toggle("show");
         }
-    };
-</script>
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.ph')) {
+                document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.remove('show'));
+            }
+        };
+    </script>
 
 </body>
+
 </html>

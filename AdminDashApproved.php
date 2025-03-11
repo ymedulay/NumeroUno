@@ -1,16 +1,16 @@
 <?php
-    // Start the session
-    session_start();
+// Start the session
+session_start();
 
-    // Check if the admin is logged in
-    if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) { 
-        // Redirect to login or another page if the user is not an admin (role_id = 1)
-        header("Location: LoginPage.html");
-        exit();
+// Check if the admin is logged in
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
+    // Redirect to login or another page if the user is not an admin (role_id = 1)
+    header("Location: LoginPage.html");
+    exit();
 }
 
 // Include the database connection file
-require 'config.php'; 
+require 'config.php';
 
 $sql = "SELECT jp.*, b.businessName 
         FROM JobPosting jp
@@ -29,15 +29,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
 
 <body id="admin-dash-appro">
 
-     <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav>
         <!-- Logo -->
         <div class="logo">
@@ -49,18 +50,18 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
                 <li><a href="AdminDashboardMain.html">Applications</a></li>
-				<li><a href="AdminDashRepAndQue.html">Reports and Queries</a></li>
+                <li><a href="AdminDashRepAndQue.html">Reports and Queries</a></li>
             </ul>
         </div>
 
-		<!-- Right Navi Icons -->
+        <!-- Right Navi Icons -->
         <div class="nav-right">
             <ul class="nav-links">
                 <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i> 
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
                         <li><a href="LoginPage.html">Log-In</a></li>
-						<li><a href="AccountSelection.html">Sign-Up</a></li>
+                        <li><a href="AccountSelection.html">Sign-Up</a></li>
                         <li><a href="ApplicantDashboardManageProfile.html">My Account</a></li>
                     </ul>
                 </li>
@@ -69,7 +70,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <ul class="dropdown-menu" id="settingsDropdown">
                         <li><a href="AboutUs.html">About Us</a></li>
                         <li><a href="ContactUs.html">Contact Us</a></li>
-						<li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
                     </ul>
                 </li>
             </ul>
@@ -83,41 +84,41 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Dropdown Toggle Script -->
     <script>
         function toggleDropdown(id) {
-		document.querySelectorAll(".dropdown-menu").forEach(menu => {
-			if (menu.id !== id) menu.classList.remove("show");
-		});
-		document.getElementById(id).classList.toggle("show");
-	}
+            document.querySelectorAll(".dropdown-menu").forEach(menu => {
+                if (menu.id !== id) menu.classList.remove("show");
+            });
+            document.getElementById(id).classList.toggle("show");
+        }
 
 
-       // Close dropdown if user clicks outside
-		window.onclick = function(event) {
-			if (!event.target.matches('.ph, .ph *')) {  // Adjust to allow clicking on the icon itself
-				let dropdowns = document.getElementsByClassName("dropdown-menu");
-				for (let i = 0; i < dropdowns.length; i++) {
-					let openDropdown = dropdowns[i];
-					if (openDropdown.classList.contains('show')) {
-						openDropdown.classList.remove('show');
-					}
-				}
-			}
-		}
+        // Close dropdown if user clicks outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.ph, .ph *')) { // Adjust to allow clicking on the icon itself
+                let dropdowns = document.getElementsByClassName("dropdown-menu");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    let openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 
-	<!-- Hover area to trigger the sidebar (keep it very narrow) -->
-	<div class="sidebar-hover-area"></div>
-	
-	 <!-- Sidebar Container -->
+    <!-- Hover area to trigger the sidebar (keep it very narrow) -->
+    <div class="sidebar-hover-area"></div>
+
+    <!-- Sidebar Container -->
     <div class="admin-sidebar">
-        <p class="admin-dashb">Admin Dashboard</p> 
+        <p class="admin-dashb">Admin Dashboard</p>
         <ul>
             <li><a href="AdminDashboardMain.php">Pending Approval</a></li>
             <li><a href="AdminDashApproved.php">Approved</a></li>
             <li><a href="AdminDashRejected.php">Rejected</a></li>
         </ul>
     </div>
-	
-	<!-- Job Postings -->
+
+    <!-- Job Postings -->
     <div class="approved-postings">
         <h2>Approved</h2>
 
@@ -127,27 +128,27 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if (count($result) > 0) {
                 // Loop through each job posting and display them
                 foreach ($result as $row) {
-                    $businessName = $row['businessName'];  
-                    $companyDesc = $row['jobDescription'];    
+                    $businessName = $row['businessName'];
+                    $companyDesc = $row['jobDescription'];
             ?>
-                <div class="job-container">
-                    <i class="ph ph-user-circle"></i>
-                    <div class="job-details">
-                        <p class="company-name"><strong><?php echo htmlspecialchars($businessName); ?></strong></p>
-                        <p class="company-desc"><?php echo htmlspecialchars($companyDesc); ?></p>
-                        <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobPosition'] ?? 'N/A'); ?></p>
+                    <div class="job-container">
+                        <i class="ph ph-user-circle"></i>
+                        <div class="job-details">
+                            <p class="company-name"><strong><?php echo htmlspecialchars($businessName); ?></strong></p>
+                            <p class="company-desc"><?php echo htmlspecialchars($companyDesc); ?></p>
+                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobPosition'] ?? 'N/A'); ?></p>
+                        </div>
+                        <div class="job-actions">
+                            <button class="accepted-btn">ACCEPTED</button>
+                        </div>
                     </div>
-                    <div class="job-actions">
-                        <button class="accepted-btn">ACCEPTED</button>
-                    </div>
-                </div>
             <?php
                 }
             } else {
                 echo "<p>No approved job postings available.</p>";
             }
             ?>
-            
+
             <!-- Show More Button -->
             <button id="show-more-btn-appro">Show More</button>
         </div>
@@ -156,34 +157,35 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- JavaScript -->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const jobPosts = document.querySelectorAll("#admin-dash-appro .job-container");
-        const showMoreBtn = document.getElementById("show-more-btn-appro");
+        document.addEventListener("DOMContentLoaded", function() {
+            const jobPosts = document.querySelectorAll("#admin-dash-appro .job-container");
+            const showMoreBtn = document.getElementById("show-more-btn-appro");
 
-        if (jobPosts.length > 7) {
-            for (let i = 7; i < jobPosts.length; i++) {
-                jobPosts[i].classList.add("hidden"); // Initially hide excess job posts
-            }
-
-            showMoreBtn.addEventListener("click", function() {
-                let hiddenPosts = document.querySelectorAll("#admin-dash-appro .hidden");
-                let isHidden = hiddenPosts.length > 0;
-
-                if (isHidden) {
-                    hiddenPosts.forEach(post => post.classList.remove("hidden")); // Show all
-                    this.textContent = "Show Less";
-                } else {
-                    for (let i = 7; i < jobPosts.length; i++) {
-                        jobPosts[i].classList.add("hidden"); // Hide excess
-                    }
-                    this.textContent = "Show More";
+            if (jobPosts.length > 7) {
+                for (let i = 7; i < jobPosts.length; i++) {
+                    jobPosts[i].classList.add("hidden"); // Initially hide excess job posts
                 }
-            });
-        } else {
-            showMoreBtn.style.display = "none"; // Hide the button if 7 or fewer job postings
-        }
-    });
+
+                showMoreBtn.addEventListener("click", function() {
+                    let hiddenPosts = document.querySelectorAll("#admin-dash-appro .hidden");
+                    let isHidden = hiddenPosts.length > 0;
+
+                    if (isHidden) {
+                        hiddenPosts.forEach(post => post.classList.remove("hidden")); // Show all
+                        this.textContent = "Show Less";
+                    } else {
+                        for (let i = 7; i < jobPosts.length; i++) {
+                            jobPosts[i].classList.add("hidden"); // Hide excess
+                        }
+                        this.textContent = "Show More";
+                    }
+                });
+            } else {
+                showMoreBtn.style.display = "none"; // Hide the button if 7 or fewer job postings
+            }
+        });
     </script>
-	
+
 </body>
+
 </html>

@@ -16,7 +16,7 @@ try {
     $stmt = $pdo->prepare("SELECT id FROM Business WHERE userId = :user_id");
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $business_id = $row['id'];
@@ -61,12 +61,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Management - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
-<body id="business-dash-post-manage">  
+<body id="business-dash-post-manage">
 
     <!-- Navbar -->
     <nav>
@@ -111,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
             <li><a href="BusinessDashPostManage.php">Post Management</a></li>
         </ul>
     </div>
-    
+
     <!-- Main Content -->
     <div class="page-content">
         <div class="post-management">
@@ -164,15 +165,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
         function toggleDropdown(id) {
             let dropdown = document.getElementById(id);
             let allDropdowns = document.querySelectorAll('.dropdown-menu');
-    
+
             allDropdowns.forEach((menu) => {
                 if (menu !== dropdown) menu.classList.remove("show");
             });
-    
+
             dropdown.classList.toggle("show");
         }
-    
-        window.onclick = function (event) {
+
+        window.onclick = function(event) {
             if (!event.target.matches('.ph')) {
                 let dropdowns = document.getElementsByClassName("dropdown-menu");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -186,4 +187,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
     </script>
 
 </body>
+
 </html>

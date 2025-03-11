@@ -19,14 +19,15 @@ if ($roleId != $pageRole) {
 require_once 'config.php';
 
 // Function to get pending job postings from the database
-function getPendingJobPostings($pdo) {
+function getPendingJobPostings($pdo)
+{
     try {
         $query = "SELECT j.id, b.businessName AS company_name, b.description, j.title AS job_position
                   FROM JobPosting j
                   JOIN Business b ON j.businessId = b.id
                   WHERE j.status = 'Pending Approval'
                   ORDER BY j.created_at DESC";
-        
+
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,22 +45,22 @@ $pendingJobs = getPendingJobPostings($pdo);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_POST['action'])) {
     $jobId = intval($_POST['job_id']);
     $action = $_POST['action'];
-    
+
     if ($action === 'accept' || $action === 'reject') {
         $newJobStatus = ($action === 'accept') ? 'Open' : 'Closed'; // The new status for the job post
         $adminAction = ($action === 'accept') ? 'Approved' : 'Rejected'; // Log the admin action
-        
+
         try {
             // Begin transaction
             $pdo->beginTransaction();
-            
+
             // Update job posting status in JobPosting table
             $updateJobStatusQuery = "UPDATE JobPosting SET status = :status, updated_at = NOW() WHERE id = :id";
             $stmt = $pdo->prepare($updateJobStatusQuery);
             $stmt->bindParam(':status', $newJobStatus, PDO::PARAM_STR);
             $stmt->bindParam(':id', $jobId, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             // Log the admin action in AdminActions table
             $adminId = $_SESSION['user_id'];
             $logActionQuery = "INSERT INTO AdminActions (job_posting_id, admin_id, action) 
@@ -69,17 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             $logStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
             $logStmt->bindParam(':action', $adminAction, PDO::PARAM_STR);
             $logStmt->execute();
-            
+
             // Commit transaction
             $pdo->commit();
-            
+
             // Set success message
             $_SESSION['success_message'] = "Job posting has been " . $newJobStatus;
-            
+
             // Redirect to the main dashboard page to refresh job listings
             header("Location: AdminDashboardMain.php");
             exit();
-            
         } catch (PDOException $e) {
             // Roll back the transaction if something failed
             $pdo->rollBack();
@@ -96,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
@@ -117,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
         <div class="nav-right">
             <ul class="nav-links">
                 <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i> 
+                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
                     <ul class="dropdown-menu" id="userDropdown">
                         <li><a href="LoginPage.html">Log-In</a></li>
                         <li><a href="AccountSelection.html">Sign-Up</a></li>
@@ -161,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     <div class="sidebar-hover-area"></div>
 
     <div class="admin-sidebar">
-        <p class="admin-dashb">Admin Dashboard</p> 
+        <p class="admin-dashb">Admin Dashboard</p>
         <ul>
             <li><a href="AdminDashboardMain.php" class="active">Pending Approval</a></li>
             <li><a href="AdminDashApproved.php">Approved</a></li>
@@ -180,8 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 
             <?php if (isset($_SESSION['success_message'])): ?>
                 <div class="alert alert-success">
-                    <?php 
-                    echo $_SESSION['success_message']; 
+                    <?php
+                    echo $_SESSION['success_message'];
                     unset($_SESSION['success_message']);
                     ?>
                 </div>
@@ -189,8 +190,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 
             <?php if (isset($_SESSION['error_message'])): ?>
                 <div class="alert alert-danger">
-                    <?php 
-                    echo $_SESSION['error_message']; 
+                    <?php
+                    echo $_SESSION['error_message'];
                     unset($_SESSION['error_message']);
                     ?>
                 </div>
@@ -227,33 +228,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const jobPosts = document.querySelectorAll("#admin-dash-main .job-container");
-        const showMoreBtn = document.getElementById("show-more-btn");
+        document.addEventListener("DOMContentLoaded", function() {
+            const jobPosts = document.querySelectorAll("#admin-dash-main .job-container");
+            const showMoreBtn = document.getElementById("show-more-btn");
 
-        if (jobPosts.length > 7) {
-            for (let i = 7; i < jobPosts.length; i++) {
-                jobPosts[i].classList.add("hidden"); 
-            }
-
-            showMoreBtn.addEventListener("click", function() {
-                let hiddenPosts = document.querySelectorAll("#admin-dash-main .hidden");
-                let isHidden = hiddenPosts.length > 0;
-
-                if (isHidden) {
-                    hiddenPosts.forEach(post => post.classList.remove("hidden"));
-                    this.textContent = "Show Less";
-                } else {
-                    for (let i = 7; i < jobPosts.length; i++) {
-                        jobPosts[i].classList.add("hidden");
-                    }
-                    this.textContent = "Show More";
+            if (jobPosts.length > 7) {
+                for (let i = 7; i < jobPosts.length; i++) {
+                    jobPosts[i].classList.add("hidden");
                 }
-            });
-        } else if (showMoreBtn) {
-            showMoreBtn.style.display = "none";
-        }
-    });
+
+                showMoreBtn.addEventListener("click", function() {
+                    let hiddenPosts = document.querySelectorAll("#admin-dash-main .hidden");
+                    let isHidden = hiddenPosts.length > 0;
+
+                    if (isHidden) {
+                        hiddenPosts.forEach(post => post.classList.remove("hidden"));
+                        this.textContent = "Show Less";
+                    } else {
+                        for (let i = 7; i < jobPosts.length; i++) {
+                            jobPosts[i].classList.add("hidden");
+                        }
+                        this.textContent = "Show More";
+                    }
+                });
+            } else if (showMoreBtn) {
+                showMoreBtn.style.display = "none";
+            }
+        });
     </script>
 </body>
+
 </html>

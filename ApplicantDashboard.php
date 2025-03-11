@@ -48,6 +48,7 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applicant Dashboard - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
@@ -93,63 +94,63 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
 
     <!-- Page Content -->
     <div class="page-content">
-<<<<<<< HEAD
-        <h1>Applicant Dashboard</h1>
-        <div class="profile-section">
-            <img src="ProfilePic.jpg" alt="User Profile Picture">
-            <h2>
-                <?php
-                // Display user name if session is set, otherwise show default
-                echo isset($_SESSION['username']) ? $_SESSION['username'] : 'User Name';
-                ?>
-            </h2>
-=======
-        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
-        <div class="profile-section">
-            <img src="ProfilePic.jpg" alt="User Profile Picture">
-            <h2><?php echo htmlspecialchars($firstName . " " . $lastName); ?></h2>
->>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
-        </div>
+        <<<<<<< HEAD
+            <h1>Applicant Dashboard</h1>
+            <div class="profile-section">
+                <img src="ProfilePic.jpg" alt="User Profile Picture">
+                <h2>
+                    <?php
+                    // Display user name if session is set, otherwise show default
+                    echo isset($_SESSION['username']) ? $_SESSION['username'] : 'User Name';
+                    ?>
+                </h2>
+                =======
+                <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
+                <div class="profile-section">
+                    <img src="ProfilePic.jpg" alt="User Profile Picture">
+                    <h2><?php echo htmlspecialchars($firstName . " " . $lastName); ?></h2>
+                    >>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
+                </div>
 
-        <div class="info-section">
-            <div class="info-box">
-                <h2>User Information</h2>
-<<<<<<< HEAD
-                <div class="user-info-container">
-                    <div class="user-info-left">
-                        <p><strong>First Name:</strong> <?php echo $_SESSION['first_name'] ?? '[User First Name]'; ?></p>
-                        <p><strong>Middle Initial:</strong> <?php echo $_SESSION['middle_initial'] ?? '[User Middle Initial]'; ?></p>
-                    </div>
-                    <div class="user-info-right">
-                        <p><strong>Last Name:</strong> <?php echo $_SESSION['last_name'] ?? '[User Last Name]'; ?></p>
-                        <p><strong>Email:</strong> <?php echo $_SESSION['email'] ?? '[User Email]'; ?></p>
+                <div class="info-section">
+                    <div class="info-box">
+                        <h2>User Information</h2>
+                        <<<<<<< HEAD
+                            <div class="user-info-container">
+                            <div class="user-info-left">
+                                <p><strong>First Name:</strong> <?php echo $_SESSION['first_name'] ?? '[User First Name]'; ?></p>
+                                <p><strong>Middle Initial:</strong> <?php echo $_SESSION['middle_initial'] ?? '[User Middle Initial]'; ?></p>
+                            </div>
+                            <div class="user-info-right">
+                                <p><strong>Last Name:</strong> <?php echo $_SESSION['last_name'] ?? '[User Last Name]'; ?></p>
+                                <p><strong>Email:</strong> <?php echo $_SESSION['email'] ?? '[User Email]'; ?></p>
+                            </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="info-box">
-                <h2>Educational Background</h2>
-                <p><strong>Highest Degree:</strong> <?php echo $_SESSION['degree'] ?? '[User Degree]'; ?></p>
-            </div>
+                <div class="info-box">
+                    <h2>Educational Background</h2>
+                    <p><strong>Highest Degree:</strong> <?php echo $_SESSION['degree'] ?? '[User Degree]'; ?></p>
+                </div>
 
-            <div class="info-box">
-                <h2>Job Experience</h2>
-                <div class="user-info-container">
-                    <div class="user-info-left">
-                        <p><strong>Company:</strong> <?php echo $_SESSION['company'] ?? '[Company Name]'; ?></p>
-                    </div>
-                    <div class="user-info-right">
-                        <p><strong>Job Title:</strong> <?php echo $_SESSION['job_title'] ?? '[Job Title]'; ?></p>
+                <div class="info-box">
+                    <h2>Job Experience</h2>
+                    <div class="user-info-container">
+                        <div class="user-info-left">
+                            <p><strong>Company:</strong> <?php echo $_SESSION['company'] ?? '[Company Name]'; ?></p>
+                        </div>
+                        <div class="user-info-right">
+                            <p><strong>Job Title:</strong> <?php echo $_SESSION['job_title'] ?? '[Job Title]'; ?></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-=======
+                =======
                 <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
                 <p><strong>Middle Initial:</strong> <?php echo htmlspecialchars($middleInitial); ?></p>
                 <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
->>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
-        </div>
+                >>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
+            </div>
     </div>
 
     <script src="sidebar.js"></script>

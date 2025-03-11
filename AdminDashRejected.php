@@ -3,7 +3,7 @@
 session_start();
 
 // Check if the admin is logged in
-if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) { 
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
     // Redirect to login or another page if the user is not an admin (role_id = 1)
     header("Location: LoginPage.php");
     exit();
@@ -27,6 +27,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
@@ -142,33 +143,33 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- JavaScript -->
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const jobPosts = document.querySelectorAll("#admin-dash-reje .job-container");
-        const showMoreBtn = document.getElementById("show-more-btn-reje");
+        document.addEventListener("DOMContentLoaded", function() {
+            const jobPosts = document.querySelectorAll("#admin-dash-reje .job-container");
+            const showMoreBtn = document.getElementById("show-more-btn-reje");
 
-        if (jobPosts.length > 7) {
-            for (let i = 7; i < jobPosts.length; i++) {
-                jobPosts[i].classList.add("hidden");
-            }
-
-            showMoreBtn.addEventListener("click", function() {
-                let hiddenPosts = document.querySelectorAll("#admin-dash-reje .hidden");
-                let isHidden = hiddenPosts.length > 0;
-
-                if (isHidden) {
-                    hiddenPosts.forEach(post => post.classList.remove("hidden"));
-                    this.textContent = "Show Less";
-                } else {
-                    for (let i = 7; i < jobPosts.length; i++) {
-                        jobPosts[i].classList.add("hidden");
-                    }
-                    this.textContent = "Show More";
+            if (jobPosts.length > 7) {
+                for (let i = 7; i < jobPosts.length; i++) {
+                    jobPosts[i].classList.add("hidden");
                 }
-            });
-        } else {
-            showMoreBtn.style.display = "none";
-        }
-    });
+
+                showMoreBtn.addEventListener("click", function() {
+                    let hiddenPosts = document.querySelectorAll("#admin-dash-reje .hidden");
+                    let isHidden = hiddenPosts.length > 0;
+
+                    if (isHidden) {
+                        hiddenPosts.forEach(post => post.classList.remove("hidden"));
+                        this.textContent = "Show Less";
+                    } else {
+                        for (let i = 7; i < jobPosts.length; i++) {
+                            jobPosts[i].classList.add("hidden");
+                        }
+                        this.textContent = "Show More";
+                    }
+                });
+            } else {
+                showMoreBtn.style.display = "none";
+            }
+        });
     </script>
 </body>
 

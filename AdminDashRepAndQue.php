@@ -5,7 +5,7 @@ session_start();
 // Include database connection (Assuming you have a db_connection.php file)
 include 'config.php';
 
-if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) { 
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
     // Redirect to login or another page if the user is not an admin (role_id = 1)
     header("Location: LoginPage.php");
     exit();
@@ -36,6 +36,7 @@ $queries = $stmt2->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
 </head>
@@ -95,8 +96,8 @@ $queries = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         }
 
         // Close dropdown if user clicks outside
-        window.onclick = function (event) {
-            if (!event.target.matches('.ph, .ph *')) {  // Adjust to allow clicking on the icon itself
+        window.onclick = function(event) {
+            if (!event.target.matches('.ph, .ph *')) { // Adjust to allow clicking on the icon itself
                 let dropdowns = document.getElementsByClassName("dropdown-menu");
                 for (let i = 0; i < dropdowns.length; i++) {
                     let openDropdown = dropdowns[i];
@@ -139,7 +140,7 @@ $queries = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         <?php } ?>
-        
+
         <!-- Hidden Reports -->
         <div class="report-container hidden">
             <i class="ph ph-user-circle"></i>
@@ -173,7 +174,7 @@ $queries = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         <?php } ?>
-        
+
         <!-- Hidden Queries -->
         <div class="query-container hidden">
             <i class="ph ph-user-circle"></i>

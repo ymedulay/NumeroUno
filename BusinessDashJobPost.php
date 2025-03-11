@@ -1,54 +1,54 @@
 <?php
-    // Start session to access user data
-    session_start();
+// Start session to access user data
+session_start();
 
-    // Include database configuration
-    require_once "config.php"; // Ensure this file correctly sets up $pdo
+// Include database configuration
+require_once "config.php"; // Ensure this file correctly sets up $pdo
 
-    // Check if user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        exit();
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Initialize variables
+$jobTitle = $businessName = $description = $jobLocation = $salaryRange = $qualifications = $employmentType = "";
+$requireResume = false;
+$categories = isset($categories) ? $categories : "";
+$categoryOther = isset($categoryOther) ? $categoryOther : "";
+$success_message = $error_message = "";
+
+// Get user ID from session
+$userId = intval($_SESSION['user_id']);
+$businessId = null;
+
+// Debug: Check session ID
+if ($userId == 0) {
+    die("Error: Invalid session ID.");
+}
+
+try {
+    // First, get the business ID associated with this user
+    $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :userId");
+    $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $businessId = $row['id']; // Get the actual business ID
+        $businessName = $row['businessName'];
+    } else {
+        $businessName = "No Business Profile Found";
+        $error_message = "You need to create a business profile before posting jobs.";
+        echo "Debug: No business found for user ID: " . $userId;
     }
+} catch (PDOException $e) {
+    $businessName = "Error retrieving business information";
+    echo "Database Error: " . $e->getMessage();
+}
 
-    // Initialize variables
-    $jobTitle = $businessName = $description = $jobLocation = $salaryRange = $qualifications = $employmentType = "";
-    $requireResume = false;
-    $categories = isset($categories) ? $categories : ""; 
-    $categoryOther = isset($categoryOther) ? $categoryOther : "";
-    $success_message = $error_message = "";
-
-    // Get user ID from session
-    $userId = intval($_SESSION['user_id']); 
-    $businessId = null;
-
-    // Debug: Check session ID
-    if ($userId == 0) {
-        die("Error: Invalid session ID.");
-    }
-
-    try {
-        // First, get the business ID associated with this user
-        $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :userId");
-        $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $businessId = $row['id']; // Get the actual business ID
-            $businessName = $row['businessName'];
-        } else {
-            $businessName = "No Business Profile Found";
-            $error_message = "You need to create a business profile before posting jobs.";
-            echo "Debug: No business found for user ID: " . $userId;
-        }
-    } catch (PDOException $e) {
-        $businessName = "Error retrieving business information";
-        echo "Database Error: " . $e->getMessage();
-    }
-
-    // Process form when submitted
-    // Process form when submitted
+// Process form when submitted
+// Process form when submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
     // Sanitize inputs
     $jobTitle = sanitize_input($_POST["jobTitle"]);
@@ -97,10 +97,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
 }
 
 
-    // Function to sanitize form inputs
-    function sanitize_input($data) {
-        return htmlspecialchars(stripslashes(trim($data)));
-    }
+// Function to sanitize form inputs
+function sanitize_input($data)
+{
+    return htmlspecialchars(stripslashes(trim($data)));
+}
 ?>
 
 <!DOCTYPE html>
@@ -110,12 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Job Postings - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
-<body id="business-dash-job-post">  
+<body id="business-dash-job-post">
 
     <!-- Navbar -->
     <nav>
@@ -160,22 +162,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
             <li><a href="BusinessDashPostManage.php">Post Management</a></li>
         </ul>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content-wrapper">
         <div class="page-content">
             <h1>Post Job Postings</h1>
-            
-            <?php if(!empty($success_message)): ?>
-            <div class="alert success">
-                <?php echo $success_message; ?>
-            </div>
+
+            <?php if (!empty($success_message)): ?>
+                <div class="alert success">
+                    <?php echo $success_message; ?>
+                </div>
             <?php endif; ?>
-            
-            <?php if(!empty($error_message)): ?>
-            <div class="alert error">
-                <?php echo $error_message; ?>
-            </div>
+
+            <?php if (!empty($error_message)): ?>
+                <div class="alert error">
+                    <?php echo $error_message; ?>
+                </div>
             <?php endif; ?>
         </div>
 
@@ -199,12 +201,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
                     </div>
                     <div> <!-- pls edit styling-->
                         <label for="jobCategories">Category</label><br>
-                        
-                        <input type="checkbox" id="Service" name="jobCategories[]" value="Service" 
+
+                        <input type="checkbox" id="Service" name="jobCategories[]" value="Service"
                             <?php echo (strpos($categories, 'Service') !== false) ? 'checked' : ''; ?>>
                         <label for="service">Service</label><br>
 
-                        <input type="checkbox" id="Housework" name="jobCategories[]" value="Housework" 
+                        <input type="checkbox" id="Housework" name="jobCategories[]" value="Housework"
                             <?php echo (strpos($categories, 'Housework') !== false) ? 'checked' : ''; ?>>
                         <label for="housework">Housework</label><br>
 
@@ -219,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
 
                 </div>
             </div>
-        
+
             <div class="form-section-container">
                 <div class="form-grid two-columns">
                     <div>
@@ -248,20 +250,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
             <button type="submit" class="submit-btn">Post</button>
         </form>
     </div>
-    
+
     <script>
         function toggleDropdown(id) {
             let dropdown = document.getElementById(id);
             let allDropdowns = document.querySelectorAll('.dropdown-menu');
-    
+
             allDropdowns.forEach((menu) => {
                 if (menu !== dropdown) menu.classList.remove("show");
             });
-    
+
             dropdown.classList.toggle("show");
         }
-    
-        window.onclick = function (event) {
+
+        window.onclick = function(event) {
             if (!event.target.matches('.ph')) {
                 let dropdowns = document.getElementsByClassName("dropdown-menu");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -273,6 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
             }
         };
     </script>
-    
+
 </body>
+
 </html>

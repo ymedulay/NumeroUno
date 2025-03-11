@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
 
 // Restrict access based on role
 $roleId = $_SESSION['role_id'];
-$pageRole = 2; 
+$pageRole = 2;
 
 if ($roleId != $pageRole) {
     echo "Access denied.";
@@ -32,16 +32,19 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage My Profile - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
+
 <body id="business-dash-manage-prof">
-    
+
     <!-- Navbar -->
     <nav>
         <div class="logo">
@@ -85,7 +88,7 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
             <li><a href="BusinessDashPostManage.php">Post Management</a></li>
         </ul>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content-wrapper">
         <div class="page-content">
@@ -99,74 +102,75 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
                 </button>
         </div>
 
-            <div class="form-section-container">
-                <h2>Business Information</h2>
-                <div class="form-grid two-columns">
-                    <div>
-                        <label for="business-name">Business Name:</label>
-                        <input type="text" id="business-name" name="business-name" value="<?php echo htmlspecialchars($business['businessName'] ?? ''); ?>" required>
-                    </div>
-                    <div>
-                        <label for="business-type">Business Type:</label>
-                        <select id="business-type" name="business-type" required>
-                            <option value="">Select</option>
-                            <option value="Sole Proprietorship" <?php if(($business['businessType'] ?? '') == 'Sole Proprietorship') echo 'selected'; ?>>Sole Proprietorship</option>
-                            <option value="Partnership" <?php if(($business['businessType'] ?? '') == 'Partnership') echo 'selected'; ?>>Partnership</option>
-                            <option value="LLC" <?php if(($business['businessType'] ?? '') == 'LLC') echo 'selected'; ?>>Limited Liability Company (LLC)</option>
-                            <option value="Corporation" <?php if(($business['businessType'] ?? '') == 'Corporation') echo 'selected'; ?>>Corporation</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="description">Business Description:</label>
-                        <textarea id="description" name="description" rows="4" required><?php echo htmlspecialchars($business['description'] ?? ''); ?></textarea>
-                    </div>
+        <div class="form-section-container">
+            <h2>Business Information</h2>
+            <div class="form-grid two-columns">
+                <div>
+                    <label for="business-name">Business Name:</label>
+                    <input type="text" id="business-name" name="business-name" value="<?php echo htmlspecialchars($business['businessName'] ?? ''); ?>" required>
+                </div>
+                <div>
+                    <label for="business-type">Business Type:</label>
+                    <select id="business-type" name="business-type" required>
+                        <option value="">Select</option>
+                        <option value="Sole Proprietorship" <?php if (($business['businessType'] ?? '') == 'Sole Proprietorship') echo 'selected'; ?>>Sole Proprietorship</option>
+                        <option value="Partnership" <?php if (($business['businessType'] ?? '') == 'Partnership') echo 'selected'; ?>>Partnership</option>
+                        <option value="LLC" <?php if (($business['businessType'] ?? '') == 'LLC') echo 'selected'; ?>>Limited Liability Company (LLC)</option>
+                        <option value="Corporation" <?php if (($business['businessType'] ?? '') == 'Corporation') echo 'selected'; ?>>Corporation</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="description">Business Description:</label>
+                    <textarea id="description" name="description" rows="4" required><?php echo htmlspecialchars($business['description'] ?? ''); ?></textarea>
                 </div>
             </div>
-            
-            <div class="form-section-container">
-                <h2>Contact Information</h2>
-                <div class="form-grid two-columns">
-                    <div>
-                        <label for="address">Address:</label>
-                        <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($business['address'] ?? ''); ?>" required>
-                    </div>
-                    <div>
-                        <label for="contact">Contact No.:</label>
-                        <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($business['phoneNumber'] ?? ''); ?>" required>
-                    </div>
-                    <div>
-                        <label for="email">Email Address:</label>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($business['contactEmail'] ?? ''); ?>" required>
-                    </div>
+        </div>
+
+        <div class="form-section-container">
+            <h2>Contact Information</h2>
+            <div class="form-grid two-columns">
+                <div>
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($business['address'] ?? ''); ?>" required>
+                </div>
+                <div>
+                    <label for="contact">Contact No.:</label>
+                    <input type="text" id="contact" name="contact" value="<?php echo htmlspecialchars($business['phoneNumber'] ?? ''); ?>" required>
+                </div>
+                <div>
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($business['contactEmail'] ?? ''); ?>" required>
                 </div>
             </div>
-            <button type="submit" class="save-button">Save Profile</button>
+        </div>
+        <button type="submit" class="save-button">Save Profile</button>
         </form>
     </div>
-    
+
     <script>
         function toggleDropdown(id) {
             let dropdown = document.getElementById(id);
             let allDropdowns = document.querySelectorAll('.dropdown-menu');
-            
+
             allDropdowns.forEach((menu) => {
                 if (menu !== dropdown) menu.classList.remove("show");
             });
             dropdown.classList.toggle("show");
         }
-        
+
         // Add preview functionality for the profile picture
         document.getElementById('upload-profile-pic').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function(e) {
                     document.getElementById('profile-pic').src = e.target.result;
                 }
-                
+
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
     </script>
 </body>
+
 </html>

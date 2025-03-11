@@ -46,14 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en" id="account-management-page">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Management - NumeroUno</title>
+    <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
+
 <body>
     <nav>
         <div class="logo">
@@ -129,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="text" name="recovery_contact" value="<?= htmlspecialchars($user['recovery_contact'] ?? '') ?>">
                     </div>
                 </div>
-                
+
                 <button type="submit" name="save_changes" class="save-button">Save Changes</button>
             </div>
         </form>
@@ -159,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             dropdown.classList.toggle("show");
         }
 
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             if (!event.target.matches('.ph')) {
                 let dropdowns = document.getElementsByClassName("dropdown-menu");
                 for (let i = 0; i < dropdowns.length; i++) {
@@ -172,4 +175,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
     </script>
 </body>
+
 </html>
