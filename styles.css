@@ -13,27 +13,6 @@ html {
     flex-direction: column;
 }
 
-/* Make sure animations only run after loading is complete */
-.page-loaded .your-animated-element {
-    animation: your-animation 1s ease;
-}
-
-/* Loading Screen Styles */
-#loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    transition: opacity 0.5s ease-out;
-}
-
 .loading-content {
     text-align: center;
 }
@@ -3620,58 +3599,62 @@ label[for="cvRequired"] {
 #About-us-page .about-header {
     background-color: #C9DACB;
     text-align: center;
-    padding: 40px 0;
+    padding: 40px 20px;
 }
 
 #About-us-page .about-header h1 {
-    font-size: 32px;
+    font-size: clamp(24px, 5vw, 32px);
     font-weight: bold;
     color: #000;
 }
 
 #About-us-page .about-header p {
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     color: #444;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 /* What is NumeroUno Section */
 #About-us-page .about-content {
     width: 100%;
     background-color: #A6D4A8;
-    padding: 40px 0;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
-    border-radius: 0 0 200px 0;
+    border-radius: 0 0 clamp(50px, 15vw, 200px) 0;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #About-us-page .what-is {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
+    gap: 20px;
 }
 
 #About-us-page .about-img {
-    max-width: 350px;
+    max-width: 100%;
     height: auto;
+    width: clamp(200px, 30vw, 350px);
 }
 
 #About-us-page .text-1 {
     flex: 1;
-    margin-left: 20px;
 }
 
 #About-us-page .text-1 h2,
 #About-us-page .text-2 h2 {
-    font-size: 50px;
+    font-size: clamp(28px, 5vw, 50px);
     font-weight: bold;
     color: #333;
 }
 
 #About-us-page .green-text {
     color: #3A7D44;
-    /* Dark Green */
 }
 
 #About-us-page .yellow-text {
@@ -3680,61 +3663,65 @@ label[for="cvRequired"] {
 
 #About-us-page .text-1 p,
 #About-us-page .text-2 p {
-    font-size: 16px;
+    font-size: clamp(14px, 3vw, 16px);
     color: #555;
     text-align: justify;
-    padding-right: 300px;
+    padding-right: 0;
+    max-width: 650px;
 }
 
 /* What We Do Section */
-/* Spacing between sections */
 #About-us-page .what-we-do {
     width: 100%;
     background: transparent;
-    padding: 60px 0;
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
     margin-top: 50px;
-    /* Added spacing above */
 }
 
-/* Container Styling */
 #About-us-page .what-we-do .container {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     text-align: center;
 }
 
-/* Title & Paragraph */
 #About-us-page .what-we-do h2 {
-    font-size: 28px;
+    font-size: clamp(22px, 4vw, 28px);
     font-weight: bold;
     color: #333;
     margin-bottom: 15px;
 }
 
 #About-us-page .what-we-do p {
-    font-size: 16px;
+    font-size: clamp(14px, 3vw, 16px);
     color: #444;
     margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Grid Layout */
 #About-us-page .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     text-align: center;
 }
 
-/* Grid Items  */
+/* Grid Items */
 #About-us-page .grid-item {
     background: white;
-    padding: 30px;
+    padding: 30px 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #About-us-page .grid-item:hover {
@@ -3744,14 +3731,14 @@ label[for="cvRequired"] {
 
 /* Icons */
 #About-us-page .grid-item i {
-    font-size: 42px;
+    font-size: clamp(32px, 5vw, 42px);
     color: #CFB108;
     margin-bottom: 12px;
 }
 
 /* Headings */
 #About-us-page .grid-item h3 {
-    font-size: 18px;
+    font-size: clamp(16px, 3vw, 18px);
     font-weight: bold;
     color: #222;
     margin-bottom: 8px;
@@ -3759,30 +3746,30 @@ label[for="cvRequired"] {
 
 /* Description */
 #About-us-page .grid-item p {
-    font-size: 14px;
+    font-size: clamp(12px, 3vw, 14px);
     color: #555;
+    margin-top: auto;
 }
 
 /* Who Can Benefit Section */
 #About-us-page .who-can-benefit {
     width: 90%;
     max-width: 1520px;
-    padding: 50px 0;
-    display: flex;
+    padding: 50px 20px;
     border-radius: 20px;
     margin: 50px auto;
-    /* Light contrast */
     display: flex;
     justify-content: center;
 }
 
 #About-us-page .who-can-benefit .container {
-    width: 80%;
+    width: 100%;
+    max-width: 1200px;
 }
 
 /* Section Title */
 #About-us-page .who-can-benefit h2 {
-    font-size: 28px;
+    font-size: clamp(22px, 4vw, 28px);
     font-weight: bold;
     color: #333;
     text-align: center;
@@ -3792,31 +3779,27 @@ label[for="cvRequired"] {
 /* Steps Wrapper */
 #About-us-page .steps-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 60px;
-    /* Increased spacing between images & text */
+    gap: 40px;
 }
 
 /* Left Column (Images) */
 #About-us-page .steps-images {
-    flex: 1.2;
-    /* Made images take up more space */
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Move images more to the left */
-    gap: 100px;
-    /* Increased spacing between images */
-    padding-left: 30px;
-    /* Added left padding for more shift */
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    gap: 30px;
+    padding: 0 20px;
 }
 
 /* Right Column (Text) */
 #About-us-page .steps-text {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 130px;
+    gap: 40px;
+    width: 100%;
 }
 
 /* Individual Step Box */
@@ -3824,62 +3807,64 @@ label[for="cvRequired"] {
     display: flex;
     align-items: center;
     background-color: #A6D4A8;
-    padding: 90px;
-    /* Increased padding */
+    padding: 30px;
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
     position: relative;
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 /* Step Number Circle */
 #About-us-page .step-box .step-number {
-    width: 55px;
-    /* Slightly bigger */
-    height: 55px;
+    width: 45px;
+    height: 45px;
     background: #CFB108;
     color: #fff;
-    font-size: 24px;
+    font-size: clamp(18px, 4vw, 24px);
     font-weight: bold;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    left: -28px;
+    left: -20px;
     top: 50%;
     transform: translateY(-50%);
 }
 
 /* Step Text */
 #About-us-page .step-box .step-content h3 {
-    font-size: 24px;
-    /* Increased text size */
+    font-size: clamp(18px, 4vw, 24px);
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
+    padding-left: 30px;
 }
 
 #About-us-page .step-box .step-content p {
-    font-size: 18px;
-    /* Slightly larger text */
+    font-size: clamp(14px, 3vw, 18px);
     color: #555;
     margin: 0;
+    padding-left: 30px;
 }
 
 /* Image Sizing */
 #About-us-page .steps-images img {
-    width: 260px;
-    /* Made images bigger */
-    height: 290px;
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    max-height: 290px;
+    object-fit: contain;
 }
 
 /* Why Choose NumeroUno Section */
 #why-choose {
-    width: 95vw;
-    max-width: 100%;
+    width: 95%;
+    max-width: 1520px;
     margin: 0 auto;
-    padding: 50px;
+    padding: 50px 20px;
     background: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -3887,10 +3872,10 @@ label[for="cvRequired"] {
 
 /* Section Title */
 #why-choose h2 {
-    font-size: 36px;
+    font-size: clamp(24px, 5vw, 36px);
     font-weight: bold;
     color: #333;
-    margin-bottom: 95px;
+    margin-bottom: 50px;
 }
 
 /* Grid Layout */
@@ -3909,6 +3894,9 @@ label[for="cvRequired"] {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #why-choose .grid-item:hover {
@@ -3918,23 +3906,24 @@ label[for="cvRequired"] {
 
 /* Images Inside Grid */
 #why-choose .grid-item img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
 }
 
 /* Grid Text */
 #why-choose .grid-item h3 {
-    font-size: 20px;
+    font-size: clamp(16px, 4vw, 20px);
     font-weight: bold;
     color: #222;
     margin-bottom: 8px;
 }
 
 #why-choose .grid-item p {
-    font-size: 16px;
+    font-size: clamp(14px, 3vw, 16px);
     color: #555;
+    margin-top: auto;
 }
 
 /* Green and Yellow Text */
@@ -3951,39 +3940,39 @@ label[for="cvRequired"] {
     text-align: center;
     padding: 60px 20px;
     background-color: #C9DACB;
-    /* Light Green Background */
 }
 
 /* Section Title */
 #About-us-page .creator-info h2 {
-    font-size: 36px;
+    font-size: clamp(24px, 5vw, 36px);
     font-weight: bold;
     color: #333;
     margin-bottom: 30px;
 }
 
-/* Team Grid (3x2 Layout) */
+/* Team Grid - Modified for 3x2 layout with increased spacing */
 #About-us-page .team-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 equal columns */
-    gap: 20px;
-    /* Reduce spacing between items */
+    gap: 70px;
     justify-content: center;
-    align-items: center;
-    max-width: 900px;
+    align-items: stretch;
+    max-width: 960px;
     margin: auto;
+    padding: 20px;
 }
 
 /* Individual Team Member Card */
 #About-us-page .team-member {
     background: white;
-    padding: 20px;
+    padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 200px;
+    width: 100%;
+    margin: 0 auto;
+    height: 100%;
 }
 
 #About-us-page .team-member:hover {
@@ -3993,17 +3982,17 @@ label[for="cvRequired"] {
 
 /* Profile Picture */
 #About-us-page .team-member img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: cover;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border: 4px solid #CFB108;
 }
 
 /* Name */
 #About-us-page .team-member h3 {
-    font-size: 18px;
+    font-size: clamp(16px, 3vw, 18px);
     font-weight: bold;
     color: #222;
 }
@@ -4012,32 +4001,29 @@ label[for="cvRequired"] {
 #About-us-page .team-description {
     max-width: 800px;
     margin: 40px auto 0;
-    font-size: 18px;
+    font-size: clamp(14px, 3vw, 18px);
     color: #444;
     text-align: center;
     line-height: 1.6;
+    padding: 0 20px;
 }
-
-
 
 /* Account Selection Page Styles */
 #account-selection-page {
     background: linear-gradient(135deg, #e3f2fd, #d6c773);
-    /* Keeping your gradient */
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    overflow: hidden;
+    padding: 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
 
-
 /* Title Styling */
 #account-selection-page h1 {
-    font-size: 28px;
+    font-size: clamp(20px, 5vw, 28px);
     font-weight: bold;
     color: #013607;
     margin-bottom: 30px;
@@ -4048,20 +4034,23 @@ label[for="cvRequired"] {
 /* Main selection container */
 #account-selection-page .container {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 50px;
+    flex-wrap: wrap;
 }
 
 /* Option Box Styling - Transparent Enclosure */
 #account-selection-page .option-box {
     text-align: center;
     background: rgba(255, 255, 255, 0.3);
-    /* Light transparent effect */
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 1 auto;
+    margin: 10px;
 }
 
 /* Hover Effect */
@@ -4073,19 +4062,86 @@ label[for="cvRequired"] {
 /* Label Styling */
 #account-selection-page .option-box .label {
     margin-top: 10px;
-    font-size: 18px;
+    font-size: clamp(14px, 4vw, 18px);
     font-weight: bold;
     color: #013607;
 }
 
-/* Responsive Design */
+/* Media Queries for Responsive Design */
+@media (max-width: 992px) {
+    #About-us-page .what-is {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #About-us-page .text-1 p,
+    #About-us-page .text-2 p {
+        padding-right: 0;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    #About-us-page .steps-container {
+        gap: 60px;
+    }
+}
+
 @media (max-width: 768px) {
     #account-selection-page .container {
         flex-direction: column;
         gap: 30px;
     }
 
-    #account-selection-page h1 {
-        font-size: 24px;
+    #About-us-page .steps-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #About-us-page .step-box {
+        padding: 40px 20px 20px 20px;
+    }
+
+    #About-us-page .step-box .step-number {
+        left: 50%;
+        top: -22px;
+        transform: translateX(-50%);
+    }
+
+    #About-us-page .step-box .step-content h3,
+    #About-us-page .step-box .step-content p {
+        padding-left: 0;
+        text-align: center;
+    }
+
+    #About-us-page .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    #About-us-page .team-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 25px;
+    }
+
+    #About-us-page .team-member img {
+        width: 80px;
+        height: 80px;
+    }
+
+    #About-us-page .step-box {
+        padding: 30px 15px 15px 15px;
+    }
+}
+
+/* Add animation for fade in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
