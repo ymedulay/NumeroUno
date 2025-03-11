@@ -101,20 +101,9 @@ $description = $business['description'] ?? "No description available";
         </div>
     </div>
 
-    <script>
-        function toggleDropdown(id) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => {
-                if (menu.id !== id) menu.classList.remove("show");
-            });
-            document.getElementById(id).classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph')) {
-                document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.remove('show'));
-            }
-        };
-    </script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
+    
 </body>
 
 </html>

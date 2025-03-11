@@ -82,6 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_job'])) {
         </form>
         <a href="BusinessDashPostManage.php">Cancel</a>
     </div>
+
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
+
 </body>
 
 </html>

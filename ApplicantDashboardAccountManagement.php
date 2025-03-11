@@ -151,29 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <!-- JavaScript for Dropdowns -->
-    <script>
-        function toggleDropdown(id) {
-            let dropdown = document.getElementById(id);
-            let allDropdowns = document.querySelectorAll('.dropdown-menu');
-            allDropdowns.forEach(menu => {
-                if (menu !== dropdown) menu.classList.remove("show");
-            });
-            dropdown.classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph')) {
-                let dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        };
-    </script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 </body>
 
 </html>

@@ -170,7 +170,8 @@ if (!$job) {
         </form>
     </div>
 
-    <script src="sidebar.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 </body>
 
 </html>

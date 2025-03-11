@@ -138,26 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <script>
-        function toggleDropdown(id) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => {
-                if (menu.id !== id) menu.classList.remove("show");
-            });
-            document.getElementById(id).classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph, .ph *')) {
-                let dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
 
     <div class="sidebar-hover-area"></div>
 
@@ -256,6 +236,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             }
         });
     </script>
+
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 </body>
 
 </html>

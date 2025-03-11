@@ -81,30 +81,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Phosphor Icons CDN -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Dropdown Toggle Script -->
-    <script>
-        function toggleDropdown(id) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => {
-                if (menu.id !== id) menu.classList.remove("show");
-            });
-            document.getElementById(id).classList.toggle("show");
-        }
-
-
-        // Close dropdown if user clicks outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph, .ph *')) { // Adjust to allow clicking on the icon itself
-                let dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
-
     <!-- Hover area to trigger the sidebar (keep it very narrow) -->
     <div class="sidebar-hover-area"></div>
 
@@ -185,6 +161,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         });
     </script>
+
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 
 </body>
 

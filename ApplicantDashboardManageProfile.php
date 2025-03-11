@@ -151,24 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-    <script>
-        function toggleDropdown(id) {
-            let dropdown = document.getElementById(id);
-            let allDropdowns = document.querySelectorAll('.dropdown-menu');
-
-            allDropdowns.forEach((menu) => {
-                if (menu !== dropdown) menu.classList.remove("show");
-            });
-
-            dropdown.classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph')) {
-                document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.remove('show'));
-            }
-        };
-    </script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 
 </body>
 

@@ -147,30 +147,9 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
         </form>
     </div>
 
-    <script>
-        function toggleDropdown(id) {
-            let dropdown = document.getElementById(id);
-            let allDropdowns = document.querySelectorAll('.dropdown-menu');
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 
-            allDropdowns.forEach((menu) => {
-                if (menu !== dropdown) menu.classList.remove("show");
-            });
-            dropdown.classList.toggle("show");
-        }
-
-        // Add preview functionality for the profile picture
-        document.getElementById('upload-profile-pic').addEventListener('change', function(e) {
-            if (e.target.files && e.target.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    document.getElementById('profile-pic').src = e.target.result;
-                }
-
-                reader.readAsDataURL(e.target.files[0]);
-            }
-        });
-    </script>
 </body>
 
 </html>
