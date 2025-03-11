@@ -19,15 +19,14 @@ if ($roleId != $pageRole) {
 require_once 'config.php';
 
 // Function to get pending job postings from the database
-function getPendingJobPostings($pdo)
-{
+function getPendingJobPostings($pdo) {
     try {
-        $query = "SELECT j.id, b.businessName AS company_name, b.description, j.title AS job_position
+        $query = "SELECT j.id, b.businessName, b.description AS business_description, j.jobTitle, j.jobDescription
                   FROM JobPosting j
                   JOIN Business b ON j.businessId = b.id
                   WHERE j.status = 'Pending Approval'
-                  ORDER BY j.created_at DESC";
-
+                  ORDER BY j.datePosted DESC";
+        
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -45,41 +44,46 @@ $pendingJobs = getPendingJobPostings($pdo);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_POST['action'])) {
     $jobId = intval($_POST['job_id']);
     $action = $_POST['action'];
-
+    
     if ($action === 'accept' || $action === 'reject') {
-        $newJobStatus = ($action === 'accept') ? 'Open' : 'Closed'; // The new status for the job post
+        $newJobStatus = ($action === 'accept') ? 'Open' : 'Rejected'; // Changed from 'Closed' to 'Rejected'
         $adminAction = ($action === 'accept') ? 'Approved' : 'Rejected'; // Log the admin action
-
+        
         try {
             // Begin transaction
             $pdo->beginTransaction();
-
+            
             // Update job posting status in JobPosting table
-            $updateJobStatusQuery = "UPDATE JobPosting SET status = :status, updated_at = NOW() WHERE id = :id";
+            $updateJobStatusQuery = "UPDATE JobPosting SET status = :status WHERE id = :id";
             $stmt = $pdo->prepare($updateJobStatusQuery);
             $stmt->bindParam(':status', $newJobStatus, PDO::PARAM_STR);
             $stmt->bindParam(':id', $jobId, PDO::PARAM_INT);
             $stmt->execute();
-
+            
             // Log the admin action in AdminActions table
             $adminId = $_SESSION['user_id'];
-            $logActionQuery = "INSERT INTO AdminActions (job_posting_id, admin_id, action) 
-                               VALUES (:job_id, :admin_id, :action)";
+            $logActionQuery = "INSERT INTO adminactions (job_posting_id, admin_id, action) 
+                              VALUES (:job_id, :admin_id, :action)";
             $logStmt = $pdo->prepare($logActionQuery);
             $logStmt->bindParam(':job_id', $jobId, PDO::PARAM_INT);
             $logStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
             $logStmt->bindParam(':action', $adminAction, PDO::PARAM_STR);
             $logStmt->execute();
-
+            
             // Commit transaction
             $pdo->commit();
-
+            
             // Set success message
-            $_SESSION['success_message'] = "Job posting has been " . $newJobStatus;
-
-            // Redirect to the main dashboard page to refresh job listings
-            header("Location: AdminDashboardMain.php");
+            $_SESSION['success_message'] = "Job posting has been " . ($action === 'accept' ? 'approved' : 'rejected');
+            
+            // Redirect based on action
+            if ($action === 'accept') {
+                header("Location: AdminDashboardMain.php");
+            } else {
+                header("Location: AdminDashRejected.php");
+            }
             exit();
+            
         } catch (PDOException $e) {
             // Roll back the transaction if something failed
             $pdo->rollBack();
@@ -102,39 +106,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 </head>
 
 <body id="admin-dash-main">
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="AdminDashboardMain.php">Applications</a></li>
-                <li><a href="AdminDashRepAndQue.php">Reports and Queries</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -153,11 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     <div class="page-content">
         <div class="pending-approvals">
             <h2>Pending Approvals</h2>
-            <form method="POST" action="AdminDashboardMain.php" class="action-form">
-                <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
-                <button type="submit" name="action" value="approve" class="accept-btn">ACCEPT</button>
-                <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
-            </form>
+
 
             <?php if (isset($_SESSION['success_message'])): ?>
                 <div class="alert alert-success">
@@ -182,22 +178,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                     <p>No pending job postings at this time.</p>
                 <?php else: ?>
                     <?php foreach ($pendingJobs as $job): ?>
-                        <div class="job-container">
-                            <i class="ph ph-user-circle"></i>
-                            <div class="job-details">
-                                <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($job['company_name']); ?></strong></p>
-                                <p class="company-desc"><?php echo htmlspecialchars($job['description']); ?></p>
-                                <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($job['job_position']); ?></p>
-                            </div>
-                            <div class="job-actions">
-                                <form method="POST" action="AdminDashboardMain.php" class="action-form">
-                                    <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
-                                    <button type="submit" name="action" value="accept" class="accept-btn">ACCEPT</button>
-                                    <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
-                                </form>
-                            </div>
+                    <div class="job-container">
+                    <div class="job-container">
+                        <i class="ph ph-user-circle"></i>
+                        <div class="job-details">
+                            <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($job['businessName']); ?></strong></p>
+                            <p class="company-desc"><?php echo htmlspecialchars($job['business_description']); ?></p>
+                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($job['jobTitle']); ?></p>
                         </div>
-                    <?php endforeach; ?>
+                        <div class="job-actions">
+                            <form method="POST" action="AdminDashboardMain.php" class="action-form">
+                                <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
+                                <button type="submit" name="action" value="accept" class="accept-btn">ACCEPT</button>
+                                <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
+                            </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
 
                     <?php if (count($pendingJobs) > 7): ?>
                         <button id="show-more-btn">Show More</button>

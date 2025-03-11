@@ -2,6 +2,7 @@
 session_start();
 require_once "config.php";
 
+
 // Initialize filter variables
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
@@ -92,8 +93,8 @@ try {
         <ul>
             <li><a href="LoginPage.html">Login / Sign Up</a></li>
             <li><a href="AboutUs.html">About Us</a></li>
-            <li><a href="ContactUs.html">Contact Us</a></li>
-            <li><a href="#">FAQS</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
     </nav>

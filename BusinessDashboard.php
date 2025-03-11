@@ -17,11 +17,11 @@ if ($roleId != $pageRole) {
 
 // Fetch business details
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT businessName, contactEmail, phoneNumber  
-        FROM Business 
-        WHERE userId = :user_id";
+$sql = "SELECT businessName, contactEmail, phoneNumber, address, businessType, description  
+        FROM business 
+        WHERE userId = :userId";
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+$stmt->bindParam(":userId", $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $business = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -30,7 +30,7 @@ $businessName = $business['businessName'] ?? "Unknown";
 $address = $business['address'] ?? "Not provided";
 $contact = $business['phoneNumber'] ?? "Not provided";
 $email = $business['contactEmail'] ?? "Not provided";
-$businessType = $business['business_type'] ?? "N/A";
+$businessType = $business['businessType'] ?? "N/A";
 $description = $business['description'] ?? "No description available";
 ?>
 
@@ -48,29 +48,35 @@ $description = $business['description'] ?? "No description available";
 </head>
 
 <body id="business-dash-main">
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <div class="admin-sidebar">
         <p class="admin-dashb">Business Dashboard</p>
@@ -84,10 +90,6 @@ $description = $business['description'] ?? "No description available";
 
     <div class="page-content">
         <h1>Welcome, <?php echo htmlspecialchars($businessName); ?>!</h1>
-        <div class="profile-section">
-            <img src="BusinessLogo.jpg" alt="Business Logo">
-            <h2><?php echo htmlspecialchars($businessName); ?></h2>
-        </div>
         <div class="info-section">
             <div class="info-box">
                 <h2>Business Information</h2>

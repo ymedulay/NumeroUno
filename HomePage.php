@@ -17,6 +17,7 @@ try {
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,12 +34,12 @@ try {
 	<!-- Navigation Bar -->
 	<nav>
 		<div class="logo">
-			<a href="HomePage.html"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
 		</div>
 
 		<div class="nav-right">
 			<!-- Correct Find Jobs Button -->
-			<a href="#homepage-job-postings" class="find-jobs-btn">Find Jobs</a>
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
 			<!-- Menu Icon -->
 			<div class="menu-icon">
@@ -53,8 +54,7 @@ try {
 		<ul>
 			<li><a href="LoginPage.html">Login / Sign Up</a></li>
 			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.html">Contact Us</a></li>
-			<li><a href="#">FAQS</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
 		</ul>
 	</div>
 	</nav>
@@ -134,29 +134,6 @@ try {
 
 	<!-- Recent Job Postings --> <!-- Sam Edited -->
 	<div id="homepage-job-postings" class="homepage-job-postings">
-<<<<<<< HEAD:HomePage.html
-		<h2>Recently Posted Jobs</h2>
-		<div class="job-postings-grid">
-			<div class="job-card">
-				<h3>Job Title</h3>
-				<p>Company ABC</p>
-				<p>📍 Location</p>
-			</div>
-			<div class="job-card">
-				<h3>Job Title</h3>
-				<p>Company XYZ</p>
-				<p>📍 Location</p>
-			</div>
-			<div class="job-card">
-				<h3>Job Title</h3>
-				<p>Company LMN</p>
-				<p>📍 Location</p>
-			</div>
-		</div>
-		<a href="FindJobPage.php">
-			<button class="view-more">View More Jobs</button>
-		</a>
-=======
     <h2>Recently Posted Jobs</h2>
     <div class="job-postings-grid">
         <?php if (!empty($jobs)): ?>
@@ -171,8 +148,7 @@ try {
             <p>No job postings available.</p>
         <?php endif; ?>
     </div>
-		<a href="FindJobPage.php"><button class="view-more">View More</button></a>
->>>>>>> 45e81d3b4f12841aad15bd8c70ee63f5aa3e2f1b:HomePage.php
+		<a href="FindJobPage.php"><button class="view-more">View More Jobs</button></a>
 	</div>
 
 

@@ -13,7 +13,11 @@ if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
 require 'config.php'; // Or 'db_config.php' depending on your setup
 
 // Fetch rejected job postings (status = 'Rejected')
-$sql = "SELECT * FROM JobPosting WHERE status = 'Rejected'";
+// Fetch rejected job postings (status = 'Rejected')
+$sql = "SELECT j.*, b.businessName as company_name, b.description as company_description 
+        FROM JobPosting j
+        JOIN Business b ON j.businessId = b.id
+        WHERE j.status = 'Rejected'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,46 +37,35 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body id="admin-dash-reje">
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <!-- Logo -->
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
-        <!-- Left Navi Links (Home & Find Job) -->
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="AdminDashboardMain.php">Applications</a></li>
-                <li><a href="AdminDashRepAndQue.php">Reports and Queries</a></li>
-            </ul>
-        </div>
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
 
-        <!-- Right Navi Icons -->
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboardManageProfile.html">My Account</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- End of Navi Bar -->
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <!-- Phosphor Icons CDN -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -100,9 +93,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="job-container">
                         <i class="ph ph-user-circle"></i>
                         <div class="job-details">
-                            <p class="company-name"><strong><?php echo htmlspecialchars($row['company_name']); ?></strong></p>
+                            <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($row['company_name']); ?></strong></p>
                             <p class="company-desc"><?php echo htmlspecialchars($row['company_description']); ?></p>
-                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['job_position']); ?></p>
+                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobTitle']); ?></p>
                         </div>
                         <div class="job-actions">
                             <button class="rejected-btn">REJECTED</button>

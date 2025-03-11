@@ -4,7 +4,7 @@ require_once "config.php";
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: LoginPage.php");
     exit();
 }
 
@@ -48,17 +48,35 @@ if (!$job) {
 </head>
 
 <body id="find-job-deets">
-    <nav>
-        <div class="logo">
-            <a href="HomePage.php"><img src="numerouno.png" alt="Numero Uno Logo"></a>
-        </div>
-        <div class="nav-right">
-            <a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
-            <div class="menu-icon">
-                <i class="ph ph-list"></i>
-            </div>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <div class="job-content-container">
         <div class="job-description-wrapper">

@@ -55,33 +55,37 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
 </head>
 
 <body id="applicant-dash-main">
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">
-            <a href="HomePage.php"><img src="numerouno.png" alt="Numero Uno Logo"></a>
-        </div>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
 
-        <div class="nav-right">
-            <!-- Find Jobs Button -->
-            <a href="#homepage-job-postings" class="find-jobs-btn">Find Jobs</a>
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
-            <!-- Menu Icon -->
-            <div class="menu-icon">
-                <i class="ph ph-list"></i>
-            </div>
-        </div>
-    </nav>
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
 
-    <!-- Sidebar -->
-    <div id="sideMenu" class="sidebar">
-        <ul>
-            <li><a href="AboutUs.php">About Us</a></li>
-            <li><a href="ContactUs.php">Contact Us</a></li>
-            <li><a href="#">FAQs</a></li>
-        </ul>
-    </div>
 
-    <!-- Applicant Dashboard Sidebar -->
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
+
+    <div class="sidebar-hover-area"></div>
     <div class="admin-sidebar">
         <p class="admin-dashb">Applicant Dashboard</p>
         <ul>
@@ -94,7 +98,6 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
 
     <!-- Page Content -->
     <div class="page-content">
-        <<<<<<< HEAD
             <h1>Applicant Dashboard</h1>
             <div class="profile-section">
                 <img src="ProfilePic.jpg" alt="User Profile Picture">
@@ -104,18 +107,15 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
                     echo isset($_SESSION['username']) ? $_SESSION['username'] : 'User Name';
                     ?>
                 </h2>
-                =======
                 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
                 <div class="profile-section">
                     <img src="ProfilePic.jpg" alt="User Profile Picture">
                     <h2><?php echo htmlspecialchars($firstName . " " . $lastName); ?></h2>
-                    >>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
                 </div>
 
                 <div class="info-section">
                     <div class="info-box">
                         <h2>User Information</h2>
-                        <<<<<<< HEAD
                             <div class="user-info-container">
                             <div class="user-info-left">
                                 <p><strong>First Name:</strong> <?php echo $_SESSION['first_name'] ?? '[User First Name]'; ?></p>
@@ -144,12 +144,10 @@ $_SESSION['user_name'] = $firstName . " " . $lastName;
                         </div>
                     </div>
                 </div>
-                =======
                 <p><strong>First Name:</strong> <?php echo htmlspecialchars($firstName); ?></p>
                 <p><strong>Middle Initial:</strong> <?php echo htmlspecialchars($middleInitial); ?></p>
                 <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-                >>>>>>> bde20e63281f761a058fc503ead74ffcae733a4b
             </div>
     </div>
 

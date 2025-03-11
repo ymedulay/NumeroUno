@@ -47,38 +47,35 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.php">Home</a></li>
-                <li><a href="FindJobPage.php">Find Job</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
-                        <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
-                        <li><a href="Logout.php">Logout</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.php">About Us</a></li>
-                        <li><a href="ContactUs.php">Contact Us</a></li>
-                        <li><a href="FAQs.php">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
@@ -100,8 +97,8 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="application-card">
                     <div class="job-image-placeholder"></div>
                     <div class="job-info">
-                        <p class="job-title"><?= htmlspecialchars($app['job_title']) ?></p>
-                        <p class="business-name"><?= htmlspecialchars($app['business_name']) ?></p>
+                        <p class="job-title"><?= htmlspecialchars($app['jobTitle']) ?></p>
+                        <p class="business-name"><?= htmlspecialchars($app['businessName']) ?></p>
                         <div class="application-status">
                             <p>Application Status</p>
                             <span class="status-indicator <?= strtolower($app['status']) ?>">● <?= strtoupper($app['status']) ?></span>

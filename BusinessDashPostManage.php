@@ -38,17 +38,57 @@ try {
     die("Error fetching jobs: " . $e->getMessage());
 }
 
+try {
+    $stmt = $pdo->prepare("
+        SELECT 
+            ja.id AS application_id, 
+            ja.firstName, 
+            ja.lastName, 
+            ja.email,
+            ja.status,
+            jp.jobTitle
+        FROM JobApplication ja
+        JOIN JobPosting jp ON ja.jobPostingId = jp.id
+        WHERE jp.businessId = :business_id
+    ");
+    $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching applicants: " . $e->getMessage());
+}
+
 // Handle deletion
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
     $job_id = $_POST['job_id'];
     try {
+        // Start transaction
+        $pdo->beginTransaction();
+        
+        // Delete from adminactions
+        $delete_actions = $pdo->prepare("DELETE FROM adminactions WHERE job_posting_id = :job_id");
+        $delete_actions->bindParam(":job_id", $job_id, PDO::PARAM_INT);
+        $delete_actions->execute();
+        
+        // Delete from JobApplication if needed
+        $delete_applications = $pdo->prepare("DELETE FROM JobApplication WHERE jobPostingId = :job_id");
+        $delete_applications->bindParam(":job_id", $job_id, PDO::PARAM_INT);
+        $delete_applications->execute();
+        
+        // Finally delete the job posting
         $delete_stmt = $pdo->prepare("DELETE FROM JobPosting WHERE id = :job_id AND businessId = :business_id");
         $delete_stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
         $delete_stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
         $delete_stmt->execute();
-        header("Location: BusinessDashPostManage.php"); // Refresh after delete
+        
+        // Commit if all operations succeed
+        $pdo->commit();
+        
+        header("Location: BusinessDashPostManage.php");
         exit();
     } catch (PDOException $e) {
+        // Roll back on error
+        $pdo->rollBack();
         die("Error deleting job: " . $e->getMessage());
     }
 }
@@ -69,38 +109,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
 
 <body id="business-dash-post-manage">
 
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
@@ -141,25 +178,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
             </div>
 
             <h2>View Applicants</h2>
-            <div class="job-container">
-                <div class="job-details">
-                    <p class="company-name"><strong>Application</strong></p>
-                </div>
-                <div class="job-actions">
-                    <button class="view-btn">VIEW</button>
-                </div>
-            </div>
-
-            <div class="job-container">
-                <div class="job-details">
-                    <p class="company-name"><strong>Application</strong></p>
-                </div>
-                <div class="job-actions">
-                    <button class="view-btn">VIEW</button>
-                </div>
-            </div>
-        </div>
-    </div> <!-- End page content -->
+            <?php if (!empty($applications)): ?>
+                <?php foreach ($applications as $app): ?>
+                    <div class="job-container">
+                        <div class="job-details">
+                            <p class="company-name"><strong><?= htmlspecialchars($app['jobTitle']) ?></strong></p>
+                            <p>Applicant: <?= htmlspecialchars($app['firstName'] . ' ' . $app['lastName']) ?></p>
+                            <p>Email: <?= htmlspecialchars($app['email']) ?></p>
+                            <p>Status: <?= htmlspecialchars($app['status']) ?></p>
+                        </div>
+                        <div class="job-actions">
+                            <a href="view_application.php?id=<?= $app['application_id'] ?>" class="view-btn">VIEW</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No applicants yet.</p>
+            <?php endif; ?>
 
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>

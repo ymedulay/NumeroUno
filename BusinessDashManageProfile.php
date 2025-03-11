@@ -45,38 +45,35 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <body id="business-dash-manage-prof">
 
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
@@ -93,13 +90,9 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="main-content-wrapper">
         <div class="page-content">
             <h1>Business Manage Profile</h1>
-            <img id="profile-pic" src="<?php echo !empty($business['profileImage']) ? htmlspecialchars($business['profileImage']) : 'BusinessLogo.jpg'; ?>" alt="Business Logo">
             <h2 id="display-name"><?php echo htmlspecialchars($business['businessName'] ?? ''); ?></h2>
             <form class="profile-form" method="post" action="business_update.php" enctype="multipart/form-data">
                 <input type="file" id="upload-profile-pic" name="profile_picture" style="display: none;" accept="image/*">
-                <button type="button" class="change-profile-pic" onclick="document.getElementById('upload-profile-pic').click();">
-                    Change Profile Picture
-                </button>
         </div>
 
         <div class="form-section-container">

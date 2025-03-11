@@ -1,91 +1,191 @@
 <?php
 session_start();
-require_once 'config.php'; // Database connection
+require_once 'config.php'; // Ensure this connects to your database
 
-// Check if the user is logged in
-if (!isset($_SESSION['business_id'])) {
-    header("Location: login.php");
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: LoginPage.php"); // Redirect if not logged in
     exit();
 }
 
-$business_id = $_SESSION['business_id'];
+$user_id = intval($_SESSION['user_id']);
+$business_id = null;
+$job_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Check if job ID is provided
-if (!isset($_GET['id']) || empty($_GET['id'])) {
+if ($job_id === 0) {
     die("Error: Job ID is missing.");
 }
 
-$job_id = intval($_GET['id']);
-
-// Fetch job details
 try {
-    $stmt = $pdo->prepare("SELECT jobTitle FROM JobPosting WHERE id = :job_id AND businessId = :business_id");
+    // Fetch the business ID associated with the logged-in user
+    $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :user_id");
+    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $business_id = $row['id'];
+        $_SESSION['business_id'] = $business_id;
+    } else {
+        die("Error: No business profile found. You need to create a business profile first.");
+    }
+} catch (PDOException $e) {
+    die("Database Error: " . $e->getMessage());
+}
+
+// Fetch job details for editing
+try {
+    $stmt = $pdo->prepare("SELECT jobTitle, jobDescription, requirements, jobLocation, salaryRange, employmentType FROM JobPosting WHERE id = :job_id AND businessId = :business_id");
     $stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
     $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
     $stmt->execute();
-
+    
     if ($stmt->rowCount() == 0) {
         die("Error: Job not found.");
     }
 
     $job = $stmt->fetch(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Database Error: " . $e->getMessage());
+    die("Error fetching job details: " . $e->getMessage());
 }
 
-// Handle form submission for updating job
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_job'])) {
-    $new_job_title = trim($_POST['job_title']);
+// Handle job update
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $jobTitle = trim($_POST['jobTitle']);
+    $jobDescription = trim($_POST['description']);
+    $jobLocation = trim($_POST['jobLocation']);
+    $salaryRange = trim($_POST['salaryRange']);
+    $qualifications = trim($_POST['qualifications']);
+    $employmentType = trim($_POST['employmentType']);
 
-    if (empty($new_job_title)) {
-        $error = "Job title cannot be empty.";
+    if (empty($jobTitle) || empty($jobDescription) || empty($qualifications)) {
+        $error_message = "Job title, description, and qualifications are required.";
     } else {
         try {
-            $update_stmt = $pdo->prepare("UPDATE JobPosting SET jobTitle = :job_title WHERE id = :job_id AND businessId = :business_id");
-            $update_stmt->bindParam(":job_title", $new_job_title, PDO::PARAM_STR);
-            $update_stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
-            $update_stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
-            $update_stmt->execute();
-
-            header("Location: BusinessDashPostManage.php"); // Redirect after update
+            $stmt = $pdo->prepare("UPDATE JobPosting SET jobTitle = :jobTitle, jobDescription = :description, requirements = :qualifications, jobLocation = :jobLocation, salaryRange = :salaryRange, employmentType = :employmentType WHERE id = :job_id AND businessId = :business_id");
+            $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
+            $stmt->bindParam(":description", $jobDescription, PDO::PARAM_STR);
+            $stmt->bindParam(":qualifications", $qualifications, PDO::PARAM_STR);
+            $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
+            $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
+            $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
+            $stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
+            $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
+            $stmt->execute();
+            header("Location: BusinessDashPostManage.php");
             exit();
         } catch (PDOException $e) {
-            die("Error updating job: " . $e->getMessage());
+            $error_message = "Error updating job: " . $e->getMessage();
         }
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="edit-job-page">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Job - NumeroUno</title>
+    <title>Edit Job Posting - NumeroUno</title>
     <link rel="icon" href="img/numerouno.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
-<body>
-    <div class="edit-job-container">
-        <h1>Edit Job Posting</h1>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
 
-        <?php if (isset($error)): ?>
-            <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
-        <form method="POST">
-            <label for="job_title">Job Title:</label>
-            <input type="text" id="job_title" name="job_title" value="<?= htmlspecialchars($job['jobTitle']) ?>" required>
-            <button type="submit" name="update_job">Update Job</button>
-        </form>
-        <a href="BusinessDashPostManage.php">Cancel</a>
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+        <p class="admin-dashb">Business Dashboard</p>
+        <ul>
+            <li><a href="BusinessDashboard.php">My Dashboard</a></li>
+            <li><a href="BusinessDashManageProfile.php">Manage Business Profile</a></li>
+            <li><a href="BusinessDashJobPost.php">Post Job Posting</a></li>
+            <li><a href="BusinessDashPostManage.php">Post Management</a></li>
+        </ul>
     </div>
 
+    <!-- Main Content -->
+     
+<body>
+    <div class="main-content-wrapper">
+        <div class="page-content">
+            <h1>Edit Job Posting</h1>
+            <?php if (!empty($error_message)): ?>
+                <div class="alert error">
+                    <?php echo htmlspecialchars($error_message); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <form class="profile-form" method="POST">
+            <div class="form-section-container">
+                <h3>Job Information</h3>
+                <div class="form-grid two-columns">
+                    <div>
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" id="jobTitle" name="jobTitle" value="<?php echo htmlspecialchars($job['jobTitle']); ?>" required>
+                    </div>
+                    <div>
+                        <label for="description">Job Description</label>
+                        <textarea id="description" name="description" required><?php echo htmlspecialchars($job['jobDescription']); ?></textarea>
+                    </div>
+                    <div>
+                        <label for="qualifications">Qualifications</label>
+                        <textarea id="qualifications" name="qualifications" required><?php echo htmlspecialchars($job['requirements']); ?></textarea>
+                    </div>
+                    <div>
+                        <label for="jobLocation">Job Location</label>
+                        <input type="text" id="jobLocation" name="jobLocation" value="<?php echo htmlspecialchars($job['jobLocation']); ?>" required>
+                    </div>
+                    <div>
+                        <label for="salaryRange">Salary Range</label>
+                        <input type="text" id="salaryRange" name="salaryRange" value="<?php echo htmlspecialchars($job['salaryRange']); ?>" required>
+                    </div>
+                    <div>
+                        <label for="employmentType">Employment Type</label>
+                        <select id="employmentType" name="employmentType" required>
+                            <option value="Full-Time" <?php echo $job['employmentType'] == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
+                            <option value="Part-Time" <?php echo $job['employmentType'] == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
+                            <option value="Contract" <?php echo $job['employmentType'] == 'Contract' ? 'selected' : ''; ?>>Contract</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="save-button">Update Job</button>
+        </form>
+    </div>
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>
-
 </body>
-
 </html>

@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
             $stmt = $pdo->prepare("
                 INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
                                        jobLocation, salaryRange, employmentType, category, categoryOther) 
-                VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Open',
+                VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Pending Approval',
                        :jobLocation, :salaryRange, :employmentType, :category, :categoryOther)
             ");
             $stmt->bindParam(":businessId", $businessId, PDO::PARAM_INT);
@@ -119,38 +119,35 @@ function sanitize_input($data)
 
 <body id="business-dash-job-post">
 
-    <!-- Navbar -->
-    <nav>
-        <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
-            </ul>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="BusinessDashboard.php">My Dashboard</a></li>
-                        <li><a href="BusinessDashManageProfile.php">Manage Profile</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+	<!-- Navigation Bar -->
+	<nav>
+		<div class="logo">
+			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+		</div>
+
+		<div class="nav-right">
+			<!-- Correct Find Jobs Button -->
+			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+
+			<!-- Menu Icon -->
+			<div class="menu-icon">
+				<i class="ph ph-list"></i>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Sidebar (Initially Hidden) -->
+	<div id="sideMenu" class="sidebar">
+		<ul>
+			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="logout.php">Log out</a></li>
+		</ul>
+	</div>
+	</nav>
+
+	<!-- End of Navigation Bar -->
 
     <!-- Sidebar -->
     <div class="admin-sidebar">
