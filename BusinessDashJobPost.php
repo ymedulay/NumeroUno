@@ -48,52 +48,54 @@
     }
 
     // Process form when submitted
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
-        // Sanitize inputs
-        $jobTitle = sanitize_input($_POST["jobTitle"]);
-        $description = sanitize_input($_POST["description"]);
-        $jobLocation = sanitize_input($_POST["jobLocation"]);
-        $salaryRange = sanitize_input($_POST["salaryRange"]);
-        $qualifications = sanitize_input($_POST["qualifications"]);
-        $employmentType = sanitize_input($_POST["employmentType"]);
-        $requireResume = isset($_POST["cvRequired"]) ? 1 : 0;
-    
-        // Process job categories (checkboxes)
-        $categories = isset($_POST['jobCategories']) ? implode(",", $_POST['jobCategories']) : "";
-    
-        // Handle "Other" category
-        $categoryOther = isset($_POST["categoryOther"]) ? sanitize_input($_POST["categoryOther"]) : "";
-    
-        // Validate required fields
-        if (empty($jobTitle) || empty($description) || empty($qualifications)) {
-            $error_message = "Job title, description, and qualifications are required.";
-        } else {
-            try {
-                // Insert job posting into database
-                $stmt = $pdo->prepare("
-                    INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
-                                           jobLocation, salaryRange, employmentType, category, categoryOther) 
-                    VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Open',
-                           :jobLocation, :salaryRange, :employmentType, :category, :categoryOther)
-                ");
-                $stmt->bindParam(":businessId", $businessId, PDO::PARAM_INT);
-                $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
-                $stmt->bindParam(":description", $description, PDO::PARAM_STR);
-                $stmt->bindParam(":qualifications", $qualifications, PDO::PARAM_STR);
-                $stmt->bindParam(":requireResume", $requireResume, PDO::PARAM_BOOL);
-                $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
-                $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
-                $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
-                $stmt->bindParam(":category", $categories, PDO::PARAM_STR);
-                $stmt->bindParam(":categoryOther", $categoryOther, PDO::PARAM_STR);
-                $stmt->execute();
-    
-                $success_message = "Job posting created successfully!";
-            } catch (PDOException $e) {
-                $error_message = "Error posting job: " . $e->getMessage();
-            }
+    // Process form when submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
+    // Sanitize inputs
+    $jobTitle = sanitize_input($_POST["jobTitle"]);
+    $description = sanitize_input($_POST["description"]);
+    $jobLocation = sanitize_input($_POST["jobLocation"]);
+    $salaryRange = sanitize_input($_POST["salaryRange"]);
+    $qualifications = sanitize_input($_POST["qualifications"]);
+    $employmentType = sanitize_input($_POST["employmentType"]);
+    $requireResume = isset($_POST["cvRequired"]) ? 1 : 0;
+
+    // Process job categories (checkboxes)
+    $categories = isset($_POST['jobCategories']) ? implode(",", $_POST['jobCategories']) : "";
+
+    // Handle "Other" category
+    $categoryOther = isset($_POST["categoryOther"]) ? sanitize_input($_POST["categoryOther"]) : "";
+
+    // Validate required fields
+    if (empty($jobTitle) || empty($description) || empty($qualifications)) {
+        $error_message = "Job title, description, and qualifications are required.";
+    } else {
+        try {
+            // Insert job posting into database
+            $stmt = $pdo->prepare("
+                INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
+                                       jobLocation, salaryRange, employmentType, category, categoryOther) 
+                VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Open',
+                       :jobLocation, :salaryRange, :employmentType, :category, :categoryOther)
+            ");
+            $stmt->bindParam(":businessId", $businessId, PDO::PARAM_INT);
+            $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
+            $stmt->bindParam(":description", $description, PDO::PARAM_STR);
+            $stmt->bindParam(":qualifications", $qualifications, PDO::PARAM_STR);
+            $stmt->bindParam(":requireResume", $requireResume, PDO::PARAM_BOOL);
+            $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
+            $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
+            $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
+            $stmt->bindParam(":category", $categories, PDO::PARAM_STR);
+            $stmt->bindParam(":categoryOther", $categoryOther, PDO::PARAM_STR);
+            $stmt->execute();
+
+            header("Location: BusinessDashboard.php");
+        } catch (PDOException $e) {
+            $error_message = "Error posting job: " . $e->getMessage();
         }
     }
+}
+
 
     // Function to sanitize form inputs
     function sanitize_input($data) {

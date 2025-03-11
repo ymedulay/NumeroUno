@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role_id'])) {
 
 // Restrict access based on role
 $roleId = $_SESSION['role_id'];
-$pageRole = 1; // Change this based on the dashboard (1 = Admin, 2 = Applicant, 3 = Business)
+$pageRole = 1; // 1 = Admin, 2 = Applicant, 3 = Business
 
 if ($roleId != $pageRole) {
     echo "Access denied.";
@@ -21,10 +21,10 @@ require_once 'config.php';
 // Function to get pending job postings from the database
 function getPendingJobPostings($pdo) {
     try {
-        $query = "SELECT j.id, c.name AS company_name, c.description, j.title AS job_position
-                  FROM jobs j
-                  JOIN companies c ON j.company_id = c.id
-                  WHERE j.status = 'pending'
+        $query = "SELECT j.id, b.businessName AS company_name, b.description, j.title AS job_position
+                  FROM JobPosting j
+                  JOIN Business b ON j.businessId = b.id
+                  WHERE j.status = 'Pending Approval'
                   ORDER BY j.created_at DESC";
         
         $stmt = $pdo->prepare($query);
@@ -46,34 +46,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     $action = $_POST['action'];
     
     if ($action === 'accept' || $action === 'reject') {
-        $newStatus = ($action === 'accept') ? 'approved' : 'rejected';
+        $newJobStatus = ($action === 'accept') ? 'Open' : 'Closed'; // The new status for the job post
+        $adminAction = ($action === 'accept') ? 'Approved' : 'Rejected'; // Log the admin action
         
         try {
             // Begin transaction
             $pdo->beginTransaction();
             
-            // Update job status
-            $query = "UPDATE jobs SET status = :status, updated_at = NOW() WHERE id = :id";
-            $stmt = $pdo->prepare($query);
-            $stmt->bindParam(':status', $newStatus, PDO::PARAM_STR);
+            // Update job posting status in JobPosting table
+            $updateJobStatusQuery = "UPDATE JobPosting SET status = :status, updated_at = NOW() WHERE id = :id";
+            $stmt = $pdo->prepare($updateJobStatusQuery);
+            $stmt->bindParam(':status', $newJobStatus, PDO::PARAM_STR);
             $stmt->bindParam(':id', $jobId, PDO::PARAM_INT);
             $stmt->execute();
             
-            // Log the admin action
+            // Log the admin action in AdminActions table
             $adminId = $_SESSION['user_id'];
-            $logQuery = "INSERT INTO admin_logs (admin_id, action, job_id, action_time) 
-                         VALUES (:admin_id, :action, :job_id, NOW())";
-            $logStmt = $pdo->prepare($logQuery);
-            $logStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
-            $logStmt->bindParam(':action', $action, PDO::PARAM_STR);
+            $logActionQuery = "INSERT INTO AdminActions (job_posting_id, admin_id, action) 
+                               VALUES (:job_id, :admin_id, :action)";
+            $logStmt = $pdo->prepare($logActionQuery);
             $logStmt->bindParam(':job_id', $jobId, PDO::PARAM_INT);
+            $logStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
+            $logStmt->bindParam(':action', $adminAction, PDO::PARAM_STR);
             $logStmt->execute();
             
             // Commit transaction
             $pdo->commit();
             
             // Set success message
-            $_SESSION['success_message'] = "Job posting has been " . $newStatus;
+            $_SESSION['success_message'] = "Job posting has been " . $newJobStatus;
             
             // Redirect to the main dashboard page to refresh job listings
             header("Location: AdminDashboardMain.php");
@@ -86,9 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
         }
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,12 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 
     <!-- Navigation Bar -->
     <nav>
-        <!-- Logo -->
         <div class="logo">
             <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
         </div>
-
-        <!-- Left Navi Links (Home & Find Job) -->
         <div class="nav-left">
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
@@ -118,8 +114,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                 <li><a href="AdminDashRepAndQue.php">Reports and Queries</a></li>
             </ul>
         </div>
-
-        <!-- Right Navi Icons -->
         <div class="nav-right">
             <ul class="nav-links">
                 <li class="dropdown">
@@ -140,12 +134,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             </ul>
         </div>
     </nav>
-    <!-- End of Navi Bar -->
 
-    <!-- Phosphor Icons CDN -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Dropdown Toggle Script -->
     <script>
         function toggleDropdown(id) {
             document.querySelectorAll(".dropdown-menu").forEach(menu => {
@@ -154,9 +145,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             document.getElementById(id).classList.toggle("show");
         }
 
-        // Close dropdown if user clicks outside
         window.onclick = function(event) {
-            if (!event.target.matches('.ph, .ph *')) {  // Adjust to allow clicking on the icon itself
+            if (!event.target.matches('.ph, .ph *')) {
                 let dropdowns = document.getElementsByClassName("dropdown-menu");
                 for (let i = 0; i < dropdowns.length; i++) {
                     let openDropdown = dropdowns[i];
@@ -168,10 +158,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
         }
     </script>
 
-    <!-- Hover area to trigger the sidebar (keep it very narrow) -->
     <div class="sidebar-hover-area"></div>
 
-    <!-- Sidebar Container -->
     <div class="admin-sidebar">
         <p class="admin-dashb">Admin Dashboard</p> 
         <ul>
@@ -181,10 +169,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
         </ul>
     </div>
 
-    <!-- Pending Job Postings Section -->
     <div class="page-content">
         <div class="pending-approvals">
             <h2>Pending Approvals</h2>
+            <form method="POST" action="AdminDashboardMain.php" class="action-form">
+                <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
+                <button type="submit" name="action" value="approve" class="accept-btn">ACCEPT</button>
+                <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
+            </form>
 
             <?php if (isset($_SESSION['success_message'])): ?>
                 <div class="alert alert-success">
@@ -227,15 +219,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                     <?php endforeach; ?>
 
                     <?php if (count($pendingJobs) > 7): ?>
-                        <!-- Show More Button -->
                         <button id="show-more-btn">Show More</button>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
         </div>
-    </div> <!-- for page content -->
-    
-    <!-- JAVA SCRIPTS -->
+    </div>
+
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const jobPosts = document.querySelectorAll("#admin-dash-main .job-container");
@@ -243,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 
         if (jobPosts.length > 7) {
             for (let i = 7; i < jobPosts.length; i++) {
-                jobPosts[i].classList.add("hidden"); // Initially hide excess job posts
+                jobPosts[i].classList.add("hidden"); 
             }
 
             showMoreBtn.addEventListener("click", function() {
@@ -251,17 +241,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                 let isHidden = hiddenPosts.length > 0;
 
                 if (isHidden) {
-                    hiddenPosts.forEach(post => post.classList.remove("hidden")); // Show all
+                    hiddenPosts.forEach(post => post.classList.remove("hidden"));
                     this.textContent = "Show Less";
                 } else {
                     for (let i = 7; i < jobPosts.length; i++) {
-                        jobPosts[i].classList.add("hidden"); // Hide excess
+                        jobPosts[i].classList.add("hidden");
                     }
                     this.textContent = "Show More";
                 }
             });
         } else if (showMoreBtn) {
-            showMoreBtn.style.display = "none"; // Hide the button if 7 or fewer job postings
+            showMoreBtn.style.display = "none";
         }
     });
     </script>

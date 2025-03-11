@@ -1,3 +1,22 @@
+<?php
+require_once 'config.php'; // Include database connection
+
+try {
+    $stmt = $pdo->prepare("SELECT jp.id, jp.jobTitle, b.businessName, jp.jobLocation 
+                        FROM jobposting jp
+                        JOIN business b ON jp.businessId = b.id
+                        WHERE jp.status = 'approved'
+                        ORDER BY jp.datePosted DESC
+                        LIMIT 3");
+    $stmt->execute(); // Execute the query
+    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Database error: " . $e->getMessage());
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,6 +134,7 @@
 
 	<!-- Recent Job Postings --> <!-- Sam Edited -->
 	<div id="homepage-job-postings" class="homepage-job-postings">
+<<<<<<< HEAD:HomePage.html
 		<h2>Recently Posted Jobs</h2>
 		<div class="job-postings-grid">
 			<div class="job-card">
@@ -136,6 +156,23 @@
 		<a href="FindJobPage.php">
 			<button class="view-more">View More Jobs</button>
 		</a>
+=======
+    <h2>Recently Posted Jobs</h2>
+    <div class="job-postings-grid">
+        <?php if (!empty($jobs)): ?>
+            <?php foreach ($jobs as $job): ?>
+                <div class="job-card">
+                    <h3><?= htmlspecialchars($job['title']) ?></h3> <!-- Corrected Key -->
+                    <p><?= htmlspecialchars($job['businessName']) ?></p>
+                    <p>📍 <?= htmlspecialchars($job['location']) ?></p> <!-- Corrected Key -->
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No job postings available.</p>
+        <?php endif; ?>
+    </div>
+		<a href="FindJobPage.php"><button class="view-more">View More</button></a>
+>>>>>>> 45e81d3b4f12841aad15bd8c70ee63f5aa3e2f1b:HomePage.php
 	</div>
 
 
