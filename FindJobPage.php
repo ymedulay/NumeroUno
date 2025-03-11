@@ -70,58 +70,35 @@ try {
 </head>
 
 <body id="findJobPage">
+    <!-- Navigation Bar -->
     <nav>
         <div class="logo">
-            <img src="NumeroUnoLogo.png" alt="Numero Uno Logo">
+            <a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
         </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.php">Find Job</a></li>
-            </ul>
-        </div>
+
         <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="LoginPage.php">Log-In</a></li>
-                        <li><a href="AccountSelection.php">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboardManageProfile.php">My Account</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
+
+            <!-- Menu Icon -->
+            <div class="menu-icon">
+                <i class="ph ph-list"></i>
+            </div>
         </div>
     </nav>
+
+
+    <!-- Sidebar (Initially Hidden) -->
+    <div id="sideMenu" class="sidebar">
+        <ul>
+            <li><a href="LoginPage.html">Login / Sign Up</a></li>
+            <li><a href="AboutUs.html">About Us</a></li>
+            <li><a href="ContactUs.html">Contact Us</a></li>
+            <li><a href="#">FAQS</a></li>
+        </ul>
+    </div>
+    </nav>
+
+    <!-- End of Navigation Bar -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        function toggleDropdown(id) {
-            document.querySelectorAll(".dropdown-menu").forEach(menu => {
-                if (menu.id !== id) menu.classList.remove("show");
-            });
-            document.getElementById(id).classList.toggle("show");
-        }
-        window.onclick = function(event) {
-            if (!event.target.matches('.ph, .ph *')) {
-                let dropdowns = document.getElementsByClassName("dropdown-menu");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
-    
     <form id="searchForm" action="FindJobPage.php" method="GET">
         <div class="search-container">
             <div class="search-box-container">
@@ -139,7 +116,7 @@ try {
                 <label><input type="radio" name="category" value="Service" <?php echo ($category === 'Service') ? 'checked' : ''; ?>> Service</label><br>
                 <label><input type="radio" name="category" value="House work" <?php echo ($category === 'House work') ? 'checked' : ''; ?>> House work</label><br>
                 <label><input type="radio" name="category" value="Others" <?php echo ($category === 'Others') ? 'checked' : ''; ?>> Others
-                    <input type="text" name="other_category" placeholder="Please specify" id="other-category" 
+                    <input type="text" name="other_category" placeholder="Please specify" id="other-category"
                         style="display: <?php echo ($category === 'Others') ? 'block' : 'none'; ?>;"
                         value="<?php echo htmlspecialchars($otherCategory); ?>">
                 </label>
@@ -164,18 +141,18 @@ try {
             </div>
         </div>
     </form>
-    
+
     <script>
         // Handle the "Others" category input display
         const othersRadio = document.querySelector('input[value="Others"]');
         const otherInput = document.getElementById('other-category');
-        
+
         othersRadio.addEventListener('change', function() {
             if (this.checked) {
                 otherInput.style.display = 'block';
             }
         });
-        
+
         document.querySelectorAll('input[name="category"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 if (this.value !== "Others") {
@@ -184,14 +161,14 @@ try {
                 submitSearch(); // Auto-submit when category changes
             });
         });
-        
+
         // Auto-submit form when experience level changes
         document.querySelectorAll('input[name="experience"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 submitSearch();
             });
         });
-        
+
         // Function to clear all selections and refresh results
         function clearSelections() {
             document.querySelectorAll('.vertical-panel input[type="radio"]').forEach(radio => {
@@ -201,16 +178,16 @@ try {
             document.getElementById('other-category').value = '';
             document.querySelector('input[name="search"]').value = '';
             document.querySelector('input[name="location"]').value = '';
-            
+
             // Submit the form to refresh the results
             document.getElementById('searchForm').submit();
         }
-        
+
         // Function to submit the search form
         function submitSearch() {
             document.getElementById('searchForm').submit();
         }
-        
+
         // Handle enter key press in search inputs
         document.querySelectorAll('.search-box').forEach(input => {
             input.addEventListener('keypress', function(e) {
@@ -220,7 +197,7 @@ try {
                 }
             });
         });
-        
+
         // Handle enter key press in other-category input
         document.getElementById('other-category').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -229,5 +206,9 @@ try {
             }
         });
     </script>
+
+    <script src="js/sidebar.js"></script>
+    <script src="js/scroll.js"></script>
 </body>
+
 </html>
