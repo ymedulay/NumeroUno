@@ -59,8 +59,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	<!-- Sidebar (Initially Hidden) -->
 	<div id="sideMenu" class="sidebar">
 		<ul>
-			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="AboutUs.php">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>
@@ -98,16 +99,16 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $companyDesc = $row['jobDescription'];
             ?>
                     <div class="job-container">
-                        <i class="ph ph-user-circle"></i>
-                        <div class="job-details">
-                            <p class="company-name"><strong><?php echo htmlspecialchars($businessName); ?></strong></p>
-                            <p class="company-desc"><?php echo htmlspecialchars($companyDesc); ?></p>
-                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobPosition'] ?? 'N/A'); ?></p>
-                        </div>
-                        <div class="job-actions">
-                            <button class="accepted-btn">ACCEPTED</button>
-                        </div>
-                    </div>
+    <i class="ph ph-user-circle"></i>
+        <div class="job-details">
+            <p class="company-name"><strong><?php echo htmlspecialchars($businessName); ?></strong></p>
+            <p class="job-position"><?php echo htmlspecialchars($row['jobTitle'] ?? 'N/A'); ?></p>
+            <p class="company-desc"><?php echo htmlspecialchars($companyDesc); ?></p>
+        </div>
+        <div class="job-actions">
+            <button class="accepted-btn">ACCEPTED</button>
+        </div>
+</div>
             <?php
                 }
             } else {

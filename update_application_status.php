@@ -4,7 +4,7 @@ require_once "config.php";
 // Check if the request is a POST request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the application ID and action from the form
-    $application_id = $_POST['application_id'];
+    $application_id = $_POST['id'];
     $action = $_POST['action'];
 
     // Validate the action (optional, but recommended)
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         // Redirect back to the view_application.php with a success message
-        header("Location: view_application.php?application_id=" . $application_id . "&status_updated=true");
+        header("Location: view_application.php?id=" . $application_id . "&status_updated=true");
         exit;
 
     } catch (PDOException $e) {
@@ -39,3 +39,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 ?>
+

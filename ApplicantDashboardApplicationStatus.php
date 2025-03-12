@@ -69,8 +69,9 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav>
 	<div id="sideMenu" class="sidebar">
 		<ul>
-			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="AboutUs.php">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>

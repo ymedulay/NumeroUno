@@ -1,4 +1,12 @@
 <?php
+session_start();
+require_once "config.php";
+
+// Check if user is logged in (but don't restrict access)
+$isLoggedIn = isset($_SESSION['user_id']) && isset($_SESSION['role_id']);
+$userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
+
+
 	require_once 'config.php'; // Include database connection
 
 	try {
@@ -8,15 +16,13 @@
 							WHERE jp.status = 'Open'
 							ORDER BY jp.datePosted DESC
 							LIMIT 3");
+
 		$stmt->execute(); // Execute the query
 		$jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	} catch (PDOException $e) {
 		die("Database error: " . $e->getMessage());
 	}
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,15 +55,45 @@
 	</nav>
 
 
-	<!-- Sidebar (Initially Hidden) -->
+	<!-- Sidebar (Initially Hidden) --> 
 	<div id="sideMenu" class="sidebar">
-		<ul>
-			<li><a href="LoginPage.html">Login / Sign Up</a></li>
-			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.php">Contact Us</a></li>
-		</ul>
-	</div>
-	</nav>
+        <ul>
+            <?php
+            // Determine the correct dashboard link based on user role
+            $dashboardLink = "LoginPage.html"; // Default for guests
+
+            if ($isLoggedIn) {
+                switch ($userRole) {
+                    case 1:
+                        $dashboardLink = "AdminDashboardMain.php"; // Admin Dashboard
+                        break;
+                    case 2:
+                        $dashboardLink = "BusinessDashboard.php"; // Business Dashboard
+                        break;
+                    case 3:
+                        $dashboardLink = "ApplicantDashboard.php"; // Applicant Dashboard
+                        break;
+                }
+            }
+            ?>
+            
+            <!-- Dynamic Dashboard Link -->
+            <li><a href="<?= $dashboardLink; ?>">My Dashboard</a></li>
+            
+            <li><a href="AboutUs.php">About Us</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
+
+            <?php if ($isLoggedIn): ?>
+                <!-- For logged-in users -->
+                <li><a href="logout.php">Log out</a></li>
+            <?php else: ?>
+                <!-- For guests -->
+                <li><a href="LoginPage.html">Login / Sign Up</a></li>
+            <?php endif; ?>
+        </ul>
+    </div> 
+
 
 	<!-- End of Navigation Bar -->
 
@@ -136,24 +172,28 @@
 
 	<!-- Recent Job Postings -->
 	<div id="homepage-job-postings" class="homepage-job-postings">
-		<h2>Recently Posted Jobs</h2>
-		<div class="job-postings-grid">
-			<?php if (!empty($jobs)): ?>
-				<?php foreach ($jobs as $job): ?>
-					<a href="FindJobDetails.php?id=<?= $job['id'] ?>" class="job-card-link">
-						<div class="job-card">
-							<h3><?= htmlspecialchars($job['jobTitle']) ?></h3>
-							<p><?= htmlspecialchars($job['businessName']) ?></p>
-							<p>📍 <?= htmlspecialchars($job['jobLocation']) ?></p>
-						</div>
-					</a>
-				<?php endforeach; ?>
-			<?php else: ?>
-				<p>No job postings available.</p>
-			<?php endif; ?>
-		</div>
-		<a href="FindJobPage.php"><button class="view-more">View More Jobs</button></a>
-	</div>
+    <h2>Recently Posted Jobs</h2>
+    <div class="job-postings-grid">
+        <?php if (!empty($jobs)): ?>
+            <?php
+            // Limit the jobs array to the first 3 elements
+            $limitedJobs = array_slice($jobs, 0, 3);
+            ?>
+            <?php foreach ($limitedJobs as $job): ?>
+                <a href="FindJobDetails.php?id=<?= $job['id'] ?>" class="job-card-link">
+                    <div class="job-card">
+                        <h3><?= htmlspecialchars($job['jobTitle']) ?></h3>
+                        <p><?= htmlspecialchars($job['businessName']) ?></p>
+                        <p>📍 <?= htmlspecialchars($job['jobLocation']) ?></p>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No job postings available.</p>
+        <?php endif; ?>
+    </div>
+    <a href="FindJobPage.php"><button class="view-more">View More Jobs</button></a>
+</div>
 
 
 	<footer class="footer">

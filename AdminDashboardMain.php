@@ -78,10 +78,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             
             // Redirect based on action
             if ($action === 'accept') {
-                header("Location: AdminDashboardMain.php");
+                header("Location: AdminDashApproved.php");
             } else {
                 header("Location: AdminDashRejected.php");
             }
+
+            // Set success message based on action
+            if ($action === 'accept') {
+                $_SESSION['success_message'] = "Job posting has been approved.";
+            } else {
+                $_SESSION['success_message'] = "Job posting has been rejected.";
+            }
+
             exit();
             
         } catch (PDOException $e) {
@@ -127,8 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 	<!-- Sidebar (Initially Hidden) -->
 	<div id="sideMenu" class="sidebar">
 		<ul>
-			<li><a href="AboutUs.html">About Us</a></li>
+			<li><a href="AboutUs.php">About Us</a></li>
 			<li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>
@@ -181,9 +190,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                         <div class="job-container">
                             <i class="ph ph-user-circle"></i>
                             <div class="job-details">
-                                <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($job['businessName']); ?></strong></p>
-                                <p class="company-desc"><?php echo htmlspecialchars($job['business_description']); ?></p>
-                                <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($job['jobTitle']); ?></p>
+                                <p class="company-name"><strong><?php echo htmlspecialchars($job['businessName']); ?></strong></p>
+                                <p class="job-position"><?php echo htmlspecialchars($job['jobTitle'] ?? 'N/A'); ?></p>
+                                <p class="company-desc"><?php echo htmlspecialchars($job['jobDescription']); ?></p>
                             </div>
                             <div class="job-actions">
                                 <form method="POST" action="AdminDashboardMain.php" class="action-form">

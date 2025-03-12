@@ -1,3 +1,12 @@
+<?php
+session_start();
+require_once "config.php";
+
+// Check if user is logged in (but don't restrict access)
+$isLoggedIn = isset($_SESSION['user_id']) && isset($_SESSION['role_id']);
+$userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +24,7 @@
         <!-- Navigation Bar -->
         <nav>
             <div class="logo">
-                <a href="HomePage.html"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+                <a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
             </div>
     
             <div class="nav-right">
@@ -29,15 +38,45 @@
             </div>
         </nav>
     
-        <!-- Sidebar (Initially Hidden) -->
+        <!-- Sidebar (Initially Hidden) --> 
         <div id="sideMenu" class="sidebar">
-            <ul>
+        <ul>
+            <?php
+            // Determine the correct dashboard link based on user role
+            $dashboardLink = "LoginPage.html"; // Default for guests
+
+            if ($isLoggedIn) {
+                switch ($userRole) {
+                    case 1:
+                        $dashboardLink = "AdminDashboardMain.php"; // Admin Dashboard
+                        break;
+                    case 2:
+                        $dashboardLink = "BusinessDashboard.php"; // Business Dashboard
+                        break;
+                    case 3:
+                        $dashboardLink = "ApplicantDashboard.php"; // Applicant Dashboard
+                        break;
+                }
+            }
+            ?>
+            
+            <!-- Dynamic Dashboard Link -->
+            <li><a href="<?= $dashboardLink; ?>">My Dashboard</a></li>
+            
+            <li><a href="AboutUs.php">About Us</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
+
+            <?php if ($isLoggedIn): ?>
+                <!-- For logged-in users -->
+                <li><a href="logout.php">Log out</a></li>
+            <?php else: ?>
+                <!-- For guests -->
                 <li><a href="LoginPage.html">Login / Sign Up</a></li>
-                <li><a href="AboutUs.html">About Us</a></li>
-                <li><a href="ContactUs.php">Contact Us</a></li>
-                <li><a href="FAQs.html">FAQS</a></li>
-            </ul>
-        </div>
+            <?php endif; ?>
+        </ul>
+    </div> 
+
 
     <!-- FAQ Content -->
     <div class="faq-header">

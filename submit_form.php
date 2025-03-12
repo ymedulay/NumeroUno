@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 $jobPostingId = isset($_POST['jobPostingId']) ? $_POST['jobPostingId'] : null;
 
 // Validate that we have a job posting ID
@@ -16,8 +16,8 @@ if (!$jobPostingId) {
 }
 
 // Fetch user details
-$stmt = $pdo->prepare("SELECT firstName, lastName, email FROM user WHERE id = ?");
-$stmt->execute([$user_id]);
+$stmt = $pdo->prepare("SELECT id, firstName, lastName, email FROM user WHERE id = ?");
+$stmt->execute([$userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user) {
@@ -76,13 +76,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Store application in database
     try {
-        $stmt = $pdo->prepare("INSERT INTO JobApplication 
+        $stmt = $pdo->prepare("INSERT INTO jobapplication 
             (applicantId, JobPostingId, birthdate, gender, contactNumber, homeAddress, 
              JobType, startDate, cvFilename, resume, status, firstName, lastName, email) 
             VALUES (:applicantId, :jobPostingId, :birthdate, :gender, :contactNumber, :homeAddress, 
                    :jobType, :startDate, :cvFilename, :resume, 'Pending', :firstName, :lastName, :email)");
         
-        $stmt->bindParam(":applicantId", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":applicantId", $userId, PDO::PARAM_INT);
         $stmt->bindParam(":jobPostingId", $jobPostingId, PDO::PARAM_INT);
         $stmt->bindParam(":birthdate", $birthdate);
         $stmt->bindParam(":gender", $gender);

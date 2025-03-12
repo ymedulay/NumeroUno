@@ -50,6 +50,7 @@ try {
         FROM JobApplication ja
         JOIN JobPosting jp ON ja.jobPostingId = jp.id
         WHERE jp.businessId = :business_id
+        AND ja.status = 'Pending'
     ");
     $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -130,8 +131,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
 	<!-- Sidebar (Initially Hidden) -->
 	<div id="sideMenu" class="sidebar">
 		<ul>
-			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="AboutUs.php">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>

@@ -1,26 +1,26 @@
 <?php
-// Start the session
-session_start();
+    // Start the session
+    session_start();
 
-// Check if the admin is logged in
-if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
-    // Redirect to login or another page if the user is not an admin (role_id = 1)
-    header("Location: LoginPage.php");
-    exit();
-}
+    // Check if the admin is logged in
+    if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
+        // Redirect to login or another page if the user is not an admin (role_id = 1)
+        header("Location: LoginPage.php");
+        exit();
+    }
 
-// Include the database connection file
-require 'config.php'; // Or 'db_config.php' depending on your setup
+    // Include the database connection file
+    require 'config.php'; // Or 'db_config.php' depending on your setup
 
-// Fetch rejected job postings (status = 'Rejected')
-// Fetch rejected job postings (status = 'Rejected')
-$sql = "SELECT j.*, b.businessName as company_name, b.description as company_description 
-        FROM JobPosting j
-        JOIN Business b ON j.businessId = b.id
-        WHERE j.status = 'Rejected'";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // Fetch rejected job postings (status = 'Rejected')
+    // Fetch rejected job postings (status = 'Rejected')
+    $sql = "SELECT j.*, b.businessName as company_name, b.description as company_description 
+            FROM JobPosting j
+            JOIN Business b ON j.businessId = b.id
+            WHERE j.status = 'Rejected'";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -58,8 +58,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	<!-- Sidebar (Initially Hidden) -->
 	<div id="sideMenu" class="sidebar">
 		<ul>
-			<li><a href="AboutUs.html">About Us</a></li>
-			<li><a href="ContactUs.html">Contact Us</a></li>
+			<li><a href="AboutUs.php">About Us</a></li>
+			<li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>
@@ -93,9 +94,9 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="job-container">
                         <i class="ph ph-user-circle"></i>
                         <div class="job-details">
-                            <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($row['company_name']); ?></strong></p>
-                            <p class="company-desc"><?php echo htmlspecialchars($row['company_description']); ?></p>
-                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($row['jobTitle']); ?></p>
+                            <p class="company-name"><strong><?php echo htmlspecialchars($row['company_name']); ?></strong></p>
+                            <p class="job-position"><?php echo htmlspecialchars($row['jobTitle'] ?? 'N/A'); ?></p>
+                            <p class="company-desc"><?php echo htmlspecialchars($row['jobDescription']); ?></p>
                         </div>
                         <div class="job-actions">
                             <button class="rejected-btn">REJECTED</button>

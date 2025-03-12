@@ -741,7 +741,7 @@ nav {
 
 @media (min-width: 768px) {
     .homepage-job-postings h2 {
-        text-align: left;
+        text-align: center;
         font-size: 22px;
         margin-bottom: 40px;
     }
@@ -762,13 +762,15 @@ nav {
     width: 100%;
 }
 
-/* Job postings grid */
+/* Job postings grid - this is the key section */
 .job-postings-grid {
     display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-bottom: 20px;
     flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between; /* Changed to space-between for equal spacing */
+    margin: 0 auto; /* Center the container itself */
+    max-width: 1200px; /* Set a max-width to ensure proper spacing */
+    padding: 0 20px; /* Add some padding on smaller screens */
 }
 
 @media (min-width: 768px) {
@@ -782,8 +784,8 @@ nav {
     background-color: #fff;
     border-radius: 10px;
     padding: 15px;
-    width: 100%;
-    max-width: 250px;
+    width: calc(100% - 30px); /* Full width on mobile minus padding */
+    max-width: 300px; /* Increased from 250px to match image */
     height: 180px;
     display: flex;
     flex-direction: column;
@@ -794,12 +796,24 @@ nav {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
+    flex: 1 0 30%; /* This helps with equal widths in the flex layout */
 }
 
 @media (min-width: 768px) {
     .job-card {
         padding: 20px;
         margin-bottom: 20px;
+        width: 30%; /* Make them take up roughly a third of the container */
+        max-width: 350px; /* Larger on desktop */
+        margin: 0; /* Remove margin to let flex handle spacing */
+    }
+}
+
+@media (max-width: 767px) {
+    .job-card {
+        flex: 0 0 100%; /* Full width on mobile */
+        max-width: 100%;
+        margin: 0 auto 20px auto; /* Center single cards on mobile */
     }
 }
 
@@ -844,7 +858,6 @@ nav {
     color: #333;
 }
 
-/* View more button with animation */
 .view-more {
     background-color: #317539;
     color: white;
@@ -853,24 +866,48 @@ nav {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 30px;
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
     animation-delay: 2s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Changed to auto for centering */
+    float: none; /* Removed float */
+    position: relative;
 }
 
+.view-more-container {
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 20px; 
+    display: flex;
+    justify-content: center; 
+}
+
+/* Responsive adjustments for the button */
 @media (min-width: 768px) {
     .view-more {
-        margin-left: 47%;
-        text-align: left;
+        margin-top: 60px; /* Even more gap on larger screens */
     }
+    
+    .view-more-container {
+        margin-top: 30px; /* More spacing on larger screens */
+    }
+}
+
+/* If the button is an anchor tag, ensure no underline */
+a {
+    text-decoration: none;
+    display: inline-block;
 }
 
 .view-more:hover {
     background-color: #CFB108;
     box-shadow: 0 0 0 5px rgba(207, 177, 8, 0.3);
     transform: translateY(-3px);
+    text-decoration: none;
 }
 
 /* Footer with animation */
@@ -3168,59 +3205,87 @@ account-management-page .save-button-wrapper {
 /* BUSINESS DASHBOARD */
 /* KYLE */
 
-    /* BUSINESS PROFILE */
-    #business-dash-main .profile-section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 40px auto;
-        gap: 20px;
-    }
-
-    #business-dash-main .page-content {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+ /* BUSINESS PROFILE */
+#business-dash-main .page-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeIn 0.8s ease-out;
+}
 
 #business-dash-main .page-content h1 {
     font-size: 35px;
     font-weight: bold;
     color: #000000;
-    text-align: left;
+    text-align: center;
     margin: 50px 0;
-    padding-left: 3rem; 
     width: 100%;
+    animation: slideDown 0.7s ease-out;
+    position: relative;
 }
 
-    #business-dash-main .profile-section img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+#business-dash-main .page-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.7s;
+}
 
-    #business-dash-main .profile-section h2 {
-        font-size: 28px;
-        color: #333;
-        margin: 0;
-    }
+#business-dash-main .profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto;
+    gap: 20px;
+    animation: fadeInUp 0.8s ease-out;
+}
 
-    #business-dash-main .info-section {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        margin-bottom: 60px;
-    }
+#business-dash-main .profile-section img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    animation: pulseIn 0.8s ease-out;
+}
+
+#business-dash-main .profile-section img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#business-dash-main .profile-section h2 {
+    font-size: 28px;
+    color: #333;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+#business-dash-main .profile-section h2:hover {
+    color: #CFB108;
+}
+
+#business-dash-main .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 60px;
+}
 
 #business-dash-main .info-box {
     background-color: #FFFFFF;
@@ -3231,44 +3296,207 @@ account-management-page .save-button-wrapper {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: left;
     margin: 0 auto;
+    transition: all 0.3s ease;
+    animation: slideUp 0.6s ease-out backwards;
 }
 
-    #business-dash-main .info-box h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
-        color: #317539;
-        text-align: center;
-    }
+/* Staggered animation for multiple info boxes */
+#business-dash-main .info-box:nth-child(1) { animation-delay: 0.1s; }
+#business-dash-main .info-box:nth-child(2) { animation-delay: 0.3s; }
+#business-dash-main .info-box:nth-child(3) { animation-delay: 0.5s; }
+#business-dash-main .info-box:nth-child(4) { animation-delay: 0.7s; }
 
-    #business-dash-main .info-box p {
-        font-size: 16px;
-        margin: 5px 0;
-        margin-bottom: 30px;
+#business-dash-main .info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+#business-dash-main .info-box h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #317539;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    padding-bottom: 5px;
+}
+
+#business-dash-main .info-box h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #CFB108;
+    transition: width 0.4s ease;
+}
+
+#business-dash-main .info-box:hover h2::after {
+    width: 100%;
+}
+
+#business-dash-main .info-box p {
+    font-size: 16px;
+    margin: 5px 0;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+#business-dash-main .info-box:hover p {
+    opacity: 1;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from { width: 0; }
+    to { width: 80px; }
+}
 
 /* Responsive Fixes */
 @media (max-width: 1024px) {
+    #business-dash-main .page-content {
+        padding: 15px;
+    }
+    
     #business-dash-main .page-content h1 {
         font-size: 30px;
-        padding-left: 2rem;
+        margin: 40px 0;
+        text-align: center;
+        padding-left: 0;
     }
 
     #business-dash-main .info-box {
-        width: 95%; /* Slightly wider on smaller screens */
-        padding: 20px;
+        width: 95%;
+        padding: 25px;
+    }
+    
+    #business-dash-main .profile-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
     }
 }
 
 @media (max-width: 768px) {
     #business-dash-main .page-content h1 {
-        font-size: 28px;
-        padding-left: 1.5rem;
+        font-size: 26px;
+        margin: 30px 0;
+        padding-left: 0;
+    }
+
+    #business-dash-main .profile-section {
+        margin: 30px auto;
+    }
+    
+    #business-dash-main .profile-section h2 {
+        font-size: 24px;
     }
 
     #business-dash-main .info-box {
         width: 100%;
-        max-width: 90%;
+        padding: 20px;
+        max-width: none;
+    }
+    
+    #business-dash-main .info-section {
+        padding: 0 10px;
+        gap: 30px;
+    }
+    
+    #business-dash-main .info-box h2 {
+        font-size: 18px;
+    }
+    
+    #business-dash-main .info-box p {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #business-dash-main .page-content {
+        padding: 10px;
+    }
+    
+    #business-dash-main .page-content h1 {
+        font-size: 22px;
+        margin: 25px 0;
+    }
+    
+    #business-dash-main .profile-section img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #business-dash-main .profile-section h2 {
+        font-size: 20px;
+    }
+    
+    #business-dash-main .info-box {
         padding: 15px;
+    }
+    
+    #business-dash-main .info-box h2 {
+        font-size: 16px;
+    }
+    
+    #business-dash-main .info-box p {
+        font-size: 14px;
     }
 }
 
@@ -3285,6 +3513,7 @@ account-management-page .save-button-wrapper {
     margin: 0 auto;
     padding: 30px;
     box-sizing: border-box;
+    animation: fadeIn 0.7s ease-out;
 }
 
 #business-dash-manage-prof .page-content {
@@ -3300,12 +3529,37 @@ account-management-page .save-button-wrapper {
     font-size: 35px;
     font-weight: bold;
     color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    animation: slideDown 0.6s ease-out;
+}
+
+#business-dash-manage-prof .page-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
 }
 
 #business-dash-manage-prof .profile-form {
     width: 65%;
     padding: 10px;
     border-radius: 15px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+#business-dash-manage-prof .profile-pic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.8s ease-out;
 }
 
 #business-dash-manage-prof #profile-pic {
@@ -3314,12 +3568,24 @@ account-management-page .save-button-wrapper {
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    animation: pulseIn 0.8s ease-out;
+}
+
+#business-dash-manage-prof #profile-pic:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 #business-dash-manage-prof #display-name {
     font-size: 24px;
     color: #333;
     margin-top: 10px;
+    transition: color 0.3s ease;
+}
+
+#business-dash-manage-prof #display-name:hover {
+    color: #CFB108;
 }
 
 #business-dash-manage-prof .change-profile-pic,
@@ -3332,18 +3598,52 @@ account-management-page .save-button-wrapper {
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 #business-dash-manage-prof .save-button {
     width: 50%;
     margin: 20px auto 0;
     display: block;
+    animation: fadeIn 1s ease-out;
+    animation-delay: 0.5s;
+    animation-fill-mode: backwards;
 }
 
 #business-dash-manage-prof .change-profile-pic:hover,
 #business-dash-manage-prof .save-button:hover {
     background-color: #24512f;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#business-dash-manage-prof .change-profile-pic:active,
+#business-dash-manage-prof .save-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Button ripple effect */
+#business-dash-manage-prof .change-profile-pic::after,
+#business-dash-manage-prof .save-button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+#business-dash-manage-prof .change-profile-pic:focus:not(:active)::after,
+#business-dash-manage-prof .save-button:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
 }
 
 /* Form Styling */
@@ -3355,47 +3655,270 @@ account-management-page .save-button-wrapper {
     width: 90%;
     max-width: 1000px;
     margin: 20px auto;
+    animation: slideUp 0.6s ease-out backwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+#business-dash-manage-prof .form-section-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Staggered animations for multiple form sections */
+#business-dash-manage-prof .form-section-container:nth-of-type(1) { animation-delay: 0.1s; }
+#business-dash-manage-prof .form-section-container:nth-of-type(2) { animation-delay: 0.3s; }
+#business-dash-manage-prof .form-section-container:nth-of-type(3) { animation-delay: 0.5s; }
 
 #business-dash-manage-prof .form-section-container h3 {
     font-size: 22px;
     color: #333;
     margin-bottom: 22px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+}
+
+#business-dash-manage-prof .form-section-container h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #CFB108;
+    transition: width 0.4s ease;
+}
+
+#business-dash-manage-prof .form-section-container:hover h3::after {
+    width: 100%;
 }
 
 #business-dash-manage-prof .form-grid.two-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
 #business-dash-manage-prof input[type="text"],
 #business-dash-manage-prof input[type="email"],
-#business-dash-manage-prof select{
-    width: 95%;
+#business-dash-manage-prof select {
+    width: 100%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+#business-dash-manage-prof input[type="text"]:focus,
+#business-dash-manage-prof input[type="email"]:focus,
+#business-dash-manage-prof select:focus,
+#business-dash-manage-prof textarea:focus {
+    border-color: #CFB108;
+    box-shadow: 0 0 8px rgba(207, 177, 8, 0.4);
+    transform: translateY(-2px);
+    outline: none;
 }
 
 #business-dash-manage-prof textarea {
-    width: 90%;
+    width: 205%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
     resize: vertical;
+    grid-column: 1 / -1;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 #business-dash-manage-prof .full-width {
     grid-column: span 2;
 }
 
+/* Form Element Animation */
+#business-dash-manage-prof .form-grid > * {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+#business-dash-manage-prof .form-grid > *:nth-child(1) { animation-delay: 0.1s; }
+#business-dash-manage-prof .form-grid > *:nth-child(2) { animation-delay: 0.2s; }
+#business-dash-manage-prof .form-grid > *:nth-child(3) { animation-delay: 0.3s; }
+#business-dash-manage-prof .form-grid > *:nth-child(4) { animation-delay: 0.4s; }
+#business-dash-manage-prof .form-grid > *:nth-child(5) { animation-delay: 0.5s; }
+#business-dash-manage-prof .form-grid > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from { width: 0; }
+    to { width: 80px; }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+    #business-dash-manage-prof .main-content-wrapper {
+        padding: 20px;
+    }
+    
+    #business-dash-manage-prof .profile-form {
+        width: 80%;
+    }
+    
+    #business-dash-manage-prof .form-section-container {
+        width: 100%;
+        padding: 25px;
+    }
+    
+    #business-dash-manage-prof .save-button {
+        width: 60%;
+    }
+}
+
 @media (max-width: 768px) {
+    #business-dash-manage-prof .page-content h1 {
+        font-size: 28px;
+    }
+    
     #business-dash-manage-prof .form-grid.two-columns {
         grid-template-columns: 1fr;
+    }
+    
+    #business-dash-manage-prof .profile-form {
+        width: 95%;
+    }
+    
+    #business-dash-manage-prof textarea {
+        width: 100%;
+    }
+    
+    #business-dash-manage-prof .save-button {
+        width: 80%;
+    }
+    
+    #business-dash-manage-prof #profile-pic {
+        width: 120px;
+        height: 120px;
+    }
+    
+    #business-dash-manage-prof #display-name {
+        font-size: 20px;
+    }
+    
+    #business-dash-manage-prof .form-section-container {
+        padding: 20px;
+    }
+    
+    #business-dash-manage-prof .form-section-container h3 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #business-dash-manage-prof .main-content-wrapper {
+        padding: 15px 10px;
+    }
+    
+    #business-dash-manage-prof .page-content h1 {
+        font-size: 24px;
+    }
+    
+    #business-dash-manage-prof .profile-form {
+        width: 100%;
+        padding: 5px;
+    }
+    
+    #business-dash-manage-prof .form-section-container {
+        padding: 15px;
+    }
+    
+    #business-dash-manage-prof #profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #business-dash-manage-prof .change-profile-pic,
+    #business-dash-manage-prof .save-button {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    #business-dash-manage-prof .save-button {
+        width: 100%;
+    }
+    
+    #business-dash-manage-prof input[type="text"],
+    #business-dash-manage-prof input[type="email"],
+    #business-dash-manage-prof select,
+    #business-dash-manage-prof textarea {
+        padding: 10px;
     }
 }
 
@@ -3462,12 +3985,14 @@ account-management-page .save-button-wrapper {
     width: 90%;
     max-width: 1000px;
     margin: 20px auto;
+    animation: fadeIn 0.6s ease-out;
 }
 
 #business-dash-job-post .form-section-container h3 {
     font-size: 22px;
     color: #333;
     margin-bottom: 22px;
+    animation: slideDown 0.5s ease-out;
 }
 
 #business-dash-job-post .form-grid.two-columns {
@@ -3476,79 +4001,229 @@ account-management-page .save-button-wrapper {
     gap: 20px;
 }
 
-/* General styling for all inputs and textareas */
+/* General styling for inputs and textareas with animation */
 #business-dash-job-post input[type="text"],
 #business-dash-job-post input[type="email"],
 #business-dash-job-post select,
 #business-dash-job-post textarea {
-    width: 95%;
+    width: 100%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
+#business-dash-job-post input[type="text"]:focus,
+#business-dash-job-post input[type="email"]:focus,
+#business-dash-job-post select:focus,
+#business-dash-job-post textarea:focus {
+    border-color: #CFB108;
+    box-shadow: 0 0 8px rgba(207, 177, 8, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Specific textarea styling */
 #business-dash-job-post textarea {
-    width: 20%;
-    height: 10px;
+    width: 100%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 #jobDescription {
     height: 200px;
-    width:85%;
 }
 
 #qualifications {
     height: 120px;
-    width: 60%;
     background-color: #fff;
+}
+
+/* Improved Checkbox styling with gold color (#CFB108) and animation */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
 }
 
 input[type="checkbox"] {
     appearance: none;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #555;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #CFB108;
     border-radius: 4px;
     display: inline-block;
     position: relative;
     cursor: pointer;
     vertical-align: middle;
+    background-color: white;
+    transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:hover {
+    background-color: rgba(207, 177, 8, 0.1);
+    transform: scale(1.05);
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(207, 177, 8, 0.3);
 }
 
 input[type="checkbox"]:checked {
-    background-color: #4CAF50;
-    border-color: #4CAF50;
+    background-color: #CFB108;
+    border-color: #CFB108;
+    animation: pulse 0.3s;
 }
 
 input[type="checkbox"]:checked::after {
-    content: "✔";
-    font-size: 12px;
-    color: white;
+    content: "";
     position: absolute;
-    left: 2px;
-    top: -1px;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkmark 0.2s ease-in-out;
 }
 
 label[for="cvRequired"] {
-    font-size: 12px;
-    margin-left: 5px;
+    font-size: 14px;
+    margin-left: 8px;
     cursor: pointer;
-    justify-content: center;
+    display: inline-block;
+    vertical-align: middle;
+    color: #333;
+    transition: color 0.2s ease;
+}
+
+label[for="cvRequired"]:hover {
+    color: #CFB108;
 }
 
 #business-dash-job-post .full-width {
     grid-column: span 2;
 }
 
+/* Submit Button Animation */
+#business-dash-job-post button[type="submit"] {
+    background-color: #CFB108;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#business-dash-job-post button[type="submit"]:hover {
+    background-color: #BFA000;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#business-dash-job-post button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#business-dash-job-post button[type="submit"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+#business-dash-job-post button[type="submit"]:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+/* Form Element Animation - staggered entrance */
+#business-dash-job-post .form-grid > * {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+#business-dash-job-post .form-grid > *:nth-child(1) { animation-delay: 0.1s; }
+#business-dash-job-post .form-grid > *:nth-child(2) { animation-delay: 0.2s; }
+#business-dash-job-post .form-grid > *:nth-child(3) { animation-delay: 0.3s; }
+#business-dash-job-post .form-grid > *:nth-child(4) { animation-delay: 0.4s; }
+#business-dash-job-post .form-grid > *:nth-child(5) { animation-delay: 0.5s; }
+#business-dash-job-post .form-grid > *:nth-child(6) { animation-delay: 0.6s; }
+
 /* Responsive Design */
 @media (max-width: 768px) {
     #business-dash-job-post .form-grid.two-columns {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes checkmark {
+    0% { opacity: 0; transform: rotate(45deg) scale(0.5); }
+    100% { opacity: 1; transform: rotate(45deg) scale(1); }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
     }
 }
 
@@ -4354,3 +5029,285 @@ label[for="cvRequired"] {
     background-color: #45a049;
 }
 
+/* VIEW APPLICATION PAGE */
+
+
+
+/* Page Content */
+#view-application .page-content {
+    width: 85%;
+    max-width: 1200px;
+    margin: 80px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#view-application .page-content h1 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Info Section Styling */
+#view-application .info-box {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+#view-application .info-box h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #317539;
+    text-align: center;
+}
+
+#view-application .info-box p {
+    font-size: 16px;
+    margin: 15px 0;
+}
+
+/* Form Styling */
+#view-application .form-container {
+    width: 100%;
+    padding: 0 15px;
+}
+
+/* Form Row Styling */
+#view-application .form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensures equal spacing */
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Labels */
+#view-application label {
+    font-weight: bold;
+    min-width: 120px; /* Adjust for consistency */
+    margin-right: 10px;
+}
+
+#view-application .second-label {
+    min-width: 120px;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+/* Input Lines */
+#view-application .input-line {
+    flex: 1;
+    border-bottom: 1px transparent;
+    height: 20px;
+    margin-right: 20px;
+}
+
+/* Adjust the First Row Only */
+#view-application .form-row:first-child {
+    display: grid;
+    grid-template-columns: 120px 300px 140px 180px 40px 40px; /* Adjusted widths */
+    align-items: center;
+    gap: 10px;
+}
+
+/* Move only the "Last Name:" label */
+#view-application .form-row:first-child label.second-label {
+    margin-left: -2px; /* Fine-tuned alignment */
+}
+
+/* Reduce Last Name's underline width */
+#view-application .form-row:first-child .input-line.last-name {
+    max-width: 180px; /* Shortened to give M.I. space */
+    transform: translateX(-12px); /* Moves it left */
+}
+
+/* Ensure First Name matches Birthdate */
+#view-application .input-line.first-name {
+    margin-left: -6px;
+	width: 250px; 
+}
+
+/* Ensure Last Name aligns with Gender */
+#view-application .input-line.last-name {
+	margin-left: -10px;
+    width: 220px; /* Matches Email, Phone */
+}
+
+/* Keep Middle Initial small */
+#view-application .input-line.mi {
+	margin-left: -16px; /* Moves M.I. underline left */
+    width: 30px; /* Ensures small width */
+}
+
+#view-application label.mi {
+    margin-left: -10px; /* Pulls M.I. label closer */
+    margin-right: 0;   /* Prevents extra gap */
+    display: flex; /* Ensures proper alignment */
+    align-items: center;
+    justify-content: flex-start; /* Aligns properly */
+    width: auto; /* Prevents extra space */
+    white-space: nowrap; /* Ensures no unwanted breaks */
+	transform: translateX(-16px); /* Moves it left */
+
+}
+
+/* Make Birthdate & Gender Width Same as Email & Phone Number */
+#view-application .input-line.birthdate,
+#view-application .input-line.email {
+    max-width: 250px; /* Same width for alignment */
+}
+
+#view-application .input-line.gender,
+#view-application .input-line.phone {
+    max-width: 250px; /* Matches alignment */
+}
+
+/* Adjust the full-width underline alignment */
+#view-application .input-line.full {
+    flex: 1;
+    max-width: 750px;
+    width: 100%;
+    margin-left: -2px;
+}
+
+
+/* White Container for the Entire Decision Section */
+#view-application .decision-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 2px;
+    width: 76%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px; /* Adds blank space below */
+}
+
+
+/* Prompt Text Styling */
+#view-application .decision-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Centering the Download Button */
+#view-application .single-btn {
+    display: flex;
+    justify-content: center; /* Centers the button */
+    margin-top: 20px;
+}
+
+/* ACCEPT/REJECT SECTION */
+#view-application .decision-box {
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Prompt Text Styling */
+#view-application .decision-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Button Container */
+#view-application .button-container {
+    display: flex;
+    justify-content: center; /* Centers buttons */
+    align-items: center;
+    gap: 15px; /* Adds space between buttons */
+    flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+/* General Button Styling */
+#view-application .button-container a {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+/* Download Applicant's CV Button */
+#view-application .action-btn.download {
+    background-color: #E0A800; 
+    display: inline-block !important;
+}
+
+#view-application .action-btn.download:hover {
+    background-color: #CFB108;
+}
+
+/* Accept Button */
+#view-application .action-btn.accept {
+    background-color: #28a745; /* Green */
+}
+
+#view-application .action-btn.accept:hover {
+    background-color: #1e7e34;
+}
+
+/* Reject Button */
+#view-application .action-btn.reject {
+    background-color: #dc3545; /* Red */
+}
+
+#view-application .action-btn.reject:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    #view-application .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #view-application .button-container a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+   #view-application .form-row {
+        flex-wrap: wrap;
+    }
+    
+   #view-application label, .second-label {
+        min-width: 100px;
+        margin-bottom: 5px;
+    }
+    
+   #view-application .second-label {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
+   #view-application .input-line {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    #view-application .info-box {
+        padding: 20px 15px;
+    }
+}
