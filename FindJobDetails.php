@@ -1,38 +1,38 @@
 <?php
-session_start();
-require_once "config.php";
+    session_start();
+    require_once "config.php";
 
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: LoginPage.php");
-    exit();
-}
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: LoginPage.php");
+        exit();
+    }
 
-$userId = $_SESSION['user_id'];
-$jobPostingId = isset($_GET['id']) ? $_GET['id'] : null;
+    $userId = $_SESSION['user_id'];
+    $jobPostingId = isset($_GET['id']) ? $_GET['id'] : null;
 
-// Fetch user details from the database
-$stmt = $pdo->prepare("SELECT id, firstName, lastName, email FROM user WHERE id = ?");
-$stmt->execute([$userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Fetch user details from the database
+    $stmt = $pdo->prepare("SELECT id, firstName, lastName, email FROM user WHERE id = ?");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Check if user exists
-if (!$user) {
-    die("<p style='color: red;'>Error: User not found.</p>");
-}
+    // Check if user exists
+    if (!$user) {
+        die("<p style='color: red;'>Error: User not found.</p>");
+    }
 
-// Fetch job details
-$job = null;
-if ($jobPostingId) {
-    $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM JobPosting WHERE id = ?");
-    $jobStmt->execute([$jobPostingId]);
-    $job = $jobStmt->fetch(PDO::FETCH_ASSOC);
-}
+    // Fetch job details
+    $job = null;
+    if ($jobPostingId) {
+        $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM JobPosting WHERE id = ?");
+        $jobStmt->execute([$jobPostingId]);
+        $job = $jobStmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-// Check if job exists
-if (!$job) {
-    die("<p style='color: red;'>Error: Job not found or invalid job ID.</p>");
-}
+    // Check if job exists
+    if (!$job) {
+        die("<p style='color: red;'>Error: Job not found or invalid job ID.</p>");
+    }
 ?>
 
 <!DOCTYPE html>

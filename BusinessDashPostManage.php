@@ -187,9 +187,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
                             <p>Email: <?= htmlspecialchars($app['email']) ?></p>
                             <p>Status: <?= htmlspecialchars($app['status']) ?></p>
                         </div>
+                       
                         <div class="job-actions">
                             <a href="view_application.php?id=<?= $app['application_id'] ?>" class="view-btn">VIEW</a>
                         </div>
+                        
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>

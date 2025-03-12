@@ -10,72 +10,6 @@ html {
     flex-direction: column;
 }
 
-.loading-content {
-    text-align: center;
-}
-
-.loading-logo {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-}
-
-.loading-text h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: 24px;
-    margin: 10px 0;
-}
-
-.loading-text .green {
-    color: #4CAF50;
-}
-
-.loading-text .uno {
-    color: #333;
-}
-
-.loading-bar {
-    width: 200px;
-    height: 6px;
-    background-color: #f3f3f3;
-    border-radius: 3px;
-    margin: 20px auto;
-    overflow: hidden;
-    position: relative;
-}
-
-.loading-progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0%;
-    background-color: #4CAF50;
-    border-radius: 3px;
-    transition: width 0.4s ease;
-}
-
-.loading-message {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: #666;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
 /* Basic scrollbar styling */
 ::-webkit-scrollbar {
     width: 12px;
@@ -2413,7 +2347,7 @@ nav {
 /* FAQs page */
 #faqs-page {
     font-family: 'Inter', sans-serif;
-    background-color: #D9D9D9;
+    background-color: #C9DACB;
     margin: 0;
     padding: 0;
     display: flex;
@@ -2423,7 +2357,7 @@ nav {
 
 /* Navigation Bar */
 #faqs-page nav {
-    background-color: #A6D4A8;
+    background-color: #C9DACB;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -2486,42 +2420,10 @@ nav {
 }
 
 #faqs-page .faq-icon-container img {
-    height: 300px;
+    height: 250px;
     width: auto;
-}
-
-#faqs-page .faq-search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-#faqs-page .faq-search {
-    width: 500%;
-    max-width: 600px;
-    padding: 12px;
-    border-radius: 5px;
-    border: 2px solid #A6D4A8;
-    font-size: 16px;
-    text-align: center;
-}
-
-#faqs-page .search-button {
-    padding: 12px 20px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: darkgreen;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#faqs-page .search-button:hover {
-    background-color: #8BBF8D;
+    display: block;
+    margin: 0 auto;
 }
 
 /* FAQ Section */
@@ -2548,6 +2450,10 @@ nav {
     text-align: left;
     display: flex;
     flex-direction: column;
+}
+
+#faqs-page h2 {
+    color: #255b2f;
 }
 
 #faqs-page .faq-item:hover {
@@ -2595,10 +2501,6 @@ nav {
 @media (max-width: 768px) {
     #faqs-page .faq-icon-container img {
         height: 90px;
-    }
-
-    #faqs-page .faq-search {
-        width: 90%;
     }
 
     #faqs-page .logo img {
@@ -2660,85 +2562,41 @@ nav {
     color: #317539;
 }
 
-/* Custom Checkbox Styling */
-#contact-us-page .contact-container form .checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-#contact-us-page .contact-container form .checkbox-container input[type="checkbox"] {
-    appearance: none;
-    /* Remove default checkbox */
-    width: 20px;
-    height: 20px;
-    border: 2px solid #317539;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s, border-color 0.3s;
-    cursor: pointer;
-    position: relative;
-}
-
-/* Checkmark */
-#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]::after {
-    content: "✔";
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/* When checked */
-#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked {
-    background-color: #317539;
-    border-color: #24512f;
-}
-
-#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked::after {
-    display: block;
-}
-
 /* Label Styling */
-#contact-us-page .contact-container form .checkbox-container label {
-    font-size: 16px;
-    cursor: pointer;
-    color: #333;
-    transition: color 0.3s;
+
+#contact-us-page .contact-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    width: 100%; 
 }
 
-#contact-us-page .contact-container form .checkbox-container input[type="checkbox"]:checked+label {
-    color: #317539;
+#contact-us-page .contact-container form label {
+    font-weight: bold;
+    margin-top: 15px
 }
 
 #contact-us-page .contact-container form input,
 #contact-us-page .contact-container form textarea {
+    border: none;
+    border-bottom: 1px solid #000; /* Underline effect */
+    outline: none;
     width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+    background: transparent;
+    margin-bottom: 15px; /* Increases spacing between input fields */
+    padding: 12px; /* Adds padding inside inputs for better spacing */
+    font-size: 16px;
 }
 
 /* Animating input fields when focused */
 #contact-us-page .contact-container form input:focus,
 #contact-us-page .contact-container form textarea:focus {
-    border-color: #317539;
-    box-shadow: 0 0 8px rgba(49, 117, 57, 0.3);
+    border-bottom: 1px solid #317539;
     transition: 0.3s;
 }
 
 #contact-us-page .contact-container form .btn {
-    width: 100%;
+    width: 40%;
     background-color: #317539;
     color: white;
     padding: 15px;
@@ -2748,6 +2606,7 @@ nav {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    margin: 20px auto;
 }
 
 #contact-us-page .contact-container form .btn:hover {
@@ -2793,6 +2652,7 @@ nav {
 
     #contact-us-page .contact-container form .btn {
         padding: 12px;
+        margin: 20px auto;
     }
 }
 
@@ -3308,94 +3168,110 @@ account-management-page .save-button-wrapper {
 /* BUSINESS DASHBOARD */
 /* KYLE */
 
-/* BUSINESS PROFILE */
-#business-dash-main .profile-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 40px auto;
-    gap: 20px;
-}
+    /* BUSINESS PROFILE */
+    #business-dash-main .profile-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 40px auto;
+        gap: 20px;
+    }
 
-#business-dash-main .page-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+    #business-dash-main .page-content {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
 #business-dash-main .page-content h1 {
     font-size: 35px;
     font-weight: bold;
     color: #000000;
-    margin: 60px 0 20px 0;
-
+    text-align: left;
+    margin: 50px 0;
+    padding-left: 3rem; 
+    width: 100%;
 }
 
-#business-dash-main .profile-section img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    #business-dash-main .profile-section img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-#business-dash-main .profile-section h2 {
-    font-size: 28px;
-    color: #333;
-    margin: 0;
-}
+    #business-dash-main .profile-section h2 {
+        font-size: 28px;
+        color: #333;
+        margin: 0;
+    }
 
-#business-dash-main .info-section {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 250%;
-    margin: 0 auto;
-    padding: 0 40px;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 60px;
-}
+    #business-dash-main .info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 60px;
+    }
 
 #business-dash-main .info-box {
     background-color: #FFFFFF;
     border-radius: 10px;
     padding: 30px;
     width: 90%;
-    max-width: 1000px;
+    max-width: 800px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin: 0 auto;
 }
 
-#business-dash-main .info-box h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    color: #317539;
-    text-align: center;
+    #business-dash-main .info-box h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #317539;
+        text-align: center;
+    }
+
+    #business-dash-main .info-box p {
+        font-size: 16px;
+        margin: 5px 0;
+        margin-bottom: 30px;
+    }
+
+/* Responsive Fixes */
+@media (max-width: 1024px) {
+    #business-dash-main .page-content h1 {
+        font-size: 30px;
+        padding-left: 2rem;
+    }
+
+    #business-dash-main .info-box {
+        width: 95%; /* Slightly wider on smaller screens */
+        padding: 20px;
+    }
 }
 
-#business-dash-main .info-box p {
-    font-size: 16px;
-    margin: 5px 0;
-    margin-bottom: 30px;
-}
-
-@media (min-width: 1024px) {
-    #business-dash-main .info-section {
-        flex-direction: column;
-        gap: 50px;
-        justify-content: center;
-        align-items: center;
+@media (max-width: 768px) {
+    #business-dash-main .page-content h1 {
+        font-size: 28px;
+        padding-left: 1.5rem;
     }
 
     #business-dash-main .info-box {
         width: 100%;
-        max-width: 1200px;
+        max-width: 90%;
+        padding: 15px;
     }
 }
+
 
 /* BUSINESS MANAGE PROFILE */
 
@@ -3495,8 +3371,7 @@ account-management-page .save-button-wrapper {
 
 #business-dash-manage-prof input[type="text"],
 #business-dash-manage-prof input[type="email"],
-#business-dash-manage-prof select,
-#business-dash-manage-prof textarea {
+#business-dash-manage-prof select{
     width: 95%;
     padding: 12px;
     margin: 10px 0;
@@ -3505,7 +3380,7 @@ account-management-page .save-button-wrapper {
 }
 
 #business-dash-manage-prof textarea {
-    width: 194%;
+    width: 90%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
@@ -3613,9 +3488,18 @@ account-management-page .save-button-wrapper {
     border: 1px solid #ccc;
 }
 
+#business-dash-job-post textarea {
+    width: 20%;
+    height: 10px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
 #jobDescription {
     height: 200px;
-    width: 95%;
+    width:85%;
 }
 
 #qualifications {
@@ -4417,3 +4301,56 @@ label[for="cvRequired"] {
         grid-template-columns: 1fr;
     }
 }
+
+/* css for recent job posting container */
+/* Clickable job card styles */
+.job-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-card-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.job-card-link .job-card {
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+.job-card-link:hover .job-card {
+    background-color: #f9f9f9;
+}
+
+/* Make sure the existing job-card class doesn't conflict */
+.job-postings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.search-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.search-btn:hover {
+    background-color: #45a049;
+}
+

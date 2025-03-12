@@ -1,18 +1,18 @@
 <?php
-require_once 'config.php'; // Include database connection
+	require_once 'config.php'; // Include database connection
 
-try {
-    $stmt = $pdo->prepare("SELECT jp.id, jp.jobTitle, b.businessName, jp.jobLocation 
-                        FROM jobposting jp
-                        JOIN business b ON jp.businessId = b.id
-                        WHERE jp.status = 'approved'
-                        ORDER BY jp.datePosted DESC
-                        LIMIT 3");
-    $stmt->execute(); // Execute the query
-    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Database error: " . $e->getMessage());
-}
+	try {
+		$stmt = $pdo->prepare("SELECT jp.id, jp.jobTitle, b.businessName, jp.jobLocation 
+							FROM jobposting jp
+							JOIN business b ON jp.businessId = b.id
+							WHERE jp.status = 'Open'
+							ORDER BY jp.datePosted DESC
+							LIMIT 3");
+		$stmt->execute(); // Execute the query
+		$jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	} catch (PDOException $e) {
+		die("Database error: " . $e->getMessage());
+	}
 ?>
 
 
@@ -39,7 +39,7 @@ try {
 
 		<div class="nav-right">
 			<!-- Correct Find Jobs Button -->
-			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+			<a href="#homepage-job-postings" class="find-jobs-btn">Find Jobs</a>
 
 			<!-- Menu Icon -->
 			<div class="menu-icon">
@@ -87,19 +87,21 @@ try {
 			</div>
 		</div>
 
-		<!-- Search Box (Still inside the hero-wrapper, but remains green) -->
-		<div class="main-container">
-			<div class="search-box-container">
-				<i class="ph ph-magnifying-glass"></i>
-				<input type="text" class="search-box" placeholder="What job are you looking for?">
+		<!-- Search Box (with form to submit search) -->
+		<form id="searchForm" action="FindJobPage.php" method="GET">
+			<div class="main-container">
+				<div class="search-box-container">
+					<i class="ph ph-magnifying-glass"></i>
+					<input type="text" class="search-box" name="search" placeholder="What job are you looking for?">
+				</div>
+				<div class="search-box-container">
+					<i class="ph ph-navigation-arrow"></i>
+					<input type="text" class="search-box" name="location" placeholder="Location">
+				</div>
 			</div>
-			<div class="search-box-container">
-				<i class="ph ph-navigation-arrow"></i>
-				<input type="text" class="search-box" placeholder="Location">
-			</div>
-		</div>
+		</form>
 	</div>
-	<!-- End of Search Box -->
+<!-- End of Search Box -->
 
 	<!-- How It Works Section -->
 	<div class="how-it-works">
@@ -132,22 +134,24 @@ try {
 	<!-- End of How It Works Section -->
 
 
-	<!-- Recent Job Postings --> <!-- Sam Edited -->
+	<!-- Recent Job Postings -->
 	<div id="homepage-job-postings" class="homepage-job-postings">
-    <h2>Recently Posted Jobs</h2>
-    <div class="job-postings-grid">
-        <?php if (!empty($jobs)): ?>
-            <?php foreach ($jobs as $job): ?>
-                <div class="job-card">
-                    <h3><?= htmlspecialchars($job['title']) ?></h3> <!-- Corrected Key -->
-                    <p><?= htmlspecialchars($job['businessName']) ?></p>
-                    <p>📍 <?= htmlspecialchars($job['location']) ?></p> <!-- Corrected Key -->
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No job postings available.</p>
-        <?php endif; ?>
-    </div>
+		<h2>Recently Posted Jobs</h2>
+		<div class="job-postings-grid">
+			<?php if (!empty($jobs)): ?>
+				<?php foreach ($jobs as $job): ?>
+					<a href="FindJobDetails.php?id=<?= $job['id'] ?>" class="job-card-link">
+						<div class="job-card">
+							<h3><?= htmlspecialchars($job['jobTitle']) ?></h3>
+							<p><?= htmlspecialchars($job['businessName']) ?></p>
+							<p>📍 <?= htmlspecialchars($job['jobLocation']) ?></p>
+						</div>
+					</a>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<p>No job postings available.</p>
+			<?php endif; ?>
+		</div>
 		<a href="FindJobPage.php"><button class="view-more">View More Jobs</button></a>
 	</div>
 
@@ -157,7 +161,8 @@ try {
 	</footer>
 
 	<script src="js/sidebar.js"></script>
-	<script src="js/scroll.js"></script>
+	<script src="js/enter.js"></script>
 </body>
 
 </html>
+

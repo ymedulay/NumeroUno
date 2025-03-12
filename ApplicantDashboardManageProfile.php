@@ -89,13 +89,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<li><a href="logout.php">Log out</a></li>
 		</ul>
 	</div>
-	</nav>
+
+    <div class="admin-sidebar">
+        <p class="admin-dashb">Applicant Dashboard</p>
+        <ul>
+            <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
+            <li><a href="ApplicantDashboardManageProfile.php">Manage My Profile</a></li>
+            <li><a href="ApplicantDashboardApplicationStatus.php">Application Status</a></li>
+            <li><a href="ApplicantDashboardAccountManagement.php">Account Management</a></li>
+        </ul>
+    </div>
 
 	<!-- End of Navigation Bar -->
 
     <div class="main-content-wrapper">
         <div class="page-content">
-            <img id="profile-pic" src="profile-placeholder.png" alt="User Profile Picture">
             <h2 id="display-name"><?= htmlspecialchars($user['firstName'] . ' ' . $user['lastName']) ?></h2>
         </div>
 
@@ -149,7 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 
 </body>
 

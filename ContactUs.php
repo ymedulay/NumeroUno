@@ -1,3 +1,30 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = isset($_POST["name"]) ? $_POST["name"] : "";
+    $contact = isset($_POST["contact"]) ? $_POST["contact"] : "";
+    $email = isset($_POST["email"]) ? $_POST["email"] : "";
+    $message = isset($_POST["message"]) ? $_POST["message"] : "";
+
+
+    $to = "arrianeatienzaaaa@gmail.com"; // Change to the recipient's email
+    $subject = "New Contact Form Submission";
+    $headers = "From: $email\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+    $body = "Name: $name\n";
+    $body .= "Contact No.: $contact\n";
+    $body .= "Email: $email\n";
+    $body .= "Message: $message\n";
+
+    if (mail($to, $subject, $body, $headers)) {
+        echo "<script>alert('Message sent successfully!');</script>";
+    } else {
+        echo "<script>alert('Error sending message.');</script>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,27 +57,26 @@
         </div>
     </nav>
 
-
     <!-- Sidebar (Initially Hidden) -->
-    <div id="sideMenu" class="sidebar">
+    <div>
+    <id="sideMenu" class="sidebar">
         <ul>
             <li><a href="LoginPage.html">Login / Sign Up</a></li>
             <li><a href="AboutUs.html">About Us</a></li>
-            <li><a href="ContactUs.html">Contact Us</a></li>
-            <li><a href="#">FAQS</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.html">FAQs</a></li>
         </ul>
     </div>
-    </nav>
-
+    
     <!-- End of Navigation Bar -->
 
-    <h1><b> Get in Touch with Us! </b></h1>
+    <h1><b> Get in Touch with Us!</b></h1>
     <div class="contact-map-wrapper">
         <div class="contact-container">
-            <h2>Send a Message</h2>
-            <p>Got a question or want to leave a review?
+            <h2>Contact Us</h2>
+            <p>Got a question?
                 Leave us a message below.</p>
-            <form>
+            <form action="" method="post">
                 <label for="name">Name</label>
                 <input type="text" id="name" placeholder="e.g., John Dela Cruz" required>
 
@@ -63,12 +89,7 @@
                 <label for="message">Message</label>
                 <textarea id="message" rows="4" placeholder="Type your message here..." required></textarea>
 
-                <div class="checkbox-container">
-                    <input type="checkbox" id="reviewCheck">
-                    <label for="reviewCheck">Check this box if you're leaving a review.</label>
-                </div>
-
-                <button class="btn" type="submit">Submit</button>
+                <button class="btn" type="submit">Submit your message</button>
             </form>
         </div>
 
@@ -112,7 +133,6 @@
 
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>

@@ -3,61 +3,112 @@ session_start();
 require_once 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: LoginPage.html");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
-$business_id = null;
+$jobPostingId = isset($_POST['jobPostingId']) ? $_POST['jobPostingId'] : null;
 
-// Fetch the business ID
-try {
-    $stmt = $pdo->prepare("SELECT id FROM Business WHERE userId = :user_id");
-    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    if ($stmt->rowCount() > 0) {
-        $business = $stmt->fetch(PDO::FETCH_ASSOC);
-        $business_id = $business['id'];
-    } else {
-        die("Error: No business profile found. Please create a business profile first.");
-    }
-} catch (PDOException $e) {
-    die("Database Error: " . $e->getMessage());
+// Validate that we have a job posting ID
+if (!$jobPostingId) {
+    die("Error: No job posting ID provided.");
 }
 
-// Handle Job Posting
+// Fetch user details
+$stmt = $pdo->prepare("SELECT firstName, lastName, email FROM user WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user) {
+    die("Error: User information could not be retrieved.");
+}
+
+// Handle Job Application
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $jobTitle = trim($_POST['jobTitle']);
-    $jobDescription = trim($_POST['description']);
-    $jobLocation = trim($_POST['jobLocation']);
-    $salaryRange = trim($_POST['salaryRange']);
-    $qualifications = trim($_POST['qualifications']);
-    $employmentType = trim($_POST['employmentType']);
+    // Collect form data
+    $birthdate = trim($_POST['birthdate']);
+    $gender = trim($_POST['gender']);
+    $contactNumber = trim($_POST['contact-number']);
+    $homeAddress = trim($_POST['home-address']);
+    $jobType = trim($_POST['job-type']);
+    $startDate = trim($_POST['start-date']);
+    $firstName = $user['firstName'];
+    $lastName = $user['lastName'];
+    $email = $user['email'];
     
-    if (empty($jobTitle) || empty($jobDescription) || empty($qualifications)) {
-        $error_message = "Job title, description, and qualifications are required.";
-    } else {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO JobPosting 
-                (businessId, jobTitle, jobDescription, jobLocation, salaryRange, requirements, employmentType, status) 
-                VALUES (:business_id, :jobTitle, :description, :jobLocation, :salaryRange, :qualifications, :employmentType, 'Pending Approval')");
-
-            $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
-            $stmt->bindParam(":jobTitle", $jobTitle, PDO::PARAM_STR);
-            $stmt->bindParam(":description", $jobDescription, PDO::PARAM_STR);
-            $stmt->bindParam(":qualifications", $qualifications, PDO::PARAM_STR);
-            $stmt->bindParam(":jobLocation", $jobLocation, PDO::PARAM_STR);
-            $stmt->bindParam(":salaryRange", $salaryRange, PDO::PARAM_STR);
-            $stmt->bindParam(":employmentType", $employmentType, PDO::PARAM_STR);
-            $stmt->execute();
-
-            $_SESSION['success_message'] = "Job posted successfully. Awaiting admin approval.";
-            header("Location: BusinessDashPostManage.php");
-            exit();
-        } catch (PDOException $e) {
-            $error_message = "Error posting job: " . $e->getMessage();
-        }
+    // Check for required fields
+    if (empty($birthdate) || empty($gender) || empty($contactNumber) || empty($homeAddress) || empty($jobType) || empty($startDate)) {
+        die("Error: All fields are required.");
     }
+    
+    // Handle file upload for CV
+    $cvFilename = null;
+    $resume = null;
+    
+    if (isset($_FILES['cv-upload']) && $_FILES['cv-upload']['size'] > 0) {
+        $allowed = array('pdf', 'doc', 'docx');
+        $filename = $_FILES['cv-upload']['name'];
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        
+        if (!in_array($ext, $allowed)) {
+            die("Error: Only PDF, DOC, and DOCX files are allowed for CV upload.");
+        }
+        
+        // Create uploads directory if it doesn't exist
+        $uploadDir = 'uploads/';
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        
+        // Generate unique filename
+        $newFilename = uniqid('cv_') . '.' . $ext;
+        $fullPath = $uploadDir . $newFilename;
+        
+        // Move uploaded file
+        if (!move_uploaded_file($_FILES['cv-upload']['tmp_name'], $fullPath)) {
+            die("Error: Failed to upload CV file.");
+        }
+        
+        $cvFilename = $newFilename;
+        $resume = $fullPath; // Store the full path in the resume field
+    }
+    
+    // Store application in database
+    try {
+        $stmt = $pdo->prepare("INSERT INTO JobApplication 
+            (applicantId, JobPostingId, birthdate, gender, contactNumber, homeAddress, 
+             JobType, startDate, cvFilename, resume, status, firstName, lastName, email) 
+            VALUES (:applicantId, :jobPostingId, :birthdate, :gender, :contactNumber, :homeAddress, 
+                   :jobType, :startDate, :cvFilename, :resume, 'Pending', :firstName, :lastName, :email)");
+        
+        $stmt->bindParam(":applicantId", $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(":jobPostingId", $jobPostingId, PDO::PARAM_INT);
+        $stmt->bindParam(":birthdate", $birthdate);
+        $stmt->bindParam(":gender", $gender);
+        $stmt->bindParam(":contactNumber", $contactNumber);
+        $stmt->bindParam(":homeAddress", $homeAddress);
+        $stmt->bindParam(":jobType", $jobType);
+        $stmt->bindParam(":startDate", $startDate);
+        $stmt->bindParam(":cvFilename", $cvFilename);
+        $stmt->bindParam(":resume", $resume);
+        $stmt->bindParam(":firstName", $firstName);
+        $stmt->bindParam(":lastName", $lastName);
+        $stmt->bindParam(":email", $email);
+        
+        $stmt->execute();
+        
+        // Set success message and redirect
+        $_SESSION['success_message'] = "Your job application has been submitted successfully!";
+        header("Location: FindJobPage.php");
+        exit();
+        
+    } catch (PDOException $e) {
+        die("Database Error: " . $e->getMessage());
+    }
+} else {
+    // If not POST request, redirect to job listings
+    header("Location: FindJobPage.php");
+    exit();
 }
 ?>

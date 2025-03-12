@@ -1,64 +1,65 @@
 <?php
-session_start();
-require_once "config.php";
+    session_start();
+    require_once "config.php";
 
 
-// Initialize filter variables
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-$location = isset($_GET['location']) ? $_GET['location'] : '';
-$category = isset($_GET['category']) ? $_GET['category'] : '';
-$experience = isset($_GET['experience']) ? $_GET['experience'] : '';
-$otherCategory = isset($_GET['other_category']) ? $_GET['other_category'] : '';
+    // Initialize filter variables
+    $search = isset($_GET['search']) ? $_GET['search'] : '';
+    $location = isset($_GET['location']) ? $_GET['location'] : '';
+    $category = isset($_GET['category']) ? $_GET['category'] : '';
+    $experience = isset($_GET['experience']) ? $_GET['experience'] : '';
+    $otherCategory = isset($_GET['other_category']) ? $_GET['other_category'] : '';
 
-// Build the SQL query with dynamic filtering
-$sql = "SELECT jp.id, jp.jobTitle, b.businessName, jp.jobDescription, jp.salaryRange, jp.jobLocation, jp.employmentType, jp.requirements 
-        FROM jobposting jp 
-        JOIN business b ON jp.businessId = b.id
-        WHERE 1=1";
-$params = [];
+    // Build the SQL query with dynamic filtering
+    $sql = "SELECT jp.id, jp.jobTitle, b.businessName, jp.jobDescription, jp.salaryRange, jp.jobLocation, jp.employmentType, jp.requirements 
+            FROM jobposting jp 
+            JOIN business b ON jp.businessId = b.id
+            WHERE jp.status = 'Open'";  // Only show approved jobs
+    $params = [];
 
-// Add search conditions
-if (!empty($search)) {
-    $sql .= " AND (jp.jobTitle LIKE ? OR jp.jobDescription LIKE ?)";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
-}
-
-if (!empty($location)) {
-    $sql .= " AND jp.jobLocation LIKE ?";
-    $params[] = "%$location%";
-}
-
-// Handle category filtering through requirements or employmentType field
-if (!empty($category)) {
-    if ($category === "Service") {
-        $sql .= " AND (jp.employmentType = 'Service' OR jp.requirements LIKE ?)";
-        $params[] = "%Service%";
-    } else if ($category === "House work") {
-        $sql .= " AND (jp.employmentType = 'House work' OR jp.requirements LIKE ?)";
-        $params[] = "%House work%";
-    } else if ($category === "Others" && !empty($otherCategory)) {
-        $sql .= " AND (jp.employmentType LIKE ? OR jp.requirements LIKE ?)";
-        $params[] = "%$otherCategory%";
-        $params[] = "%$otherCategory%";
+    // Add search conditions
+    if (!empty($search)) {
+        $sql .= " AND (jp.jobTitle LIKE ? OR jp.jobDescription LIKE ?)";
+        $params[] = "%$search%";
+        $params[] = "%$search%";
     }
-}
 
-// Handle experience level filtering through requirements field
-if (!empty($experience)) {
-    $sql .= " AND jp.requirements LIKE ?";
-    $params[] = "%Experience Level: $experience%";
-}
+    if (!empty($location)) {
+        $sql .= " AND jp.jobLocation LIKE ?";
+        $params[] = "%$location%";
+    }
 
-// Fetch job postings from the database
-try {
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Error fetching jobs: " . $e->getMessage());
-}
+    // Handle category filtering through requirements or employmentType field
+    if (!empty($category)) {
+        if ($category === "Service") {
+            $sql .= " AND (jp.employmentType = 'Service' OR jp.requirements LIKE ?)";
+            $params[] = "%Service%";
+        } else if ($category === "House work") {
+            $sql .= " AND (jp.employmentType = 'House work' OR jp.requirements LIKE ?)";
+            $params[] = "%House work%";
+        } else if ($category === "Others" && !empty($otherCategory)) {
+            $sql .= " AND (jp.employmentType LIKE ? OR jp.requirements LIKE ?)";
+            $params[] = "%$otherCategory%";
+            $params[] = "%$otherCategory%";
+        }
+    }
+
+    // Handle experience level filtering through requirements field
+    if (!empty($experience)) {
+        $sql .= " AND jp.requirements LIKE ?";
+        $params[] = "%Experience Level: $experience%";
+    }
+
+    // Fetch job postings from the database
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Error fetching jobs: " . $e->getMessage());
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -210,7 +211,6 @@ try {
     </script>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>

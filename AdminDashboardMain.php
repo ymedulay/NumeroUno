@@ -178,22 +178,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                     <p>No pending job postings at this time.</p>
                 <?php else: ?>
                     <?php foreach ($pendingJobs as $job): ?>
-                    <div class="job-container">
-                    <div class="job-container">
-                        <i class="ph ph-user-circle"></i>
-                        <div class="job-details">
-                            <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($job['businessName']); ?></strong></p>
-                            <p class="company-desc"><?php echo htmlspecialchars($job['business_description']); ?></p>
-                            <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($job['jobTitle']); ?></p>
-                        </div>
-                        <div class="job-actions">
-                            <form method="POST" action="AdminDashboardMain.php" class="action-form">
-                                <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
-                                <button type="submit" name="action" value="accept" class="accept-btn">ACCEPT</button>
-                                <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
-                            </form>
-                                </div>
+                        <div class="job-container">
+                            <i class="ph ph-user-circle"></i>
+                            <div class="job-details">
+                                <p class="company-name"><strong>BUSINESS / <?php echo htmlspecialchars($job['businessName']); ?></strong></p>
+                                <p class="company-desc"><?php echo htmlspecialchars($job['business_description']); ?></p>
+                                <p class="job-position">Open Job Position/s: <?php echo htmlspecialchars($job['jobTitle']); ?></p>
                             </div>
+                            <div class="job-actions">
+                                <form method="POST" action="AdminDashboardMain.php" class="action-form">
+                                    <input type="hidden" name="job_id" value="<?php echo $job['id']; ?>">
+                                    <button type="submit" name="action" value="accept" class="accept-btn">ACCEPT</button>
+                                    <button type="submit" name="action" value="reject" class="reject-btn">REJECT</button>
+                                </form>
+                            </div>
+                        </div>
                         <?php endforeach; ?>
 
                     <?php if (count($pendingJobs) > 7): ?>

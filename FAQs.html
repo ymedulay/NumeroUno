@@ -12,49 +12,38 @@
 </head>
 
 <body id="faqs-page">
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">
-            <img src="img/numerouno.png" alt="Numero Uno Logo">
-        </div>
-        <div class="nav-left">
-            <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="FindJobPage.html">Find Job</a></li>
+        <!-- Navigation Bar -->
+        <nav>
+            <div class="logo">
+                <a href="HomePage.html"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+            </div>
+    
+            <div class="nav-right">
+                <!-- Correct Find Jobs Button -->
+                <a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+    
+                <!-- Menu Icon -->
+                <div class="menu-icon">
+                    <i class="ph ph-list"></i>
+                </div>
+            </div>
+        </nav>
+    
+        <!-- Sidebar (Initially Hidden) -->
+        <div id="sideMenu" class="sidebar">
+            <ul>
+                <li><a href="LoginPage.html">Login / Sign Up</a></li>
+                <li><a href="AboutUs.html">About Us</a></li>
+                <li><a href="ContactUs.php">Contact Us</a></li>
+                <li><a href="FAQs.html">FAQS</a></li>
             </ul>
         </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li class="dropdown">
-                    <i class="ph ph-user" onclick="toggleDropdown('userDropdown')"></i>
-                    <ul class="dropdown-menu" id="userDropdown">
-                        <li><a href="HomePage.html">Log-In</a></li>
-                        <li><a href="AccountSelection.html">Sign-Up</a></li>
-                        <li><a href="ApplicantDashboard.html">My Account</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <i class="ph ph-gear" onclick="toggleDropdown('settingsDropdown')"></i>
-                    <ul class="dropdown-menu" id="settingsDropdown">
-                        <li><a href="AboutUs.html">About Us</a></li>
-                        <li><a href="ContactUs.html">Contact Us</a></li>
-                        <li><a href="FAQs.html">FAQs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
     <!-- FAQ Content -->
     <div class="faq-header">
         <div class="faq-icon-container">
             <img src="img/FAQsIcon.png" alt="FAQ Icon">
         </div>
-        <div class="faq-search-container">
-            <input type="text" class="faq-search" placeholder="Type your question...">
-            <button class="search-button">Search</button>
-        </div>
-    </div>
 
     <div class="faq-container">
         <h2>Frequently Asked Questions</h2>
@@ -128,7 +117,6 @@
     </script>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>

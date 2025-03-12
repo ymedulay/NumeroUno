@@ -66,6 +66,7 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 	<!-- Sidebar (Initially Hidden) -->
+    <nav>
 	<div id="sideMenu" class="sidebar">
 		<ul>
 			<li><a href="AboutUs.html">About Us</a></li>
@@ -112,7 +113,6 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>
