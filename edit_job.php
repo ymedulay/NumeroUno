@@ -186,6 +186,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 </html>

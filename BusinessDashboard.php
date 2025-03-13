@@ -109,7 +109,6 @@ $description = $business['description'] ?? "No description available";
 	</footer>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
     
 </body>
 

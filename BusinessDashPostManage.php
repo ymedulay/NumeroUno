@@ -204,7 +204,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
 	</footer>
             
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 
 </body>
 

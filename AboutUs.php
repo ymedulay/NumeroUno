@@ -32,7 +32,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
 
         <div class="nav-right">
             <!-- Correct Find Jobs Button -->
-			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+            <a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
             <!-- Menu Icon -->
             <div class="menu-icon">
@@ -42,7 +42,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
     </nav>
 
 
-    <!-- Sidebar (Initially Hidden) --> 
+    <!-- Sidebar (Initially Hidden) -->
     <div id="sideMenu" class="sidebar">
         <ul>
             <?php
@@ -63,10 +63,10 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
                 }
             }
             ?>
-            
+
             <!-- Dynamic Dashboard Link -->
             <li><a href="<?= $dashboardLink; ?>">My Dashboard</a></li>
-            
+
             <li><a href="AboutUs.php">About Us</a></li>
             <li><a href="ContactUs.php">Contact Us</a></li>
             <li><a href="FAQs.php">FAQs</a></li>
@@ -79,7 +79,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
                 <li><a href="LoginPage.html">Login / Sign Up</a></li>
             <?php endif; ?>
         </ul>
-    </div> 
+    </div>
 
     <!-- End of Navigation Bar -->
 
@@ -237,17 +237,17 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
             </p>
         </div>
     </section>
-    
+
     <footer class="footer">
-		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
-	</footer>
+        <p>Copyright © 2025, NumeroUno | All rights reserved</p>
+    </footer>
 
     <script src="js/sidebar.js"></script>
     <script src="js/whocanbenefit.js"></script>
 
     <!-- Animation initialization script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Initialize AOS
             AOS.init({
                 once: true // whether animation should happen only once
@@ -262,17 +262,16 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
             // Add hover animation to team member profiles
             const profilePics = document.querySelectorAll('.profile-pic');
             profilePics.forEach(pic => {
-                pic.addEventListener('mouseenter', function () {
+                pic.addEventListener('mouseenter', function() {
                     this.classList.add('rotate-profile');
                 });
-                pic.addEventListener('mouseleave', function () {
+                pic.addEventListener('mouseleave', function() {
                     this.classList.remove('rotate-profile');
                 });
             });
         });
     </script>
 
-    <script src="js/scroll.js">
 
     </script>
 </body>

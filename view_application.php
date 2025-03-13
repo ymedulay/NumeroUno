@@ -210,7 +210,6 @@ if (isset($_GET['status_updated']) && $_GET['status_updated'] == 'true') {
 	</footer>
     
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
     
 </body>
 </html>

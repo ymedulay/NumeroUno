@@ -146,7 +146,6 @@ $business = $stmt->fetch(PDO::FETCH_ASSOC);
 	</footer>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 
 </body>
 

@@ -1,38 +1,38 @@
 <?php
-    session_start();
-    require_once "config.php";
+session_start();
+require_once "config.php";
 
-    // Check if user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: LoginPage.html");
-        exit();
-    }
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: LoginPage.html");
+    exit();
+}
 
-    $userId = $_SESSION['user_id'];
-    $jobPostingId = isset($_GET['id']) ? $_GET['id'] : null;
+$userId = $_SESSION['user_id'];
+$jobPostingId = isset($_GET['id']) ? $_GET['id'] : null;
 
-    // Fetch user details from the database
-    $stmt = $pdo->prepare("SELECT id, firstName, lastName, email FROM user WHERE id = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+// Fetch user details from the database
+$stmt = $pdo->prepare("SELECT id, firstName, lastName, email FROM user WHERE id = ?");
+$stmt->execute([$userId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Check if user exists
-    if (!$user) {
-        die("<p style='color: red;'>Error: User not found.</p>");
-    }
+// Check if user exists
+if (!$user) {
+    die("<p style='color: red;'>Error: User not found.</p>");
+}
 
-    // Fetch job details
-    $job = null;
-    if ($jobPostingId) {
-        $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM JobPosting WHERE id = ?");
-        $jobStmt->execute([$jobPostingId]);
-        $job = $jobStmt->fetch(PDO::FETCH_ASSOC);
-    }
+// Fetch job details
+$job = null;
+if ($jobPostingId) {
+    $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM JobPosting WHERE id = ?");
+    $jobStmt->execute([$jobPostingId]);
+    $job = $jobStmt->fetch(PDO::FETCH_ASSOC);
+}
 
-    // Check if job exists
-    if (!$job) {
-        die("<p style='color: red;'>Error: Job not found or invalid job ID.</p>");
-    }
+// Check if job exists
+if (!$job) {
+    die("<p style='color: red;'>Error: Job not found or invalid job ID.</p>");
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,45 +49,45 @@
 </head>
 
 <body id="find-job-deets">
-	<!-- Navigation Bar -->
-	<nav>
-		<div class="logo">
-			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
-		</div>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+        </div>
 
-		<div class="nav-right">
-			<!-- Correct Find Jobs Button -->
-			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+        <div class="nav-right">
+            <!-- Correct Find Jobs Button -->
+            <a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
-			<!-- Menu Icon -->
-			<div class="menu-icon">
-				<i class="ph ph-list"></i>
-			</div>
-		</div>
-	</nav>
+            <!-- Menu Icon -->
+            <div class="menu-icon">
+                <i class="ph ph-list"></i>
+            </div>
+        </div>
+    </nav>
 
 
-	<!-- Sidebar (Initially Hidden) -->
-	<div id="sideMenu" class="sidebar">
-		<ul>
+    <!-- Sidebar (Initially Hidden) -->
+    <div id="sideMenu" class="sidebar">
+        <ul>
             <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
-			<li><a href="AboutUs.php">About Us</a></li>
-			<li><a href="ContactUs.php">Contact Us</a></li>
-			<li><a href="FAQs.php">FAQs</a></li>
+            <li><a href="AboutUs.php">About Us</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
             <li><a href="logout.php">Log out</a></li>
-		</ul>
-	</div>
-	</nav>
+        </ul>
+    </div>
+    </nav>
 
-	<!-- End of Navigation Bar -->
+    <!-- End of Navigation Bar -->
 
 
-    
+
     <div class="job-content-container">
         <div class="job-description-wrapper">
-        <p class="job-details-title">
-            <strong><?= htmlspecialchars($job['jobTitle']) ?></strong>
-        </p>
+            <p class="job-details-title">
+                <strong><?= htmlspecialchars($job['jobTitle']) ?></strong>
+            </p>
             <p class="job-description"><?php echo htmlspecialchars($job['jobDescription']); ?></p>
             <?php if ($job['requireResume']) echo '<p class="cv-requirement">*This job requires a curriculum vitae (CV).</p>'; ?>
         </div>
@@ -120,7 +120,7 @@
             <!-- Name Fields (Read-Only) -->
             <div class="name-container">
                 <div class="input-group-name">
-                    <label for = "first-name">First Name:</label>
+                    <label for="first-name">First Name:</label>
                     <input type="text" value="<?php echo htmlspecialchars($user['firstName'] ?? ''); ?>" readonly>
                 </div>
                 <div class="input-group-name">
@@ -196,11 +196,10 @@
     </div>
 
     <footer class="footer">
-		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
-	</footer>
+        <p>Copyright © 2025, NumeroUno | All rights reserved</p>
+    </footer>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>

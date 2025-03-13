@@ -157,7 +157,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </script>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 
 </body>
 

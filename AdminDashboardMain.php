@@ -19,14 +19,15 @@ if ($roleId != $pageRole) {
 require_once 'config.php';
 
 // Function to get pending job postings from the database
-function getPendingJobPostings($pdo) {
+function getPendingJobPostings($pdo)
+{
     try {
         $query = "SELECT j.id, b.businessName, b.description AS business_description, j.jobTitle, j.jobDescription
                   FROM JobPosting j
                   JOIN Business b ON j.businessId = b.id
                   WHERE j.status = 'Pending Approval'
                   ORDER BY j.datePosted DESC";
-        
+
         $stmt = $pdo->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -44,22 +45,22 @@ $pendingJobs = getPendingJobPostings($pdo);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_POST['action'])) {
     $jobId = intval($_POST['job_id']);
     $action = $_POST['action'];
-    
+
     if ($action === 'accept' || $action === 'reject') {
         $newJobStatus = ($action === 'accept') ? 'Open' : 'Rejected'; // Changed from 'Closed' to 'Rejected'
         $adminAction = ($action === 'accept') ? 'Approved' : 'Rejected'; // Log the admin action
-        
+
         try {
             // Begin transaction
             $pdo->beginTransaction();
-            
+
             // Update job posting status in JobPosting table
             $updateJobStatusQuery = "UPDATE JobPosting SET status = :status WHERE id = :id";
             $stmt = $pdo->prepare($updateJobStatusQuery);
             $stmt->bindParam(':status', $newJobStatus, PDO::PARAM_STR);
             $stmt->bindParam(':id', $jobId, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             // Log the admin action in AdminActions table
             $adminId = $_SESSION['user_id'];
             $logActionQuery = "INSERT INTO adminactions (job_posting_id, admin_id, action) 
@@ -69,13 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             $logStmt->bindParam(':admin_id', $adminId, PDO::PARAM_INT);
             $logStmt->bindParam(':action', $adminAction, PDO::PARAM_STR);
             $logStmt->execute();
-            
+
             // Commit transaction
             $pdo->commit();
-            
+
             // Set success message
             $_SESSION['success_message'] = "Job posting has been " . ($action === 'accept' ? 'approved' : 'rejected');
-            
+
             // Redirect based on action
             if ($action === 'accept') {
                 header("Location: AdminDashApproved.php");
@@ -91,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
             }
 
             exit();
-            
         } catch (PDOException $e) {
             // Roll back the transaction if something failed
             $pdo->rollBack();
@@ -114,36 +114,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
 </head>
 
 <body id="admin-dash-main">
-	<!-- Navigation Bar -->
-	<nav>
-		<div class="logo">
-			<a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
-		</div>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <a href="HomePage.php"><img src="img/numerouno.png" alt="Numero Uno Logo"></a>
+        </div>
 
-		<div class="nav-right">
-			<!-- Correct Find Jobs Button -->
-			<a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
+        <div class="nav-right">
+            <!-- Correct Find Jobs Button -->
+            <a href="FindJobPage.php" class="find-jobs-btn">Find Jobs</a>
 
-			<!-- Menu Icon -->
-			<div class="menu-icon">
-				<i class="ph ph-list"></i>
-			</div>
-		</div>
-	</nav>
+            <!-- Menu Icon -->
+            <div class="menu-icon">
+                <i class="ph ph-list"></i>
+            </div>
+        </div>
+    </nav>
 
 
-	<!-- Sidebar (Initially Hidden) -->
-	<div id="sideMenu" class="sidebar">
-		<ul>
-			<li><a href="AboutUs.php">About Us</a></li>
-			<li><a href="ContactUs.php">Contact Us</a></li>
+    <!-- Sidebar (Initially Hidden) -->
+    <div id="sideMenu" class="sidebar">
+        <ul>
+            <li><a href="AboutUs.php">About Us</a></li>
+            <li><a href="ContactUs.php">Contact Us</a></li>
             <li><a href="FAQs.php">FAQs</a></li>
-			<li><a href="logout.php">Log out</a></li>
-		</ul>
-	</div>
-	</nav>
+            <li><a href="logout.php">Log out</a></li>
+        </ul>
+    </div>
+    </nav>
 
-	<!-- End of Navigation Bar -->
+    <!-- End of Navigation Bar -->
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
                                 </form>
                             </div>
                         </div>
-                        <?php endforeach; ?>
+                    <?php endforeach; ?>
 
                     <?php if (count($pendingJobs) > 7): ?>
                         <button id="show-more-btn">Show More</button>
@@ -213,8 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     </div>
 
     <footer class="footer">
-		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
-	</footer>
+        <p>Copyright © 2025, NumeroUno | All rights reserved</p>
+    </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -247,7 +247,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
     </script>
 
     <script src="js/sidebar.js"></script>
-    <script src="js/scroll.js"></script>
 </body>
 
 </html>
