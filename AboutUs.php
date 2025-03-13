@@ -209,23 +209,23 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
                     <h3>Ylanna Dulay</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                    <img src="img/profile.png" alt="Team Member 2" class="profile-pic">
+                    <img src="img/NumeroUno_Cruz.jpg" alt="Team Member 2" class="profile-pic">
                     <h3>Samantha Cruz</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                    <img src="img/profile.png" alt="Team Member 3" class="profile-pic">
+                    <img src="img/NumeroUno_Sagadal.jpg" alt="Team Member 3" class="profile-pic">
                     <h3>Princess Sagadal</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                    <img src="img/profile.png" alt="Team Member 4" class="profile-pic">
+                    <img src="img/NumeroUno_Atienza.jpg" alt="Team Member 4" class="profile-pic">
                     <h3>Arriane Atienza</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="500">
-                    <img src="img/profile.png" alt="Team Member 5" class="profile-pic">
+                    <img src="img/NumeroUno_Maglalang.jpg" alt="Team Member 5" class="profile-pic">
                     <h3>Thomas Maglalang</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-                    <img src="img/profile.png" alt="Team Member 6" class="profile-pic">
+                    <img src="img/NumeroUno_De La Llave.jpg" alt="Team Member 6" class="profile-pic">
                     <h3>Kyle De La Llave</h3>
                 </div>
             </div>
@@ -272,8 +272,6 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
         });
     </script>
 
-
-    </script>
 </body>
 
 </html>

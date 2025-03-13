@@ -5,7 +5,6 @@
     $isLoggedIn = isset($_SESSION['user_id']);
     $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
 
-    
     // Initialize filter variables
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $location = isset($_GET['location']) ? $_GET['location'] : '';
@@ -90,7 +89,6 @@
             </div>
         </div>
     </nav>
-
 
     <div id="sideMenu" class="sidebar">
         <ul>

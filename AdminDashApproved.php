@@ -108,7 +108,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="job-actions">
             <button class="accepted-btn">ACCEPTED</button>
         </div>
-</div>
+    </div>
             <?php
                 }
             } else {

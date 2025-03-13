@@ -92,12 +92,11 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Main Content -->
     <div class="main-content-wrapper">
-        <h2>Applied Jobs</h2>
+        <h1>Applied Jobs</h1>
 
         <?php if (count($applications) > 0): ?>
             <?php foreach ($applications as $app): ?>
                 <div class="application-card">
-                    <div class="job-image-placeholder"></div>
                     <div class="job-info">
                         <p class="job-title"><?= htmlspecialchars($app['jobTitle']) ?></p>
                         <p class="business-name"><?= htmlspecialchars($app['businessName']) ?></p>

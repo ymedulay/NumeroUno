@@ -116,8 +116,10 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
     </div>
 
     <footer class="footer">
-		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
-	</footer>
+    <div class="footer-container">
+        <p>© 2025 Your Website. All rights reserved.</p>
+    </div>
+</footer>
 
     <!-- Script for FAQ Expansion -->
     <script>

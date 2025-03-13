@@ -1,4 +1,4 @@
-<?php
+<a?php
 // Include your database configuration
 require_once "config.php";
 
@@ -118,7 +118,8 @@ if (isset($_GET['status_updated']) && $_GET['status_updated'] == 'true') {
         <ul>
             <li><a href="AboutUs.html">About Us</a></li>
             <li><a href="ContactUs.html">Contact Us</a></li>
-            <li><a href="#">FAQS</a></li>
+            <li><a href="FAQs.php">FAQS</a></li>
+            <li><a href="logout.php">Log out</a></li>
         </ul>
     </div>
 <!-- END OF SIDE BAR (RIGHT) -->

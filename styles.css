@@ -55,6 +55,13 @@ body {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+.main-content-wrapper, .page-content {
+    width: 100%; /* Ensure content areas take full width */
+    flex: 1; /* Allow content to expand and push footer down */
 }
 
 /* Unified animation keyframes */
@@ -110,6 +117,34 @@ body {
     to {
         width: 80px;
     }
+}
+
+
+h1 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    position: relative !important;
+}
+
+h1 ::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108; /* This is the yellow color */
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.7s;
+}
+
+/* expand line animation */
+
+@keyframes expandLine {
+    from { width: 0; }
+    to { width: 80px; }
 }
 
 /* Navi Bar */
@@ -912,24 +947,45 @@ a {
 
 /* Footer with animation */
 .footer {
-    background-color: #A6D4A8;  /* Using the color from your second declaration */
-    padding: 15px 0;
+    background-color: #A6D4A8;
+    padding: 12px 0;
     text-align: center;
     width: 100%;
-    color: gray;
-    position: relA;  /* or fixed/absolute depending on your needs */
+    position: relative; /* Changed from relative to fixed */
+    margin-top: auto; /* Pushes footer to the bottom of flex container */
     bottom: 0;
-    left: 0;
+    left: 0; /* Ensures it starts from the left edge */
+    right: 0; /* Ensures it extends to the right edge */
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
     animation-delay: 2.2s;
+}
+
+/* Container inside footer that remains full width */
+.footer-container {
+    width: 100%;
 }
 
 .footer p {
     margin: 0;
     color: #317539;
     font-size: 14px;
+    text-align: center;
 }
+
+/* Media queries for better responsiveness */
+@media screen and (max-width: 768px) {
+    .footer {
+        width: 90%; /* Slightly wider on small screens */
+        padding: 10px 0;
+    }
+    
+    .footer p {
+        font-size: 12px;
+    }
+}
+
+
 
 /* FIND JOB PAGE */
 
@@ -2300,13 +2356,16 @@ a {
 
 /* FAQ Section */
 #faqs-page .faq-container {
-    max-width: 900px;
+    width: 90%; /* Use percentage instead of fixed max-width */
+    max-width: 1200px; /* Increase max-width but keep some constraint */
     background: white;
     padding: 35px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
 }
 
 #faqs-page .faq-item {
@@ -2370,7 +2429,13 @@ a {
     max-height: 500px;
 }
 
+/* Improve responsiveness */
 @media (max-width: 768px) {
+    #faqs-page .faq-container {
+        width: 95%; /* Take up more width on smaller screens */
+        padding: 20px; /* Reduce padding on smaller screens */
+    }
+    
     #faqs-page .faq-icon-container img {
         height: 90px;
     }
@@ -2576,6 +2641,118 @@ a {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+#applicant-dash-main .profile-section h1 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    animation: slideDown 0.6s ease-out;
+}
+
+#applicant-dash-main .profile-section h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
 #applicant-dash-main .profile-section h2 {
     font-size: 28px;
     color: #333;
@@ -2757,11 +2934,119 @@ a {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#manage-profile-page #display-name {
-    font-size: 24px;
-    color: #333;
-    margin-top: 10px;
+#manage-profile-page .display-name {
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    text-align: center;
+    animation: slideDown 0.6s ease-out;
 }
+
+#manage-profile-page .display-name::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
 
 #manage-profile-page .change-profile-pic {
     padding: 10px 20px;
@@ -2865,7 +3150,7 @@ a {
     transform: translateY(-5px);
 }
 
-#application-status-page .main-content-wrapper h2 {
+#application-status-page .main-content-wrapper h1 {
     text-align: left;
     width: 55%;
     max-width: 1000px;
@@ -2873,6 +3158,109 @@ a {
     font-size: 24px;
     font-weight: bold;
     margin-top: 20px;
+}
+
+#application-status-page .main-content-wrapper h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 8%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
 }
 
 
@@ -2907,6 +3295,16 @@ a {
     font-weight: bold;
 }
 
+#application-status-page .status-indicator.accepted {
+    color: #06af1d;
+    font-weight: bold;
+}
+
+#application-status-page .status-indicator.rejected {
+    color: #ff0000;
+    font-weight: bold;
+}
+
 
 /* APPLICANT DASHBOARD ACCOUNT MANAGEMENT */
 #account-management-page .main-content {
@@ -2917,6 +3315,7 @@ a {
     align-items: center;
     justify-content: center;
     min-height: calc(100vh - 80px);
+    margin-top: 50px;
 }
 
 #account-management-page .account-container {
@@ -2926,19 +3325,124 @@ a {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin: 30px auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
 #account-management-page .main-content h1 {
-    width: 100%;
-    max-width: 1000px;
-    text-align: left;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
-    margin-bottom: 20px;
+    color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    text-align: center;
+    animation: slideDown 0.6s ease-out;
+}
+
+#account-management-page .main-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
 }
 
 #account-management-page .account-container h3 {
@@ -3793,7 +4297,114 @@ account-management-page .save-button-wrapper {
     font-size: 35px;
     font-weight: bold;
     color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    animation: slideDown 0.6s ease-out;
 }
+
+#business-dash-job-post .page-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
 
 #business-dash-job-post .profile-form {
     width: 65%;
@@ -4010,6 +4621,11 @@ label[for="cvRequired"]:hover {
 #business-dash-job-post .form-grid > *:nth-child(5) { animation-delay: 0.5s; }
 #business-dash-job-post .form-grid > *:nth-child(6) { animation-delay: 0.6s; }
 
+@keyframes expandLine {
+    from { width: 0; }
+    to { width: 80px; }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     #business-dash-job-post .form-grid.two-columns {
@@ -4017,17 +4633,56 @@ label[for="cvRequired"]:hover {
     }
 }
 
+
+/* BUSINESS POST MANAGEMENT  */
+
+#business-dash-post-manage .post-management {
+    margin-left: 250px;
+    padding: 10px;
+    max-width: calc(100% - 270px);
+}
+
+#business-dash-post-manage .page-content h1 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    animation: slideDown 0.6s ease-out;
+    text-align: center;
+    
+}
+
+#business-dash-post-manage .page-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
 /* Animation Keyframes */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -4039,21 +4694,49 @@ label[for="cvRequired"]:hover {
         opacity: 0;
         transform: translateY(-20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@keyframes checkmark {
-    0% { opacity: 0; transform: rotate(45deg) scale(0.5); }
-    100% { opacity: 1; transform: rotate(45deg) scale(1); }
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
 }
 
 @keyframes ripple {
@@ -4061,23 +4744,16 @@ label[for="cvRequired"]:hover {
         transform: scale(0, 0);
         opacity: 1;
     }
+
     20% {
         transform: scale(25, 25);
         opacity: 1;
     }
+
     100% {
         opacity: 0;
         transform: scale(40, 40);
     }
-}
-
-
-/* BUSINESS POST MANAGEMENT  */
-
-#business-dash-post-manage .post-management {
-    margin-left: 250px;
-    padding: 10px;
-    max-width: calc(100% - 270px);
 }
 
 #business-dash-post-manage .post-management h2 {
@@ -4761,9 +5437,115 @@ label[for="cvRequired"]:hover {
 }
 
 #edit-job-page h1 {
-    font-size: 28px;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #000;
+    position: relative;
+    margin-bottom: 25px;
+    animation: slideDown 0.6s ease-out;
+}
+
+#edit-job-page h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: #CFB108;
+    transform: translateX(-50%);
+    animation: expandLine 1s ease-out forwards;
+    animation-delay: 0.6s;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes expandLine {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 80px;
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
 }
 
 /* Form Styling */
@@ -4815,6 +5597,17 @@ label[for="cvRequired"]:hover {
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* New focus state with gold accent color */
+#edit-job-page input[type="text"]:focus,
+#edit-job-page input[type="email"]:focus,
+#edit-job-page textarea:focus,
+#edit-job-page select:focus {
+    outline: none;
+    border-color: #CFB108;
+    box-shadow: 0 0 0 2px rgba(207, 177, 8, 0.25);
 }
 
 #edit-job-page textarea {
@@ -5201,3 +5994,4 @@ label[for="cvRequired"]:hover {
         padding: 20px 15px;
     }
 }
+

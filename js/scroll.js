@@ -1,7 +1,6 @@
-
-// Scroll animation for elements
+// scroll.js - Animation functionality only
 document.addEventListener('DOMContentLoaded', function() {
-  // Create an intersection observer
+  // Create an intersection observer for scroll animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -19,46 +18,23 @@ document.addEventListener('DOMContentLoaded', function() {
     observer.observe(item);
   });
   
-  // Enhanced sidebar animation
-  document.querySelector('.menu-icon').addEventListener('click', function() {
-    const sidebar = document.getElementById('sideMenu');
-    sidebar.classList.toggle('active');
-  });
-  
-  // Close sidebar when clicking outside
-  document.addEventListener('click', function(event) {
-    const sidebar = document.getElementById('sideMenu');
-    const menuIcon = document.querySelector('.menu-icon');
-    
-    if (!sidebar.contains(event.target) && !menuIcon.contains(event.target) && sidebar.classList.contains('active')) {
-      sidebar.classList.remove('active');
-    }
-  });
-  
-  // Add smooth scroll behavior for "Find Jobs" button
-  document.querySelector('.find-jobs-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    
-    if (target) {
-      window.scrollTo({
-        top: target.offsetTop - 80,
-        behavior: 'smooth'
-      });
-    }
-  });
-});
-
-// Add this to the existing sidebar.js or replace it
-function toggleSidebar() {
-  const sidebar = document.getElementById('sideMenu');
-  sidebar.classList.toggle('active');
-}
-
-// Automatically attach the toggle function to the menu icon
-document.addEventListener('DOMContentLoaded', function() {
-  const menuIcon = document.querySelector('.menu-icon');
-  if (menuIcon) {
-    menuIcon.addEventListener('click', toggleSidebar);
+  // Smooth scroll for "Find Jobs" button
+  const findJobsBtn = document.querySelector('.find-jobs-btn');
+  if (findJobsBtn) {
+    findJobsBtn.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      // Only prevent default if it's a hash link
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
   }
 });

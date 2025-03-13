@@ -98,7 +98,6 @@
 
     <!-- Page Content -->
     <div class="page-content">
-            <h1>Applicant Dashboard</h1>
             <div class="profile-section">
                 <h2>
                 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>

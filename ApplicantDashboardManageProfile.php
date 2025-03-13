@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="main-content-wrapper">
         <div class="page-content">
-            <h2 id="display-name"><?= htmlspecialchars($user['firstName'] . ' ' . $user['lastName']) ?></h2>
+            <h1 class="display-name"><?= htmlspecialchars($user['firstName'] . ' ' . $user['lastName']) ?></h1>
         </div>
 
         <form method="POST" id="profile-form">
