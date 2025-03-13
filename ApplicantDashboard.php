@@ -19,7 +19,7 @@
     // Fetch user data from the database
     $userId = $_SESSION['user_id'];
 
-    $sql = "SELECT firstName, middle_initial, lastName, email, contact_no FROM user WHERE id = :userId";
+    $sql = "SELECT firstName, middle_initial, lastName, email, address, contact_no FROM user WHERE id = :userId";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
@@ -32,6 +32,7 @@
         $email = $user['email'];
         $middleInitial = $user['middle_initial'] ?? "N/A";
         $applicantNo = $user['contact_no'];
+        $address = $user['address'];
     } else {
         die("User not found.");
     }
@@ -116,9 +117,14 @@
                                 <p><strong>Last Name:</strong> <?php echo htmlspecialchars($lastName); ?></p>
                                 <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
                                 <p><strong>Contact Number:</strong> <?php echo htmlspecialchars($applicantNo); ?></p>
+                                <p><strong>Address:</strong> <?php echo htmlspecialchars($address); ?></p>
                             </div>
                     </div>
     </div>
+
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <script src="js/sidebar.js"></script>
 

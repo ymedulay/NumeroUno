@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = isset($_POST["message"]) ? $_POST["message"] : "";
 
 
-    $to = "arrianeatienzaaaa@gmail.com"; // Change to the recipient's email
+    $to = "ansatienza@mymail.mapua.edu.ph"; // RECIPIENT
     $subject = "New Contact Form Submission";
     $headers = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
@@ -147,6 +147,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </ul>
         </div>
     </div>
+
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

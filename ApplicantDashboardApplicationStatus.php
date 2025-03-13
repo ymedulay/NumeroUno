@@ -113,6 +113,10 @@ $applications = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
     </div>
 
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+
     <script src="js/sidebar.js"></script>
 </body>
 

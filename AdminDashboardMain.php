@@ -212,6 +212,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id']) && isset($_
         </div>
     </div>
 
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const jobPosts = document.querySelectorAll("#admin-dash-main .job-container");

@@ -912,23 +912,17 @@ a {
 
 /* Footer with animation */
 .footer {
-    background-color: #C9DACB;
+    background-color: #A6D4A8;  /* Using the color from your second declaration */
     padding: 15px 0;
     text-align: center;
     width: 100%;
+    color: gray;
+    position: relative;  /* or fixed/absolute depending on your needs */
+    bottom: 0;
+    left: 0;
     opacity: 0;
     animation: fadeInUp 0.8s ease-out forwards;
     animation-delay: 2.2s;
-}
-
-.footer {
-    width: 100%;
-    text-align: center;
-    background-color: #A6D4A8;
-    color: gray;
-    position: relative;
-    bottom: 0;
-    left: 0;
 }
 
 .footer p {
@@ -1204,89 +1198,55 @@ a {
 
 
 
-/* FIND JOB DETAILS PAGE */
-
-/* Wrapper for the Job Title */
-#find-job-deets .job-title-wrapper {
-    background-color: #D9D9D9;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    width: 70%;
-    height: 110px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Style for the Job Title text */
-#find-job-deets .job-title {
-    font-size: 40px;
-    font-weight: bold;
-    color: black;
-    text-align: center;
-}
-
+/* FIND JOB DETAILS AND APPLI PAGE */
 
 /* Container for Job Illustration and Job Description */
 #find-job-deets .job-content-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch; /* Ensures equal height */
     width: 73%;
-    margin: 0 auto;
-    gap: 20px;
+    margin: 30px auto;
+    gap: 60px;
 }
 
-/* Wrapper for the Job Illustration */
-#find-job-deets .job-illustration-wrapper {
-    background-color: #D9D9D9;
-    padding: 30px;
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Style for the Job Illustration section */
+/* Set both job illustration and description to have equal width */
 #find-job-deets .job-illustration {
+    flex: 1; /* Takes equal space */
     display: flex;
-    justify-content: flex-start;
-    /* to the left side */
+    justify-content: center; /* Centers the image */
     align-items: center;
-    /* vertically align content */
 }
 
-/* Style for the image */
+/* Ensure the image scales properly */
 #find-job-deets .job-image {
-    max-width: 100%;
-    /* image occupy the full width of the wrapper */
+    width: 100%; /* Make it responsive inside the container */
+    max-width: 430px;
     height: auto;
-    border-radius: 50%;
-    /* circular */
+    object-fit: contain; /* Ensures image doesn't stretch */
 }
 
-/* Wrapper for the Job Description */
+
+/* Make the job description take the same space as the image */
 #find-job-deets .job-description-wrapper {
-    background-color: #D9D9D9;
-    padding: 20px;
+    flex: 1; /* Keep it equal in size */
+    background-color: rgba(255, 255, 255, 0.4); /* 80% opacity */
+    backdrop-filter: blur(5px); /* Adds a slight blur effect */
+    transition: background-color 0.3s ease-in-out;
+    padding: 40px;
     border-radius: 10px;
-    width: 60%;
-    height: 300px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Align content to the left */
     justify-content: flex-start;
 }
 
 /* Job Details Title */
 #find-job-deets .job-details-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    color: black;
+    color: #317539;
     text-align: center;
     margin-bottom: 10px;
 }
@@ -1296,8 +1256,7 @@ a {
     font-size: 16px;
     color: black;
     line-height: 1.6;
-    font-family: 'Inter', sans-serif;
-    /* Changed from Oswald to Inter */
+    font-family: 'Inter', sans-serif; /* Changed from Oswald to Inter */
     text-align: justify;
     overflow-wrap: break-word;
 }
@@ -1307,30 +1266,28 @@ a {
     font-size: 16px;
     color: red;
     font-style: italic;
-    margin-top: auto;
-    /* bottom */
-    text-align: left;
-    /* aligns text to the left */
+    margin-top: auto; /* bottom */
+    text-align: center; /* aligns text to the left */
     width: 100%;
 }
 
 /* Other Details Section */
 #find-job-deets .other-details-wrapper {
-    background-color: #D9D9D9;
-    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.4); /* 80% opacity */
+    backdrop-filter: blur(5px); /* Adds a slight blur effect */
+    transition: background-color 0.3s ease-in-out;
     border-radius: 10px;
-    margin-top: 30px;
-    width: 73%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 71%;
+    margin: 30px auto;
+    padding: 30px;
     text-align: center;
 }
 
 /* Title for Other Details */
 #find-job-deets .other-details-title {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
-    color: black;
+    color: #317539;
     margin-bottom: 15px;
 }
 
@@ -1343,19 +1300,27 @@ a {
 
 /* Individual Detail Box */
 #find-job-deets .detail-box {
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.05); 
     padding: 15px;
     border-radius: 10px;
     width: 30%;
     text-align: center;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+/* Hover Effect for Interactivity */
+#find-job-deets .detail-box:hover {
+    transform: translateY(-5px); /* Slight lift */
+    box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    background-color: rgba(0, 0, 0, 0.18); /* Even darker gray on hover */
 }
 
 /* Label for Each Detail */
 #find-job-deets .detail-label {
     font-size: 18px;
     font-weight: bold;
-    color: black;
+    color: #FF9500;
     margin-bottom: 5px;
 }
 
@@ -1365,287 +1330,211 @@ a {
     color: #666;
 }
 
-/* Application Section */
-#find-job-deets .application-wrapper {
-    background-color: #D9D9D9;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 30px;
-    width: 73%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-
-/* Application Text */
-#find-job-deets .application-text {
-    font-size: 18px;
-    color: black;
-    margin-bottom: 15px;
-}
-
-/* Apply Here Button */
-#find-job-deets .apply-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: normal;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
-
-#find-job-deets .apply-button:hover {
-    background-color: #45a049;
-}
-
-
-
-
-
-
-/* FIND JOB APPLICATION FORM */
-
-/* Horizontal Container (Top Section) */
-#find-job-appli .horizontal-container {
-    background-color: #D9D9D9;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin: 20px auto;
-    width: 60%;
-    height: 110px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#find-job-appli .horizontal-container p {
-    font-family: 'Inter', sans-serif;
-    /* Changed from Oswald to Inter */
-    font-size: 20px;
-    color: black;
-    margin: 0;
-    text-align: center;
-}
-
 /* Application Form Container */
-#find-job-appli .application-form {
-    background-color: #D9D9D9;
-    width: 50%;
+#find-job-deets .application-form {
+    background-color: rgba(255, 255, 255, 0.4); /* 80% opacity */
+    backdrop-filter: blur(5px); /* Adds a slight blur effect */
+    transition: background-color 0.3s ease-in-out;
+    width: 71%;
     margin: 30px auto;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding-bottom: 50px;
+    padding-bottom: 50px; 
 }
 
 /* Job Application Form Title */
-#find-job-appli .form-title {
+#find-job-deets .form-title {
     text-align: center;
-    font-family: 'Inter', sans-serif;
-    /* Changed from Oswald to Inter */
+    font-family: 'Inter', sans-serif; /* Changed from Oswald to Inter */
     font-size: 30px;
-    color: #333;
-    margin-bottom: 20px;
+    color: #317539;
+    margin-bottom: 30px;
 }
 
 /* Name Container */
-#find-job-appli .name-container {
+#find-job-deets .name-container {
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-/* Input Group (Label + Input) for Name */
-#find-job-appli .input-group-name {
+/* Input Groups */
+#find-job-deets .input-group-name,
+#find-job-deets .input-group-birthgender,
+#find-job-deets .input-group-contactemail,
+#find-job-deets .input-group-jobtype {
     display: flex;
     flex-direction: column;
     width: 45%;
 }
 
-/* Input Fields for Name*/
-#find-job-appli .input-group-name input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-}
-
-/* Birthdate & Gender Container */
-#find-job-appli .birth-gender-container {
+/* Containers */
+#find-job-deets .birth-gender-container,
+#find-job-deets .contact-email-container,
+#find-job-deets .jobtype-startdate-container {
     display: flex;
     justify-content: center;
     gap: 20px;
     margin-top: 15px;
 }
 
-/* Input Group (Label + Input) for Birthdate & Gender */
-#find-job-appli .input-group-birthgender {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-}
-
-/* Input Fields & Select Dropdown for Birthdate & Gender */
-#find-job-appli .input-group-birthgender input,
-#find-job-appli .input-group-birthgender select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-}
-
-/* Placeholder color for Birthdate */
-#find-job-appli .input-group-birthgender input::placeholder {
-    color: #888;
-    font-size: 12px;
-}
-
-/* Contact & Email Container */
-#find-job-appli .contact-email-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 15px;
-}
-
-/* Input Group (Label + Input) for Contact & Email */
-#find-job-appli .input-group-contactemail {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-}
-
-/* Input Fields for Contact & Email */
-#find-job-appli .input-group-contactemail input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-}
-
-/* Placeholder color for Contact & Email */
-#find-job-appli .input-group-contactemail input::placeholder {
-    color: #888;
-    font-size: 12px;
-}
-
-/* Home Address Container */
-#find-job-appli .home-address-container {
+#find-job-deets .home-address-container {
     display: flex;
     justify-content: center;
     margin-top: 15px;
 }
 
-/* Input Group (Label + Input) for Home Address */
-#find-job-appli .input-group-homeaddress {
+#find-job-deets .input-group-homeaddress {
     display: flex;
     flex-direction: column;
-    width: 93%;
-}
-
-/* Input Field for Home Address */
-#find-job-appli .input-group-homeaddress input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-}
-
-/* Placeholder color for Home Address */
-#find-job-appli .input-group-homeaddress input::placeholder {
-    color: #888;
-    font-size: 12px;
-}
-
-/* Job Type & Available Start Date Container */
-#find-job-appli .jobtype-startdate-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 15px;
-}
-
-/* Input Group (Label + Input/Select) for Job Type & Start Date */
-#find-job-appli .input-group-jobtype {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
+    width: 92%;
 }
 
 /* Input Fields & Select Dropdown */
-#find-job-appli .input-group-jobtype select,
-#find-job-appli .input-group-jobtype input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
-}
-
-/* CV Upload Container */
-#find-job-appli .cv-upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-#find-job-appli .cv-upload-container label {
-    font-family: 'Inter', sans-serif;
-    /* Changed from Oswald to Inter */
+#find-job-deets select,
+#find-job-deets input[type="text"],
+#find-job-deets input[type="tel"],
+#find-job-deets input[type="email"],
+#find-job-deets input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 8px 0;
     font-size: 16px;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-#find-job-appli .cv-upload-container input[type="file"] {
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    background-color: white;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.3s ease;
     cursor: pointer;
 }
 
-/* Submit Button Container (Forces Bottom Right Alignment) */
-#find-job-appli .submit-container {
-    width: 100%;
+/* Add a small dropdown arrow using background image */
+#find-job-deets select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="black"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+    padding-right: 30px; /* Prevents text from overlapping with arrow */
+}
+
+/* Change Border Color on Focus */
+#find-job-deets input:focus,
+#find-job-deets select:focus {
+    border-bottom: 2px solid #317539;
+}
+
+/* Placeholder Styling */
+#find-job-deets input::placeholder,
+#find-job-deets select {
+    color: #888;
+    font-size: 16px;
+}
+
+/* Ensure selected options appear black */
+#find-job-deets select:valid {
+    color: #000;
+}
+
+/* Style for Options in Select Dropdown */
+#find-job-deets select option {
+    font-size: 16px; /* Ensures consistent text size */
+    color: #000; /* Keeps text readable */
+}
+
+/* Default placeholder color */
+#find-job-deets input[type="date"] {
+    color: #888; /* Placeholder text color */
+}
+
+/* Change text color when a date is selected */
+#find-job-deets input[type="date"]:valid {
+    color: #000; /* Change to black when a date is selected */
+}
+
+
+/* Labels */
+#find-job-deets label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+/* CV Upload */
+#find-job-deets .cv-upload-container {
     display: flex;
-    justify-content: flex-end;
-    /*  to the right */
-    margin-top: 40px;
-    /* increased margin  */
+    flex-direction: column; /* Stack label and input */
+    align-items: center; /* Center horizontally */
+    width: 92%; /* Matches the width of the other input groups */
+    margin: 15px auto; /* Keeps spacing consistent */
+    text-align: center; /* Ensures label text is centered */
+}
+
+#find-job-deets .cv-upload-container label {
+    margin-top: 30px; /* Push input field down slightly */
+}
+
+#find-job-deets .cv-upload-container input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    margin-top: 10px; /* Push input field down slightly */
 }
 
 
 /* Submit Button */
-#find-job-appli .submit-btn {
-    background-color: #4CAF50;
+#find-job-deets .submit-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 8%; /* Adjust this value as needed */
+}
+
+#find-job-deets .submit-btn {
+    background-color: #317539;
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 16px;
     border-radius: 5px;
+    margin-right: 55px; /* Adjust this value as needed */
     cursor: pointer;
     font-family: 'Inter', sans-serif;
-    /* Changed from Oswald to Inter */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-#find-job-appli .submit-btn:hover {
+#find-job-deets .submit-btn:hover {
     background-color: #45a049;
+    transform: scale(1.05); /* Slightly enlarges button on hover */
 }
 
 
+/* Add spacing between labels and input fields */
+#find-job-deets .input-group-name label,
+#find-job-deets .input-group-birthgender label,
+#find-job-deets .input-group-contactemail label,
+#find-job-deets .input-group-jobtype label,
+#find-job-deets .input-group-homeaddress label,
+#find-job-deets .cv-upload-container label {
+    margin-bottom: 8px; /* Ensures uniform spacing */
+}
 
+/* Add more vertical spacing between input groups */
+#find-job-deets .input-group-name,
+#find-job-deets .input-group-birthgender,
+#find-job-deets .input-group-contactemail,
+#find-job-deets .input-group-jobtype,
+#find-job-deets .input-group-homeaddress,
+#find-job-deets .cv-upload-container {
+    margin-bottom: 20px; /* Adjust as needed */
+}
 
 
 
@@ -2549,6 +2438,15 @@ a {
 /* CONTACT US */
 
 /* Contact Section Styling */
+#contact-us-page {
+    font-family: 'Inter', sans-serif;
+    background-color: #C9DACB;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 /* Fade-in animation on page load */
 @keyframes fadeIn {
     from {
@@ -2584,7 +2482,7 @@ a {
 
 #contact-us-page .contact-container,
 #contact-us-page .barangay-container {
-    width: 60%;
+    width: 100%;
     background-color: #FFFFFF;
     padding: 30px;
     border-radius: 15px;
@@ -2621,7 +2519,7 @@ a {
     width: 100%;
     background: transparent;
     margin-bottom: 15px; /* Increases spacing between input fields */
-    padding: 12px; /* Adds padding inside inputs for better spacing */
+    padding: 12px 0; /* Adds padding inside inputs for better spacing */
     font-size: 16px;
 }
 
@@ -4251,10 +4149,11 @@ label[for="cvRequired"]:hover {
     align-items: center;
     justify-content: space-between;
     width: 880px;
-    height: 90px;
+    min-height: 90px;
     position: relative;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 
 #business-dash-post-manage .job-postings {
     display: flex;
@@ -4279,17 +4178,23 @@ label[for="cvRequired"]:hover {
     gap: 2px;
 }
 
+#business-dash-post-manage .job-details p {
+    overflow-wrap: break-word;
+    line-height: 0.5;
+}
+
 #business-dash-post-manage .company-name {
     font-size: 18px;
     font-weight: bold;
     color: black;
-    margin: 0;
 }
 
 #business-dash-post-manage .job-actions {
     display: flex;
     gap: 8px;
 }
+
+
 
 #business-dash-post-manage .edit-btn,
 #business-dash-post-manage .delete-btn,
@@ -4303,6 +4208,7 @@ label[for="cvRequired"]:hover {
     font-size: 14px;
     font-weight: bold;
 }
+
 
 #business-dash-post-manage .delete-btn {
     background: #C04E5F;
@@ -4319,6 +4225,8 @@ label[for="cvRequired"]:hover {
 #business-dash-post-manage .view-btn:hover {
     background: #1E6E26;
 }
+
+
 
 /* ABOUT US PAGE */
 

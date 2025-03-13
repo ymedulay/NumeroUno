@@ -104,6 +104,10 @@ $description = $business['description'] ?? "No description available";
         </div>
     </div>
 
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>
     

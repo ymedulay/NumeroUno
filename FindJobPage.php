@@ -2,7 +2,10 @@
     session_start();
     require_once "config.php";
 
+    $isLoggedIn = isset($_SESSION['user_id']);
+    $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
 
+    
     // Initialize filter variables
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $location = isset($_GET['location']) ? $_GET['location'] : '';
@@ -89,16 +92,44 @@
     </nav>
 
 
-    <!-- Sidebar (Initially Hidden) -->
     <div id="sideMenu" class="sidebar">
         <ul>
-            <li><a href="LoginPage.html">Login / Sign Up</a></li>
-            <li><a href="AboutUs.html">About Us</a></li>
+            <?php
+            // Determine the correct dashboard link based on user role
+            $dashboardLink = "LoginPage.html"; // Default for guests
+
+            if ($isLoggedIn) {
+                switch ($userRole) {
+                    case 1:
+                        $dashboardLink = "AdminDashboardMain.php"; // Admin Dashboard
+                        break;
+                    case 2:
+                        $dashboardLink = "BusinessDashboard.php"; // Business Dashboard
+                        break;
+                    case 3:
+                        $dashboardLink = "ApplicantDashboard.php"; // Applicant Dashboard
+                        break;
+                }
+            }
+            ?>
+            
+            <!-- Dynamic Dashboard Link -->
+            <li><a href="<?= $dashboardLink; ?>">My Dashboard</a></li>
+            
+            <li><a href="AboutUs.php">About Us</a></li>
             <li><a href="ContactUs.php">Contact Us</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="FAQs.php">FAQs</a></li>
+
+            <?php if ($isLoggedIn): ?>
+                <!-- For logged-in users -->
+                <li><a href="logout.php">Log out</a></li>
+            <?php else: ?>
+                <!-- For guests -->
+                <li><a href="LoginPage.html">Login / Sign Up</a></li>
+            <?php endif; ?>
         </ul>
-    </div>
-    </nav>
+    </div> 
+
 
     <!-- End of Navigation Bar -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -144,6 +175,10 @@
             </div>
         </div>
     </form>
+    
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <script>
         // Handle the "Others" category input display

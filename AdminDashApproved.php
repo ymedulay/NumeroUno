@@ -120,7 +120,10 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <button id="show-more-btn-appro">Show More</button>
         </div>
     </div>
-
+    
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <!-- JavaScript -->
     <script>

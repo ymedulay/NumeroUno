@@ -204,6 +204,10 @@ if (isset($_GET['status_updated']) && $_GET['status_updated'] == 'true') {
         </div>
     </div>
 <!-- END OF MAIN CONTENT -->
+
+<footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
     
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>

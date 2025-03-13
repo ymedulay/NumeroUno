@@ -109,6 +109,10 @@
         </div>
     </div>
 
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+
     <!-- Show More Button -->
     <button id="show-more-btn-reje">Show More</button>
 

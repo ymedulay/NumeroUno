@@ -157,7 +157,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
         <div class="post-management">
             <h1>Post Management</h1>
             <h2>Jobs Posted</h2>
-
             <div class="job-postings">
                 <?php if (!empty($jobs)): ?>
                     <?php foreach ($jobs as $job): ?>
@@ -184,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
                 <?php foreach ($applications as $app): ?>
                     <div class="job-container">
                         <div class="job-details">
-                            <p class="company-name"><strong><?= htmlspecialchars($app['jobTitle']) ?></strong></p>
+                            <p class="company-name"><strong><?= htmlspecialchars($app['jobTitle']) ?></strong></p>  
                             <p>Applicant: <?= htmlspecialchars($app['firstName'] . ' ' . $app['lastName']) ?></p>
                             <p>Email: <?= htmlspecialchars($app['email']) ?></p>
                             <p>Status: <?= htmlspecialchars($app['status']) ?></p>
@@ -200,6 +199,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
                 <p>No applicants yet.</p>
             <?php endif; ?>
 
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+            
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>
 

@@ -88,34 +88,36 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
         <h2>Frequently Asked Questions</h2>
         <div class="faq-item">
             <div class="faq-question">Can I apply for multiple jobs at the same time? <span>+</span></div>
-            <div class="faq-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. .</div>
+            <div class="faq-content">Yes, you can apply for multiple jobs at the same time. There are no restrictions on the number of 
+                job applications you can submit, allowing you to explore different opportunities that match your skills and interests.</div>
         </div>
         <div class="faq-item">
             <div class="faq-question">How do I delete my account? <span>+</span></div>
-            <div class="faq-content">To delete your account, locate the User dropdown menu in the navigation bar, then
-                go to 'My Account'and click 'Account Management' in the sidebar. This will direct you to your account
-                recovery and account deletion. Look for 'Account Deletion' and follow the steps.</div>
+            <div class="faq-content">To delete your account, locate the User dropdown menu in the navigation bar, then go to 'My Account'and click 
+                'Account Management' in the sidebar. This will direct you to your account recovery and account deletion. 
+                Look for 'Account Deletion' and follow the steps.</div>
         </div>
         <div class="faq-item">
             <div class="faq-question">How does the website ensure the credibility of job postings? <span>+</span></div>
-            <div class="faq-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. </div>
+            <div class="faq-content">All job postings go through an admin approval process before they are published on the website. 
+                This ensures that only legitimate and relevant job opportunities are made available to applicants. 
+                Admins review each posting to verify its details and authenticity before approving it. </div>
         </div>
         <div class="faq-item">
             <div class="faq-question">What are the requirements to create an account? <span>+</span></div>
-            <div class="faq-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. </div>
+            <div class="faq-content">To create an account, you only need a working email address. 
+                After signing up, you can complete your profile by filling in your details through your dashboard.</div>
         </div>
         <div class="faq-item">
             <div class="faq-question">Who do I contact for support? <span>+</span></div>
-            <div class="faq-content">Reach out to us via the Contact Us page or check out the FAQs page to see if your
-                inquiry has been answered.</div>
+            <div class="faq-content">For support, you can reach out to us through our Contact Page. 
+                Simply fill in the required details and hit **Send**, and our team will assist you as soon as possible.</div>
         </div>
     </div>
+
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <!-- Script for FAQ Expansion -->
     <script>

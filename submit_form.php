@@ -24,6 +24,8 @@ if (!$user) {
     die("Error: User information could not be retrieved.");
 }
 
+
+
 // Handle Job Application
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data

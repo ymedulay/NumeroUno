@@ -4,7 +4,7 @@
 
     // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
-        header("Location: LoginPage.php");
+        header("Location: LoginPage.html");
         exit();
     }
 
@@ -41,10 +41,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NumeroUno</title>
+    <title>Find Job Application - NumeroUno</title>
     <link rel="icon" href="img/numerouno.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="./styles.css" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
 <body id="find-job-deets">
@@ -69,6 +70,7 @@
 	<!-- Sidebar (Initially Hidden) -->
 	<div id="sideMenu" class="sidebar">
 		<ul>
+            <li><a href="ApplicantDashboard.php">My Dashboard</a></li>
 			<li><a href="AboutUs.php">About Us</a></li>
 			<li><a href="ContactUs.php">Contact Us</a></li>
 			<li><a href="FAQs.php">FAQs</a></li>
@@ -79,9 +81,13 @@
 
 	<!-- End of Navigation Bar -->
 
+
+    
     <div class="job-content-container">
         <div class="job-description-wrapper">
-            <p class="job-details-title">JOB DETAILS</p>
+        <p class="job-details-title">
+            <strong><?= htmlspecialchars($job['jobTitle']) ?></strong>
+        </p>
             <p class="job-description"><?php echo htmlspecialchars($job['jobDescription']); ?></p>
             <?php if ($job['requireResume']) echo '<p class="cv-requirement">*This job requires a curriculum vitae (CV).</p>'; ?>
         </div>
@@ -114,7 +120,7 @@
             <!-- Name Fields (Read-Only) -->
             <div class="name-container">
                 <div class="input-group-name">
-                    <label>First Name:</label>
+                    <label for = "first-name">First Name:</label>
                     <input type="text" value="<?php echo htmlspecialchars($user['firstName'] ?? ''); ?>" readonly>
                 </div>
                 <div class="input-group-name">
@@ -188,6 +194,10 @@
             </div>
         </form>
     </div>
+
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
 
     <script src="js/sidebar.js"></script>
     <script src="js/scroll.js"></script>

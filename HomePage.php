@@ -197,7 +197,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
 
 
 	<footer class="footer">
-		<p>Copyright © 2025</p>
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
 	</footer>
 
 	<script src="js/sidebar.js"></script>
