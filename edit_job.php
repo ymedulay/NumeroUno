@@ -148,43 +148,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
         </div>
 
-        <form class="profile-form" method="POST">
-            <div class="form-section-container">
-                <h3>Job Information</h3>
-                <div class="form-grid two-columns">
-                    <div>
-                        <label for="jobTitle">Job Title</label>
-                        <input type="text" id="jobTitle" name="jobTitle" value="<?php echo htmlspecialchars($job['jobTitle']); ?>" required>
-                    </div>
-                    <div>
-                        <label for="description">Job Description</label>
-                        <textarea id="description" name="description" required><?php echo htmlspecialchars($job['jobDescription']); ?></textarea>
-                    </div>
-                    <div>
-                        <label for="qualifications">Qualifications</label>
-                        <textarea id="qualifications" name="qualifications" required><?php echo htmlspecialchars($job['requirements']); ?></textarea>
-                    </div>
-                    <div>
-                        <label for="jobLocation">Job Location</label>
-                        <input type="text" id="jobLocation" name="jobLocation" value="<?php echo htmlspecialchars($job['jobLocation']); ?>" required>
-                    </div>
-                    <div>
-                        <label for="salaryRange">Salary Range</label>
-                        <input type="text" id="salaryRange" name="salaryRange" value="<?php echo htmlspecialchars($job['salaryRange']); ?>" required>
-                    </div>
-                    <div>
-                        <label for="employmentType">Employment Type</label>
-                        <select id="employmentType" name="employmentType" required>
-                            <option value="Full-Time" <?php echo $job['employmentType'] == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
-                            <option value="Part-Time" <?php echo $job['employmentType'] == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
-                            <option value="Contract" <?php echo $job['employmentType'] == 'Contract' ? 'selected' : ''; ?>>Contract</option>
-                        </select>
-                    </div>
+<form class="profile-form" method="POST">
+    <div class="form-section-container">
+        <h3>Job Information</h3>
+        <div class="form-grid">
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="jobTitle">Job Title</label>
+                    <input type="text" id="jobTitle" name="jobTitle" value="<?php echo htmlspecialchars($job['jobTitle']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="jobLocation">Job Location</label>
+                    <input type="text" id="jobLocation" name="jobLocation" value="<?php echo htmlspecialchars($job['jobLocation']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="salaryRange">Salary Range</label>
+                    <input type="text" id="salaryRange" name="salaryRange" value="<?php echo htmlspecialchars($job['salaryRange']); ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="employmentType">Employment Type</label>
+                    <select id="employmentType" name="employmentType" required>
+                        <option value="Full-Time" <?php echo $job['employmentType'] == 'Full-Time' ? 'selected' : ''; ?>>Full-Time</option>
+                        <option value="Part-Time" <?php echo $job['employmentType'] == 'Part-Time' ? 'selected' : ''; ?>>Part-Time</option>
+                        <option value="Contract" <?php echo $job['employmentType'] == 'Contract' ? 'selected' : ''; ?>>Contract</option>
+                    </select>
                 </div>
             </div>
-            <button type="submit" class="save-button">Update Job</button>
-        </form>
+            <div class="form-column">
+                <div class="form-group">
+                    <label for="description">Job Description</label>
+                    <textarea id="description" name="description" required><?php echo htmlspecialchars($job['jobDescription']); ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="qualifications">Qualifications</label>
+                    <textarea id="qualifications" name="qualifications" required><?php echo htmlspecialchars($job['requirements']); ?></textarea>
+                </div>
+            </div>
+        </div>
     </div>
+    <button type="submit" class="save-button">Update Job</button>
+</form>
+    </div>
+
+    <footer class="footer">
+		<p>Copyright © 2025, NumeroUno | All rights reserved</p>
+	</footer>
+
     <script src="js/sidebar.js"></script>
 </body>
 </html>

@@ -205,7 +205,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
                     class="yellow-text">UNO</span>?</h2>
             <div class="team-grid">
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <img src="img/profile.png" alt="Team Member 1" class="profile-pic">
+                    <img src="img/NumeroUno_Dulay.jpg" alt="Team Member 1" class="profile-pic">
                     <h3>Ylanna Dulay</h3>
                 </div>
                 <div class="team-member" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">

@@ -111,7 +111,7 @@ $userRole = $isLoggedIn ? $_SESSION['role_id'] : null;
         <div class="faq-item">
             <div class="faq-question">Who do I contact for support? <span>+</span></div>
             <div class="faq-content">For support, you can reach out to us through our Contact Page. 
-                Simply fill in the required details and hit **Send**, and our team will assist you as soon as possible.</div>
+                Simply fill in the required details and hit <i>Send</i>, and our team will assist you as soon as possible.</div>
         </div>
     </div>
 
