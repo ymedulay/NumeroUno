@@ -22,7 +22,7 @@ if (!isset($pdo)) {
 
 // Retrieve business details
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM Business WHERE userId = :userId";
+$sql = "SELECT * FROM business WHERE userId = :userId";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(":userId", $user_id, PDO::PARAM_INT);
 $stmt->execute();

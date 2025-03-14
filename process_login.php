@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Fetch user from database using PDO
-    $stmt = $pdo->prepare("SELECT id, password, roleId FROM User WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT id, password, roleId FROM user WHERE email = ?");
     $stmt->execute([$email]);
 
     if ($stmt->rowCount() > 0) {

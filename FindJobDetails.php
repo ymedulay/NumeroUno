@@ -24,7 +24,7 @@ if (!$user) {
 // Fetch job details
 $job = null;
 if ($jobPostingId) {
-    $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM JobPosting WHERE id = ?");
+    $jobStmt = $pdo->prepare("SELECT jobTitle, jobDescription, salaryRange, employmentType, jobLocation, requireResume FROM jobposting WHERE id = ?");
     $jobStmt->execute([$jobPostingId]);
     $job = $jobStmt->fetch(PDO::FETCH_ASSOC);
 }

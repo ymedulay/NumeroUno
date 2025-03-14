@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Fetch user data
-$stmt = $pdo->prepare("SELECT email, recovery_email, recovery_contact FROM User WHERE id = ?");
+$stmt = $pdo->prepare("SELECT email, recovery_email, recovery_contact FROM user WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($_POST['delete_account'])) {
-        $stmt = $pdo->prepare("DELETE FROM User WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM user WHERE id = ?");
         if ($stmt->execute([$user_id])) {
             session_destroy();
             header("Location: Goodbye.php"); // Redirect after account deletion

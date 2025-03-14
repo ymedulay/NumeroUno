@@ -23,8 +23,8 @@ function getPendingJobPostings($pdo)
 {
     try {
         $query = "SELECT j.id, b.businessName, b.description AS business_description, j.jobTitle, j.jobDescription
-                  FROM JobPosting j
-                  JOIN Business b ON j.businessId = b.id
+                  FROM jobposting j
+                  JOIN business b ON j.businessId = b.id
                   WHERE j.status = 'Pending Approval'
                   ORDER BY j.datePosted DESC";
 

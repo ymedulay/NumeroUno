@@ -29,7 +29,7 @@ if ($userId == 0) {
 
 try {
     // First, get the business ID associated with this user
-    $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :userId");
+    $stmt = $pdo->prepare("SELECT id, businessName FROM business WHERE userId = :userId");
     $stmt->bindParam(":userId", $userId, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $businessId !== null) {
         try {
             // Insert job posting into database
             $stmt = $pdo->prepare("
-                INSERT INTO JobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
+                INSERT INTO jobPosting (businessId, jobTitle, jobDescription, requirements, requireResume, status, 
                                        jobLocation, salaryRange, employmentType, category, categoryOther) 
                 VALUES (:businessId, :jobTitle, :description, :qualifications, :requireResume, 'Pending Approval',
                        :jobLocation, :salaryRange, :employmentType, :category, :categoryOther)

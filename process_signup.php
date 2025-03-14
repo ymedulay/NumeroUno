@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 die("Business name is required.");
             }
 
-            $stmt = $pdo->prepare("SELECT id FROM Business WHERE businessName = ? OR contactEmail = ?");
+            $stmt = $pdo->prepare("SELECT id FROM business WHERE businessName = ? OR contactEmail = ?");
             $stmt->execute([$businessName, $email]);
 
             if ($stmt->rowCount() > 0) {

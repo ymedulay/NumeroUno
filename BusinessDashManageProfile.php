@@ -22,7 +22,7 @@ if (!isset($pdo)) {
 
 // Fetch business details using PDO
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM Business WHERE userId = :userId"; // Ensure column name is correct
+$sql = "SELECT * FROM business WHERE userId = :userId"; // Ensure column name is correct
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(":userId", $user_id, PDO::PARAM_INT); // Ensure parameter name matches query

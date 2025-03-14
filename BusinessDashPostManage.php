@@ -13,7 +13,7 @@ $business_id = null;
 
 try {
     // Fetch the business ID associated with the logged-in user
-    $stmt = $pdo->prepare("SELECT id FROM Business WHERE userId = :user_id");
+    $stmt = $pdo->prepare("SELECT id FROM business WHERE userId = :user_id");
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -30,7 +30,7 @@ try {
 
 // Fetch job postings for this business
 try {
-    $stmt = $pdo->prepare("SELECT id, jobTitle FROM JobPosting WHERE businessId = :business_id");
+    $stmt = $pdo->prepare("SELECT id, jobTitle FROM jobPosting WHERE businessId = :business_id");
     $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
     $stmt->execute();
     $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -47,7 +47,7 @@ try {
             ja.email,
             ja.status,
             jp.jobTitle
-        FROM JobApplication ja
+        FROM jobApplication ja
         JOIN JobPosting jp ON ja.jobPostingId = jp.id
         WHERE jp.businessId = :business_id
         AND ja.status = 'Pending'
@@ -72,12 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_job'])) {
         $delete_actions->execute();
         
         // Delete from JobApplication if needed
-        $delete_applications = $pdo->prepare("DELETE FROM JobApplication WHERE jobPostingId = :job_id");
+        $delete_applications = $pdo->prepare("DELETE FROM jobApplication WHERE jobPostingId = :job_id");
         $delete_applications->bindParam(":job_id", $job_id, PDO::PARAM_INT);
         $delete_applications->execute();
         
         // Finally delete the job posting
-        $delete_stmt = $pdo->prepare("DELETE FROM JobPosting WHERE id = :job_id AND businessId = :business_id");
+        $delete_stmt = $pdo->prepare("DELETE FROM jobPosting WHERE id = :job_id AND businessId = :business_id");
         $delete_stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
         $delete_stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
         $delete_stmt->execute();

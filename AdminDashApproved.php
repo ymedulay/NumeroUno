@@ -13,8 +13,8 @@ if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] !== 1) {
 require 'config.php';
 
 $sql = "SELECT jp.*, b.businessName 
-        FROM JobPosting jp
-        INNER JOIN Business b ON jp.businessId = b.id
+        FROM jobposting jp
+        INNER JOIN business b ON jp.businessId = b.id
         WHERE jp.status = 'Open'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();

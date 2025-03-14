@@ -15,8 +15,8 @@
     // Fetch rejected job postings (status = 'Rejected')
     // Fetch rejected job postings (status = 'Rejected')
     $sql = "SELECT j.*, b.businessName as company_name, b.description as company_description 
-            FROM JobPosting j
-            JOIN Business b ON j.businessId = b.id
+            FROM jobposting j
+            JOIN business b ON j.businessId = b.id
             WHERE j.status = 'Rejected'";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();

@@ -18,7 +18,7 @@ if ($job_id === 0) {
 
 try {
     // Fetch the business ID associated with the logged-in user
-    $stmt = $pdo->prepare("SELECT id, businessName FROM Business WHERE userId = :user_id");
+    $stmt = $pdo->prepare("SELECT id, businessName FROM business WHERE userId = :user_id");
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -35,7 +35,7 @@ try {
 
 // Fetch job details for editing
 try {
-    $stmt = $pdo->prepare("SELECT jobTitle, jobDescription, requirements, jobLocation, salaryRange, employmentType FROM JobPosting WHERE id = :job_id AND businessId = :business_id");
+    $stmt = $pdo->prepare("SELECT jobTitle, jobDescription, requirements, jobLocation, salaryRange, employmentType FROM jobposting WHERE id = :job_id AND businessId = :business_id");
     $stmt->bindParam(":job_id", $job_id, PDO::PARAM_INT);
     $stmt->bindParam(":business_id", $business_id, PDO::PARAM_INT);
     $stmt->execute();
