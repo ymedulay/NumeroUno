@@ -1,4 +1,4 @@
-<a?php
+<?php
 // Include your database configuration
 require_once "config.php";
 
